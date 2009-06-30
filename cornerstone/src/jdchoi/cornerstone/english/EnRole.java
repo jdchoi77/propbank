@@ -76,13 +76,17 @@ public class EnRole extends EnElement implements ActionListener
 		
 		pn.add(new JLabel(EnLib.N+": "));
 		cb_n = new JComboBox(EnLib.ARR_N);
-		cb_n.setSelectedItem(getAttribute(EnLib.N));
+		String n = getAttribute(EnLib.N).toLowerCase();
+		if (!contains(cb_n, n))	cb_n.addItem(n);
+		cb_n.setSelectedItem(n);
 		pn.add(cb_n);
 		pn.add(Box.createHorizontalStrut(H_GAP));
 		
 		pn.add(new JLabel(EnLib.F+": "));
 		cb_f = new JComboBox(EnLib.ARR_F);
-		cb_f.setSelectedItem(getAttribute(EnLib.F));
+		String f = getAttribute(EnLib.F).toLowerCase();
+		if (!contains(cb_f, f))	cb_f.addItem(f);
+		cb_f.setSelectedItem(f);
 		pn.add(cb_f);
 		pn.add(Box.createHorizontalStrut(H_GAP+15));
 		

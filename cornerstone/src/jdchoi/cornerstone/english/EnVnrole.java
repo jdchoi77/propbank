@@ -71,7 +71,9 @@ public class EnVnrole extends EnElement implements ActionListener
 		
 		pn.add(new JLabel(EnLib.VNTHETA+": "));
 		cb_vntheta = new JComboBox(EnLib.ARR_VNTHETA);
-		cb_vntheta.setSelectedItem(getAttribute(EnLib.VNTHETA).toLowerCase());
+		String vntheta = getAttribute(EnLib.VNTHETA).toLowerCase();
+		if (!contains(cb_vntheta, vntheta))	cb_vntheta.addItem(vntheta);
+		cb_vntheta.setSelectedItem(vntheta);
 		cb_vntheta.setPreferredSize(new Dimension(225, FD_HEIGHT));
 		pn.add(cb_vntheta);
 		pn.add(Box.createHorizontalStrut(280));

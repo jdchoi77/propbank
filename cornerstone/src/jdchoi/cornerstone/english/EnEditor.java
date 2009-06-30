@@ -65,14 +65,14 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		mn_bar = new EnEditorMenuBar(this);
 		setJMenuBar(mn_bar);
 		
-		EnLib.ARR_N       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.N,       true);
-		EnLib.ARR_F       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.F,       true);
-		EnLib.ARR_VNTHETA = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VNTHETA, true);
-		EnLib.ARR_PERSON  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.PERSON,  false);
-		EnLib.ARR_TENSE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.TENSE,   false);
-		EnLib.ARR_ASPECT  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.ASPECT,  false);
-		EnLib.ARR_VOICE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VOICE,   false);
-		EnLib.ARR_FORM    = getArray(SYS_PATH+LANGUAGE+"."+EnLib.FORM,    false);
+		EnLib.ARR_N       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.N);
+		EnLib.ARR_F       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.F);
+		EnLib.ARR_VNTHETA = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VNTHETA);
+		EnLib.ARR_PERSON  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.PERSON);
+		EnLib.ARR_TENSE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.TENSE);
+		EnLib.ARR_ASPECT  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.ASPECT);
+		EnLib.ARR_VOICE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VOICE);
+		EnLib.ARR_FORM    = getArray(SYS_PATH+LANGUAGE+"."+EnLib.FORM);
 	}
 
 	// ---------------------------------- menu*() ----------------------------------

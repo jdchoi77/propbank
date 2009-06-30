@@ -65,10 +65,10 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		mn_bar = new ChEditorMenuBar(this);
 		setJMenuBar(mn_bar);
 		
-		ChLib.ARR_N   = getArray(SYS_PATH+LANGUAGE+"."+ChLib.N,   true);
-		ChLib.ARR_F   = getArray(SYS_PATH+LANGUAGE+"."+ChLib.F,   true);
-		ChLib.ARR_SRC = getArray(SYS_PATH+LANGUAGE+"."+ChLib.SRC, true);
-		ChLib.ARR_TRG = getArray(SYS_PATH+LANGUAGE+"."+ChLib.TRG, true);
+		ChLib.ARR_N   = getArray(SYS_PATH+LANGUAGE+"."+ChLib.N);
+		ChLib.ARR_F   = getArray(SYS_PATH+LANGUAGE+"."+ChLib.F);
+		ChLib.ARR_SRC = getArray(SYS_PATH+LANGUAGE+"."+ChLib.SRC);
+		ChLib.ARR_TRG = getArray(SYS_PATH+LANGUAGE+"."+ChLib.TRG);
 	}
 	
 	// ---------------------------------- menu*() ----------------------------------

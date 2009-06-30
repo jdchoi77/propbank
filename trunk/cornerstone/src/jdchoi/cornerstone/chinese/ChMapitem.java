@@ -57,21 +57,25 @@ public class ChMapitem extends ChElement implements ActionListener
 
 	private void initComponents()
 	{
-		JLabel src = new JLabel(ChLib.SRC+":");
-		src.setBounds(H_GAP_FRONT, V_GAP, 30, FD_HEIGHT);
-		add(src);
+		JLabel lbSrc = new JLabel(ChLib.SRC+":");
+		lbSrc.setBounds(H_GAP_FRONT, V_GAP, 30, FD_HEIGHT);
+		add(lbSrc);
 		
 		cb_src = new JComboBox(ChLib.ARR_SRC); 
-		cb_src.setSelectedItem(getAttribute(ChLib.SRC).toLowerCase());
+		String src = getAttribute(ChLib.SRC).toLowerCase();
+		if (!contains(cb_src, src))	cb_src.addItem(src);
+		cb_src.setSelectedItem(src);
 		cb_src.setBounds(30, V_GAP, 120, FD_HEIGHT);
 		add(cb_src);
 		
-		JLabel trg = new JLabel(ChLib.TRG+":");
-		trg.setBounds(160, V_GAP, 30, FD_HEIGHT);
-		add(trg);
+		JLabel lbTrg = new JLabel(ChLib.TRG+":");
+		lbTrg.setBounds(160, V_GAP, 30, FD_HEIGHT);
+		add(lbTrg);
 		
 		cb_trg = new JComboBox(ChLib.ARR_TRG);
-		cb_trg.setSelectedItem(getAttribute(ChLib.TRG).toLowerCase());
+		String trg = getAttribute(ChLib.TRG).toLowerCase();
+		if (!contains(cb_trg, trg))	cb_trg.addItem(trg);
+		cb_trg.setSelectedItem(trg);
 		cb_trg.setBounds(185, V_GAP, 80, FD_HEIGHT);
 		add(cb_trg);
 		

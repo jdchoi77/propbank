@@ -24,6 +24,7 @@
 package jdchoi.cornerstone.english;
 
 import javax.swing.*;
+
 import org.w3c.dom.*;
 
 /**
@@ -119,4 +120,18 @@ abstract public class EnElement extends JPanel
 	}
 	
 	abstract public void save();
+	
+	/**
+	 * Returns true if <code>cb</code> contains <code>item</code>.
+	 * @param cb combo-box
+	 * @param item item to search
+	 * @return true if <code>cb</code> contains <code>item</code>.
+	 */
+	public boolean contains(JComboBox cb, String item)
+	{
+		for (int i=0; i<cb.getComponentCount(); i++)
+			if (cb.getItemAt(i).equals(item))	return true;
+		
+		return false;
+	}
 }

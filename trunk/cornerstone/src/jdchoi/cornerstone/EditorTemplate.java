@@ -57,10 +57,9 @@ public class EditorTemplate extends JFrame
 	 * Returns an array of data in {@link filename} (one value per line).
 	 * If ({@link addEmpty}), add an empty string at the front.
 	 * @param filename name of the file that contains data
-	 * @param addEmpty true if an empty string needs to be added at the front
 	 * @return array of data in {@link filename} (one value per line)
 	 */
-	public String[] getArray(String filename, boolean addEmpty)
+	public String[] getArray(String filename)
 	{
 		String[] arr = new String[0];
 		
@@ -68,7 +67,6 @@ public class EditorTemplate extends JFrame
 		{
 			Scanner scan = new Scanner(new File(filename));
 			ArrayList<String> arrList = new ArrayList<String>();
-			if (addEmpty)	arrList.add("");
 			
 			while (scan.hasNext())	arrList.add(scan.next());
 			arr = new String[arrList.size()];
@@ -126,5 +124,5 @@ public class EditorTemplate extends JFrame
 		{
 			setSize(new Dimension(WIDTH, getHeight()));
 		}
-	}	
+	}
 }

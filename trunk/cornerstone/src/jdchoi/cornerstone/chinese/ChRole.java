@@ -62,7 +62,9 @@ public class ChRole extends ChElement implements ActionListener
 		
 		pn.add(new JLabel(ChLib.ARGNUM+": "));
 		cb_argnum = new JComboBox(ChLib.ARR_N);
-		cb_argnum.setSelectedItem(getAttribute(ChLib.ARGNUM));
+		String argnum = getAttribute(ChLib.ARGNUM).toLowerCase();
+		if (!contains(cb_argnum, argnum))	cb_argnum.addItem(argnum);
+		cb_argnum.setSelectedItem(argnum);
 		pn.add(cb_argnum);
 		pn.add(Box.createHorizontalStrut(H_GAP));
 		

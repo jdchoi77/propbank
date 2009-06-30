@@ -62,10 +62,14 @@ public class ChArg extends ChElement implements ActionListener
 	private void initComponents()
 	{
 		cb_n = new JComboBox(ChLib.ARR_N); 
-		cb_n.setSelectedItem(getAttribute(ChLib.N).toLowerCase());
+		String n = getAttribute(ChLib.N).toLowerCase();
+		if (!contains(cb_n, n))	cb_n.addItem(n);
+		cb_n.setSelectedItem(n);
 		
 		cb_f = new JComboBox(ChLib.ARR_F);
-		cb_f.setSelectedItem(getAttribute(ChLib.F).toLowerCase());
+		String f = getAttribute(ChLib.F).toLowerCase();
+		if (!contains(cb_f, f))	cb_f.addItem(f);
+		cb_f.setSelectedItem(f);
 		
 		tf_content = new JTextField(getTextContent());
 		

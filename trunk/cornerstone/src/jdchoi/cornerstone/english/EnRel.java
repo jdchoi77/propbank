@@ -65,7 +65,9 @@ public class EnRel extends EnElement implements ActionListener
 		tf_content = new JTextField(getTextContent());
 		
 		cb_f = new JComboBox(EnLib.ARR_F);
-		cb_f.setSelectedItem(getAttribute(EnLib.F));
+		String f = getAttribute(EnLib.F).toLowerCase();
+		if (!contains(cb_f, f))	cb_f.addItem(f);
+		cb_f.setSelectedItem(f);
 		
 		bt_remove = new JButton("Remove");
 		bt_remove.addActionListener(this);
@@ -99,7 +101,7 @@ public class EnRel extends EnElement implements ActionListener
 	/** Saves content and attributes. */
 	public void save()
 	{
-		setTextContent(tf_content.getText());
+		setTextContent(tf_content.getText()); 
 		setAttribute(EnLib.F, (String)cb_f.getSelectedItem());
 	}
 		

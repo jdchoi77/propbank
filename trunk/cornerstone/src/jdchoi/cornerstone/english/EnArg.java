@@ -62,11 +62,15 @@ public class EnArg extends EnElement implements ActionListener
 	{
 		tf_content = new JTextField(getTextContent());
 		
-		cb_n = new JComboBox(EnLib.ARR_N); 
-		cb_n.setSelectedItem(getAttribute(EnLib.N).toLowerCase());
+		cb_n = new JComboBox(EnLib.ARR_N);
+		String n = getAttribute(EnLib.N).toLowerCase();
+		if (!contains(cb_n, n))	cb_n.addItem(n);
+		cb_n.setSelectedItem(n);
 		
 		cb_f = new JComboBox(EnLib.ARR_F);
-		cb_f.setSelectedItem(getAttribute(EnLib.F).toLowerCase());
+		String f = getAttribute(EnLib.F).toLowerCase();
+		if (!contains(cb_f, f))	cb_f.addItem(f);
+		cb_f.setSelectedItem(f);
 		
 		bt_remove = new JButton("Remove");
 		bt_remove.addActionListener(this);

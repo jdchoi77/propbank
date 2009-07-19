@@ -8,20 +8,28 @@
    * Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]
    * Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
 
-=== 2. Install Xming ===
+=== 2. Install and run Xming ===
 
-  * Click _Xming-6-9-0-31-setup.exe_ and install Xming by using the default settings.
-  * Launch Xming by clicking [Xming - Xming] on the start menu.
+  * Click *Xming-6-9-0-31-setup.exe* and install Xming by using the default settings.
+  * Run Xming by clicking *Xming - Xming* on the start menu.
 
 === 3. Run Putty ==
 
   * Click 'putty.exe'.
-  * On the category, choose [Connection - SSH - X11].  Check 'Enable X11 forwarding' option.
-  * On the category, choose [Session].  Type 'verbs.colorado.edu' for the host name, and '22' for the port.
-  * Click [Open] button at the bottom.  If a security alert window will prompt, click [Yes] button.
+  * On the category, choose *Connection - SSH - X11*.  Check *Enable X11 forwarding* option.
+  * On the category, choose *Session*.  Type *verbs.colorado.edu* for the host name, and *22* for the port.
+  * Click *Open* button at the bottom.  For the first time, a security alert window may prompt,  Click *Yes* button to continue.
   * Type your ID and password.
 
-== 4. Run Jubilee ==
+== 4a. Run Jubilee ==
 
-  * Goto Jubilee directory by typign
-  * cd /home/verbs/shared/propbank/jubilee
+  * Goto Jubilee directory
+   * `cd /home/verbs/shared/propbank/jubilee`
+  * Run Jubilee
+   * `./jubilee.sh`
+
+== 4b. Run Jubilee ==
+  * Goto Conerstone directory
+   * `cd /home/verbs/shared/propbank/cornerstone`
+  * Run Conerstone (`LANG = ar | ch | en`)
+   * `./cornerstone.sh [LANG]`

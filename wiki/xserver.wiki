@@ -5,14 +5,14 @@
 === 1. Download, install, and run Xming ===
 
   * Download Xming from the following link.
-   * http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east
+   * [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe download]
   * Click *Xming-6-9-0-31-setup.exe* and install Xming by using the default settings.
   * Run Xming by clicking *Xming - Xming* on the start menu.
 
 === 2. Download and run Putty ==
 
   * Download Putty from the following link.
-   * http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe
+   * [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
   * Run Putty by clicking *putty.exe*.
   * On the category, choose *Connection - SSH - X11*.  Check *Enable X11 forwarding* option.
   * On the category, choose *Session*.  Type *verbs.colorado.edu* for the host name, and *22* for the port.

@@ -19,17 +19,17 @@
   * On the category, choose *Connection - SSH - X11*.  Check *Enable X11 forwarding* option.
   * On the category, choose *Session*.  Type *verbs.colorado.edu* for the host name, and *22* for the port.
   * Click *Open* button at the bottom.  If you are connected to Verbs for the first time, a security alert window will prompt.  Click *Yes* button to continue.
-  * Type your ID and password.
+  * Enter your ID and password.
 
 == 4a. Run Jubilee ==
 
   * Goto Jubilee directory
-   * `cd /home/verbs/shared/propbank/jubilee`
+   * cd /home/verbs/shared/propbank/jubilee
   * Run Jubilee
-   * `./jubilee.sh`
+   * ./jubilee.sh
 
 == 4b. Run Jubilee ==
   * Goto Conerstone directory
-   * `cd /home/verbs/shared/propbank/cornerstone`
-  * Run Conerstone (`LANG = ar | ch | en`)
-   * `./cornerstone.sh [LANG]`
+   * cd /home/verbs/shared/propbank/cornerstone
+  * Run Conerstone (LANG = ar | ch | en)
+   * ./cornerstone.sh [LANG

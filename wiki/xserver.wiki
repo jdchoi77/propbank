@@ -1,12 +1,14 @@
-#summary One-sentence summary of this page.
+#summary How to setup X-server on Windows machines
 
-= Download Xming and Putty =
+= How to setup X-server on Windows machines =
+
+== Download Xming and Putty ==
 
 Download Xming and Putty from the following links.
 
-Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]<br>
-Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
+  * Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]
+  * Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
 
-= Install Xming =
+== Install Xming ==
 
 Click 'Xming-6-9-0-31-setup.exe' and install Xming by using the default settings.

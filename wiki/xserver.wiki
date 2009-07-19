@@ -1,14 +1,27 @@
-#summary How to setup X-server on Windows machines
+#summary How to run tools from Windows machines
 
-= How to setup X-server on Windows machines =
+== How to run tools from Windows machines ==
 
-== Download Xming and Putty ==
+=== 1. Download Xming and Putty ===
 
-Download Xming and Putty from the following links.
+  * Download Xming and Putty from the following links.
+   * Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]
+   * Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
 
-  * Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]
-  * Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
+=== 2. Install Xming ===
 
-== Install Xming ==
+  * Click _Xming-6-9-0-31-setup.exe_ and install Xming by using the default settings.
+  * Launch Xming by clicking [Xming - Xming] on the start menu.
 
-Click 'Xming-6-9-0-31-setup.exe' and install Xming by using the default settings.
+=== 3. Run Putty ==
+
+  * Click 'putty.exe'.
+  * On the category, choose [Connection - SSH - X11].  Check 'Enable X11 forwarding' option.
+  * On the category, choose [Session].  Type 'verbs.colorado.edu' for the host name, and '22' for the port.
+  * Click [Open] button at the bottom.  If a security alert window will prompt, click [Yes] button.
+  * Type your ID and password.
+
+== 4. Run Jubilee ==
+
+  * Goto Jubilee directory by typign
+  * cd /home/verbs/shared/propbank/jubilee

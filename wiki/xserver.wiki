@@ -15,7 +15,7 @@
 
 === 3. Run Putty ==
 
-  * Click 'putty.exe'.
+  * Run Putty by clicking *putty.exe*.
   * On the category, choose *Connection - SSH - X11*.  Check *Enable X11 forwarding* option.
   * On the category, choose *Session*.  Type *verbs.colorado.edu* for the host name, and *22* for the port.
   * Click *Open* button at the bottom.  For the first time, a security alert window may prompt,  Click *Yes* button to continue.

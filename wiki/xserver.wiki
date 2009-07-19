@@ -4,7 +4,7 @@
 
 Download Xming and Putty from the following links.
 
-Xming: [http://sourceforge.net/projects/xming/files/Xming-mesa/Xming-6-9-0-31-setup.exe download]
+Xming: [http://downloads.sourceforge.net/sourceforge/xming/Xming-6-9-0-31-setup.exe?use_mirror=superb-east download]<br>
 Putty: [http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe download]
 
 = Install Xming =

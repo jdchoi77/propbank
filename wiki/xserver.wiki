@@ -1,6 +1,6 @@
 #summary How to run tools from Windows machines
 
-== How to run tools from Windows machines ==
+= How to run tools from Windows machines =
 
 === 1. Download, install, and run Xming ===
 

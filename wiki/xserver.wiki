@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Download Xming and Putty =
+
+Download Xming and Putty from the following links.
+
+Xming: <a href="http://sourceforge.net/projects/xming/files/Xming-mesa/Xming-6-9-0-31-setup.exe">download</a><br>
+Putty: <a href="http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe">download</a>
+
+= Install Xming =
+
+Click 'Xming-6-9-0-31-setup.exe' and install Xming by using the default settings.

@@ -1,4 +1,5 @@
 #summary Jubilee release notes from version 1.0 to 1.31
+#labels Phase-Design
 
 Jubilee 1.31 (7/24/2009)
 
@@ -48,19 +49,17 @@ Jubilee 1.2b (1/2/2008)
 3.Jubilee now supports adjudication.  Simply run Jubilee with user ID ‘gold’ (i.e. java -jar jubilee.jar gold) then it will run in adjudication mode.  Read the guideline p7 for more details.
 
 
-Jubilee 1.1b (10/12/2007)
+=== Jubilee 1.1b (10/12/2007) ===
 
-1.The ‘Annotator’ combo-box is changed to a text-field.  This way, you don’t need to worry about switching the previous ID to your ID every time you move on to another tree.
-2.‘NO_ARG’ button (for removing an argument-tag from a selected node) is now labeled ‘ERASE’ in Argument View (it still functions the same).
-3.‘-UNDEF’ button is added in Argument View.  Its description can be found from the guideline (p5).
-4.A node with ‘rel’ tag became read-only.  In other words, you cannot either remove ‘rel’ tag or modify to some other tags.
-5.‘Sentence’ text-field is added in Treebank View.  It shows the raw sentence of the current tree showing in Treebank View.
-
-
+  * The ‘Annotator’ combo-box is changed to a text-field.  This way, you don’t need to worry about switching the previous ID to your ID every time you move on to another tree.
+  * ‘NO_ARG’ button (for removing an argument-tag from a selected node) is now labeled ‘ERASE’ in Argument View (it still functions the same).
+  * ‘-UNDEF’ button is added in Argument View.  Its description can be found from the guideline (p5).
+  * A node with ‘rel’ tag became read-only.  In other words, you cannot either remove ‘rel’ tag or modify to some other tags.
+  * ‘Sentence’ text-field is added in Treebank View.  It shows the raw sentence of the current tree showing in Treebank View.
 
 
-== Jubilee 1.0b (10/10/2007) ==
+
+
+=== Jubilee 1.0b (10/10/2007) ===
 
 Jubilee 1.0b is ready to use now.  Thanks to Professor Martha Palmer and Nianwen Xue for helping me along with the project.
-
-

@@ -1,3 +1,11 @@
-#summary Cornerstone: release notes
+#summary Cornerstone: release notes (~ v1.3)
 
-=== Version 1.3 ===
+=== Cornerstone v1.3 ===
+
+1. For non-english mode, Verb IDs were not saved properly.  This is fixed in version 1.3b.
+
+2. When you create a frameset file, Cornerstone automatically detects if the filename contains '.xml' as an extension and if it does not, it appends the extension at the end.
+
+3. For english-mode, when you change the lemma of the first predicate, Cornerstone automatically changes all roleset IDs with respect to the lemma.  For example, 'take.xml' has 'take' as the first lemma and 'take_away' as the second lemma and many rolesets such as 'take.01', 'take.02', etc.  If you change the first lemma 'take' to 'untake', it will automatically change all roleset IDs from 'take.##' to 'untake.##'.  The roleset IDs do not get changed when you change any other lemma (e.g. 'take_away' to 'untake_away').  This is useful when you try to create a new frameset file on top of the existing one.
+
+4. Followed by #3, I restored 'edit Roleset ID' option back since such option is necessary to make changes from the existing frameset files.

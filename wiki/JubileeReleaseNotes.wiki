@@ -3,29 +3,29 @@
 
 === Jubilee 2.1 (7/24/2009) ===
 
-Jubilee can now view parsed tree in text format.  Click 'Ctrl + T', then it will prompt a window showing the parsed-tree.  To close the window, type 'Ctrl + Shift + Q'.
+  * Jubilee can now view parsed tree in text format.  Click 'Ctrl + T', then it will prompt a window showing the parsed-tree.  To close the window, type 'Ctrl + Shift + Q'.
 
 
 === Jubilee 2.0 (2/24/2009) ===
 
-When you launch Jubilee as gold, it will show three annotations.  'gold' annotation is a duplicate of one of the double-annotations, and 'annotator1' and 'annotator2' show two annotations done for the task.
+  * When you launch Jubilee as gold, it will show three annotations.  'gold' annotation is a duplicate of one of the double-annotations, and 'annotator1' and 'annotator2' show two annotations done for the task.
 
-There are three ways to launch Jubilee as gold now.
+  * There are three ways to launch Jubilee as gold now.
 
-`Usage: java -jar jubilee.jar gold <skip=0> <max-ann=2>`
+  `Usage: java -jar jubilee.jar gold <skip=0> <max-ann=2>`
 
-`<skip>` parameter enables you to skip double-annotations that are the same.  The default value is `0`, which implies not to skip.  So if you want to go through the entire annotations, type
+  `<skip>` parameter enables you to skip double-annotations that are the same.  The default value is `0`, which implies not to skip.  So if you want to go through the entire annotations, type
 
-`java -jar jubilee.jar gold` or
-`java -jar jubilee.jar gold 0`
+  `java -jar jubilee.jar gold` or
+  `java -jar jubilee.jar gold 0`
 
-If you want to skip the double-annotations that are the same, type
+  If you want to skip the double-annotations that are the same, type
 
-`java -jar jubilee.jar gold 1`
+  `java -jar jubilee.jar gold 1`
 
-`<max-ann>` parameter enables you to choose the number of double-annotations.  The default value is `2`, which allows two annotations per task.  If you want to have three annotations per task, type (without skipping feature)
+  `<max-ann>` parameter enables you to choose the number of double-annotations.  The default value is `2`, which allows two annotations per task.  If you want to have three annotations per task, type (without skipping feature)
 
-`java -jar jubilee.jar gold 0 3`
+  `java -jar jubilee.jar gold 0 3`
 
 
 === Jubilee 1.4 (6/11/2008) ===
@@ -68,4 +68,4 @@ If you want to skip the double-annotations that are the same, type
 
 === Jubilee 1.0b (10/10/2007) ===
 
-Jubilee 1.0b is ready to use now.  Thanks to Professor Martha Palmer and Nianwen Xue for helping me along with the project.
+  * Jubilee 1.0b is ready to use now.  Thanks to Professor Martha Palmer and Nianwen Xue for helping me along with the project.

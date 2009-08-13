@@ -1,4 +1,4 @@
-#summary Jubilee release notes from version 1.0 to 1.31
+#summary Jubilee: release notes (v1.0 ~ 1.31)
 #labels Phase-Design
 
 Jubilee 1.31 (7/24/2009)

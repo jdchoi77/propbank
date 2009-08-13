@@ -1,56 +1,61 @@
 #summary Jubilee: release notes (~ v1.31)
 #labels Phase-Design
 
-Jubilee 1.31 (7/24/2009)
+=== Jubilee 2.1 (7/24/2009) ===
 
 Jubilee can now view parsed tree in text format.  Click 'Ctrl + T', then it will prompt a window showing the parsed-tree.  To close the window, type 'Ctrl + Shift + Q'.
 
-Jubilee 1.3 (2/24/2009)
+
+=== Jubilee 2.0 (2/24/2009) ===
 
 When you launch Jubilee as gold, it will show three annotations.  'gold' annotation is a duplicate of one of the double-annotations, and 'annotator1' and 'annotator2' show two annotations done for the task.
 
 There are three ways to launch Jubilee as gold now.
 
-# Usage: java -jar jubilee.jar gold [skip=0] [max-ann=2]
+`Usage: java -jar jubilee.jar gold <skip=0> <max-ann=2>`
 
-- 'skip' parameter enables you to skip double-annotations that are the same.  The default value is '0', which implies not to skip.  So if you want to go through the entire annotations, type
+`<skip>` parameter enables you to skip double-annotations that are the same.  The default value is `0`, which implies not to skip.  So if you want to go through the entire annotations, type
 
-'java -jar jubilee.jar gold' or 'java -jar jubilee.jar gold 0'.
+`java -jar jubilee.jar gold` or
+`java -jar jubilee.jar gold 0`
 
 If you want to skip the double-annotations that are the same, type
 
-'java -jar jubilee.jar gold 1'
+`java -jar jubilee.jar gold 1`
 
-- 'max-ann' parameter enables you to choose the number of double-annotations.  The default value is '2', which allows two annotations per task.  If you want to have three annotations per task, type (without skipping feature)
+`<max-ann>` parameter enables you to choose the number of double-annotations.  The default value is `2`, which allows two annotations per task.  If you want to have three annotations per task, type (without skipping feature)
 
-'java -jar jubilee.jar gold 0 3'
+`java -jar jubilee.jar gold 0 3`
 
 
-Jubilee 1.4 (6/11/2008)
+=== Jubilee 1.4 (6/11/2008) ===
 
-  * When you accidentally delete ‘rel’, now you can get it back by typing Shift+Ctrl+/ on the node.
-  * Use the 2nd option to enable more than 2 people to annotate the same task.  For example,
-{{{
-    java -jar jubilee.jar jdchoi
-}}}
-will enable 2 people to annotate the same task (as default) whereas
-{{{
-    java -jar jubilee.jar jdchoi 5
-}}}
-will enable 5 people to annotate the same task.
+  * When you accidentally delete ‘rel’, now you can get it back by typing 'Shift + Ctrl + /' on the node.
+  * An option is added to enable more than 2 people to annotate the same task.  For example,
+
+  `java -jar jubilee.jar jdchoi`
+
+  will enable 2 people to annotate the same task (as default) whereas
+
+  `java -jar jubilee.jar jdchoi 5`
+
+  will enable 5 people to annotate the same task.
   * ‘lemma.xx’ is chosen as a default Chinese roleset-ID (a blank field was chosen before). 
   * The text-area to show raw-sentences is expanded from 2 to 4 lines.
   * Some of the duplicated shortkeys were fixed (M-PRD: P -> 7).
 
-Jubilee 1.3 (2/29/2008)
+
+=== Jubilee 1.3 (2/29/2008) ===
 
   * You can view arguments in strings by typing ‘Ctrl + W’.  An pop window will prompt and show the arguments in strings.
 
-Jubilee 1.2b (1/2/2008)
+
+=== Jubilee 1.2b (1/2/2008) ===
 
   * ‘New Tasks’ in the open-dialog shows the list of task files that have either not been claimed or claimed only once by any annotators (it used to show only tasks that have not been claimed).  This enables two people annotate the same task in parallel (which is the general case).
   * You can add particle(s) to the verb relation.  Choose a particle then type ‘Ctrl + Shift + /’.  Jubilee will find the previous relation automatically and add the particle to the relation. (guideline p6)
   * Jubilee now supports adjudication.  Simply run Jubilee with user ID ‘gold’ (i.e. java -jar jubilee.jar gold) then it will run in adjudication mode.  Read the guideline p7 for more details.
+
 
 === Jubilee 1.1b (10/12/2007) ===
 
@@ -59,6 +64,7 @@ Jubilee 1.2b (1/2/2008)
   * ‘-UNDEF’ button is added in Argument View.  Its description can be found from the guideline (p5).
   * A node with ‘rel’ tag became read-only.  In other words, you cannot either remove ‘rel’ tag or modify to some other tags.
   * ‘Sentence’ text-field is added in Treebank View.  It shows the raw sentence of the current tree showing in Treebank View.
+
 
 === Jubilee 1.0b (10/10/2007) ===
 

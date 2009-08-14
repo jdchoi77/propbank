@@ -34,9 +34,9 @@ import org.w3c.dom.*;
 
 public class EnFrameset extends EnElement
 {
-	private EnNote              en_note;
+	private EnNote                 en_note;
 	private ArrayList<EnPredicate> ar_predicate;
-	private JTabbedPane         tb_predicate;
+	private JTabbedPane            tb_predicate;
 	
 	/**
 	 * Initializes frameset panel.
@@ -119,6 +119,11 @@ public class EnFrameset extends EnElement
 		return (EnPredicate)tb_predicate.getSelectedComponent();
 	}
 	
+	public int getCurrPredicateIndex()
+	{
+		return tb_predicate.getSelectedIndex();
+	}
+	
 	/**
 	 * Returns true if predicate {@link lemma} exists
 	 * @param lemma predicate lemma
@@ -144,6 +149,12 @@ public class EnFrameset extends EnElement
 			if (enPredicate.existRoleset(id))	return true;
 		
 		return false;
+	}
+	
+	public void editRolesetIds(String lemma)
+	{
+		for (EnPredicate enPredicate : ar_predicate)
+			enPredicate.editRolesetIds(lemma);
 	}
 	
 	/** 

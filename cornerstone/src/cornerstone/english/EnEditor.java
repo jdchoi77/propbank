@@ -262,7 +262,14 @@ public class EnEditor extends EditorTemplate implements ActionListener
 			if (en_frameset.existPredicate(lemma))
 				showErrorDialog("'"+lemma+"' already exists");
 			else
+			{
 				en_frameset.editPredicate(lemma);
+				if (en_frameset.getCurrPredicateIndex() == 0)
+				{
+					en_frameset.editRolesetIds(lemma);
+					updateTitle(CURR_FILE.substring(0, CURR_FILE.lastIndexOf('/')+1) + lemma + ".xml");
+				}
+			}
 		}
 	}
 	

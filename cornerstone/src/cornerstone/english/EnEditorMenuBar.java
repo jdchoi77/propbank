@@ -90,8 +90,8 @@ public class EnEditorMenuBar extends JMenuBar
 		
 		editAddRoleset = getJMenuItem("Add Roleset", KeyEvent.VK_A, KeyEvent.VK_R, KeyEvent.CTRL_MASK);
 		mEdit.add(editAddRoleset);
-	//	editEditRoleset = getJMenuItem("Edit Roleset ID", KeyEvent.VK_E, KeyEvent.VK_R, KeyEvent.CTRL_MASK+KeyEvent.ALT_MASK);
-	//	mEdit.add(editEditRoleset);
+		editEditRoleset = getJMenuItem("Edit Roleset ID", KeyEvent.VK_E, KeyEvent.VK_R, KeyEvent.CTRL_MASK+KeyEvent.ALT_MASK);
+		mEdit.add(editEditRoleset);
 		editRemoveRoleset = getJMenuItem("Remove Roleset", KeyEvent.VK_R, KeyEvent.VK_R, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);
 		mEdit.add(editRemoveRoleset);
 		mEdit.addSeparator();		

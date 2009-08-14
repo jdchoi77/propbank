@@ -79,7 +79,12 @@ public class EditorTemplate extends JFrame
 	
 	protected void updateTitle(String filename)
 	{
-		CURR_FILE = filename;
+		CURR_FILE = filename.trim();
+		int extIndex = CURR_FILE.length() - 4;
+		
+		if (extIndex < 0 || !CURR_FILE.substring(extIndex).equalsIgnoreCase(".xml"))
+			CURR_FILE += ".xml";
+		
 		setTitle(TITLE+" - "+CURR_FILE.substring(CURR_FILE.lastIndexOf('/')+1));	
 	}
 	

@@ -107,6 +107,17 @@ public class EnPredicate extends EnElement
 		tb_roleset.setTitleAt(currIndex, id);
 	}
 	
+	public void editRolesetIds(String lemma)
+	{
+		for (int i=0; i<ar_roleset.size(); i++)
+		{
+			String id = ar_roleset.get(i).id;
+			String num = id.substring(id.lastIndexOf("."));
+			ar_roleset.get(i).id = lemma + num;
+			tb_roleset.setTitleAt(i, lemma+num);
+		}
+	}
+	
 	/** Removes the current roleset. */
 	public void removeRoleset()
 	{

@@ -7,15 +7,18 @@
   * For english-mode, when you change the lemma of the first predicate, Cornerstone automatically changes all roleset IDs with respect to the lemma.  For example, 'take.xml' has 'take' as the first lemma and 'take_away' as the second lemma and many rolesets such as 'take.01', 'take.02', etc.  If you change the first lemma 'take' to 'untake', it will automatically change all roleset IDs from 'take.##' to 'untake.##'.  The roleset IDs do not get changed when you change any other lemma (e.g. 'take_away' to 'untake_away').  This is useful when you try to create a new frameset file on top of the existing one.
   * Followed by #3, I restored 'edit Roleset ID' option back since such option is necessary to make changes from the existing frameset files.
 
+
 === Cornerstone 1.2b (7/7/2009) ===
 
   * When you add a predicate in English mode, it now automatically converts any space in lemma to '_'.  For example, if you add a predicate 'take in', Cornerstone will convert the lemma to 'take_in'.
   * Cornerstone now automatically assigns the frameset ID (roleset ID in English), so you don't need to keep track of what number you last entered.
   * Cornerstone now remembers the last directory you either open or save a file.
 
+
 === Cornerstone 1.1b (6/21/2009) ===
 
   * Cornerstone now supports 3 languages, Arabic, English, and Chinese.  Hindi is coming on the way.
+
 
 === Cornerstone 1.0b (6/18/2009) ===
 

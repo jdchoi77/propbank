@@ -10,7 +10,7 @@
 
 === Cornerstone 1.2b (7/7/2009) ===
 
-  * When you add a predicate in English mode, it now automatically converts any space in lemma to '_'.  For example, if you add a predicate 'take in', Cornerstone will convert the lemma to 'take_in'.
+  * When you add a predicate in English mode, it now automatically converts any space in lemma to '`_`'.  For example, if you add a predicate `take in`, Cornerstone will convert the lemma to `take_in`.
   * Cornerstone now automatically assigns the frameset ID (roleset ID in English), so you don't need to keep track of what number you last entered.
   * Cornerstone now remembers the last directory you either open or save a file.
 

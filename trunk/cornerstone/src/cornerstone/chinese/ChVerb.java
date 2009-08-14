@@ -56,7 +56,14 @@ public class ChVerb extends ChElement
 	private void initNorth()
 	{
 		NodeList list = getElementsByTagName(ChLib.ID);
-		Element   eId = (list.getLength() > 0) ? (Element)list.item(0) : ChEditor.createEmptyId();
+		Element eId;
+		if (list.getLength() > 0)
+			eId = (Element)list.item(0);
+		else
+		{
+			eId = ChEditor.createEmptyId();
+			appendChild(eId);
+		}
 		
 		ch_comment = getComment("Verb comment");
 		ch_id      = new ChId(eId);

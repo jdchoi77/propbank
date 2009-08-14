@@ -58,6 +58,6 @@ public class ChId extends ChElement
 	 */
 	public void save()
 	{
-		setTextContent(tf_id.getText());
+		setTextContent(tf_id.getText().trim());
 	}
 }

@@ -1,0 +1,12 @@
+#summary Post-process on instances annotated in Jubilee
+
+=== Labels ===
+
+  * From `ARGM-SLC` to `LINK-SLC`
+  * From `ARGM-RCL` to `LINK-SLC`
+  * From `ARGM-PCR` to `LINK-PCR`
+
+=== Traces ===
+
+  * A trace is recognized as a node whose part-of-speech tag is `-NONE-`.
+  * A trace must be annotated on a leaf-level.  If a trace is annotated on a phrase-level, it should be post-processed so that it is annotated on a leaf-level (except for `*ICH*`).  For example, if a trace `*-1` from `(NP (-NONE- *-1))` needs to be annotated, the annotation should be on `-NONE-`, not on `NP`.

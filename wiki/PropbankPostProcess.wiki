@@ -2,11 +2,35 @@
 
 === Labels ===
 
-  * From `ARGM-SLC` to `LINK-SLC`
-  * From `ARGM-RCL` to `LINK-SLC`
-  * From `ARGM-PCR` to `LINK-PCR`
+|| *From Jubilee* || *After post-processing* ||
+|| ARGM-RCL || LINK-SLC ||
+|| ARGM-SLC || LINK-SLC ||
+|| ARGM-PCR || LINK-PCR ||
+
 
 === Traces ===
 
   * A trace is recognized as a node whose part-of-speech tag is `-NONE-`.
-  * A trace must be annotated on a leaf-level.  If a trace is annotated on a phrase-level, it should be post-processed so that it is annotated on a leaf-level (except for `*ICH*`).  For example, if a trace `*-1` from `(NP (-NONE- *-1))` needs to be annotated, the annotation should be on `-NONE-`, not on `NP`.
+  * A trace must be annotated on leaf-level.  If a trace is annotated on phrase-level, it should be post-processed so that it is annotated on leaf-level (except for `*ICH*`).  For example, if a trace `*-1` from `(NP (-NONE- *-1))` needs to be annotated, the annotation should be on `-NONE-`, not on `NP`.
+  * If a trace comes with an index, chain the trace with every other phrase with the same index in the tree.  For example, if `*T*-1 (8:0)` is annotated as `ARG0` of `was`, then it should be chained with `WHNP-1 (7:1)` so that the result is `7:1*8:0`.
+  {{{
+((S
+  (NP-SBJ (PRP He))
+  (ADVP (RB certainly))
+  (VP (VBD did)
+      (RB not)
+      (VP (VB want)
+          (NP
+            (NP (DT a) (NN wife))
+            (SBAR
+              (WHNP-1 (WP who))
+              (S
+                (NP-SBJ (-NONE- *T*-1))
+                (VP (VBD was)
+                    (ADJP-PRD
+                      (ADJP (JJ fickle))
+                      (PP (IN as)
+                          (NP (NNP Ann))))))))))
+  (. .)))
+  }}}
+  

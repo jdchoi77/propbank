@@ -11,9 +11,9 @@
 === Traces ===
 
   * A trace is recognized as a node whose part-of-speech tag is `-NONE-`.
-  * A trace must be annotated on leaf-level.  If a trace is annotated on phrase-level, it should be post-processed so that it is annotated on leaf-level (except for `*ICH*`).  For example, if a trace `*-1` from `(NP (-NONE- *-1))` needs to be annotated, the annotation should be on `-NONE-`, not on `NP`.
-  * If a trace comes with an index, chain the trace with every other phrase with the same index in the tree.  For example, if `*T*-1 (8:0)` is annotated as `ARG0` of `was`, then it should be chained with `WHNP-1 (7:1)` so that the result is `7:1*8:0`.
-  {{{
+  * A trace must be annotated on a leaf node.  If a trace is annotated on a phrase node, post-process it so it is annotated on the leaf node (except for `*ICH*`).  For example, if a trace `*-1` from `(NP (-NONE- *-1))` is to be annotated, the annotation should be on `-NONE-`, not on `NP`.
+  * If a trace comes with an index (trace ID), chain the trace with every other phrase marked with the same index in the tree.  For example, if `*T*-1 (8:0)` is annotated as `ARG0` of `was (9:0)`, then it should be chained with `WHNP-1 (7:1)` so that the result is `7:1*8:0`.
+{{{
 ((S
   (NP-SBJ (PRP He))
   (ADVP (RB certainly))
@@ -32,5 +32,23 @@
                       (PP (IN as)
                           (NP (NNP Ann))))))))))
   (. .)))
-  }}}
-  
+}}}
+
+
+=== `*ICH*` traces ===
+
+  * If a phrase node includes `*ICH*` trace as one of its descendants, take the trace ID of `*ICH*` and chain the phrase with every other phrase marked with the same trace ID.  For example, if `*-3 (4:0)` is annotated as `ARG1` of `given (3:0)`, it is first chained with `NP-SBJ-3 (0:1)` so the result is `0:1*4:0`.  Moreover, since `NP-SBJ-3` includes `*ICH*-1 (1:0)` as its descendant, it is again chained with `S-1 (5:2)` so the overall result is `0:1;5:2*4:0`.
+
+{{{
+((S
+  (NP-SBJ-3 (NNS Orders)
+            (S (-NONE- *ICH*-1)))
+  (VP (VBD were)
+      (VP (VBN given)
+          (NP (-NONE- *-3))
+          (S-1
+            (NP-SBJ (-NONE- *PRO*))
+            (VP (TO to)
+                (VP (VB dig))))))
+  (. .)))
+}}}

@@ -1,5 +1,38 @@
 #summary Post-process on instances annotated in Jubilee
 
+== How to run post-processing scripts ==
+
+All post-processing scripts are under `/home/verbs/shared/cleardata/scripts`.
+
+=== Generate byte indices of tree ===
+
+To generate byte indices of all trees used for Propbank instances, type the following command.
+
+{{{
+./generate-byte-index.py <byte file> <tree directory>
+}}}
+
+`<tree directory>` is the path of top-level directory that contains all treebank files as in its sub-directories.  `<byte file>` is an output that contains all byte indices of the trees.  For example, if you want to generate a file containing byte indices of the trees in Wall Street Journal, type the following command.
+
+{{{
+./generate-byte-index.py byte.txt /home/verbs/shared/cleardata/ontonotes/on/english/annotations/parse/nw/wsj
+}}}
+
+This will recursively read all trees under `.../wsj` and generate `byte.txt` containing byte indices of the trees.
+
+
+=== Post-process Propbank instances ===
+
+Once you created a byte file, you are ready to post-process.  Type the following command to run the post-process script.
+
+{{{
+./post-process.py <propbank file> <byte file> <post-processed file>
+}}}
+
+`<propbank file>` is an input that contains Propbank instances need to be post-processed, `<byte file>` is the output of `generate-byte-index.py` and `<post-processed file>` is the output that contains post-processed Propbank instances.  The following section describes what things are done during the post-processing.
+
+== Things done by post-processing ==
+
 === Labels ===
 
 || *From Jubilee* || *After post-processing* ||
@@ -55,4 +88,32 @@
 
 === LINK-SLC ===
 
-When `&` operator is used on some numbered argument (`ARG#`), keep only the last trace as the numbered argument and chain all nodes as `LINK-SLC`.  For example, if the annotation is `0:0&1:0-ARG1` where `1:0` is a trace, it is post-processed to `1:0-ARG1` and `0:0*1:0-LINK-SLC`.
+  * When a numbered argument includes `&` operator, keep only the last trace as the numbered argument, chain all nodes (including the trace) and annotate the result as `LINK-SLC`.  For example, if the annotation is `0:0&1:0-ARG1` where `1:0` is a trace, it is post-processed to `1:0-ARG1` and `0:0*1:0-LINK-SLC`.
+
+
+=== LINK-PCR ===
+
+  * When a numbered argument includes only a trace, take its trace ID, chain it with all nodes marked with the same trace ID and annotate the result as `LINK-PCR`.  For the example in *Traces* section, first chain `*T*-1 (8:0-ARG0)` with `WHNP-1 (7:1)` so the result is `7:1*8:0-ARG0`, which is then post-processed to `8:0-ARG0` and `7:1*8:0-LINK-PCR`.
+
+
+=== ARGM-DSP ===
+
+  * For ARGM-DSP, take the top-level phrase node and concatenate all leaf nodes under the phrase except for the ones belong to `PRN` phrase.  For example, if the annotation is `0:2*6:0-ARGM-DSP`, take the top-level phrase `S (0:2)` and concatenate all leaf nodes under `0:2` except `PRN (6:4)` so the result is `0:0,1:0,8:0,9:0,10:0`.
+{{{
+((S
+  (NP-SBJ (PRP$ His)
+          (NN heart))
+  (PRN
+    (, ,)
+    (S
+      (NP-SBJ (PRP he))
+      (VP
+        (VBD discovered)
+        (SBAR
+          (-NONE- 0)
+          (S (-NONE- *?*)))))
+    (, ,))
+  (VP (VBD was)
+      (VP (VBG pounding)))
+  (. .)))
+}}}

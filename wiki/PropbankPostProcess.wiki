@@ -35,10 +35,9 @@
 }}}
 
 
-=== `*ICH*` traces ===
+=== `*`ICH`*` traces ===
 
   * If a phrase node includes `*ICH*` trace as one of its descendants, take the trace ID of `*ICH*` and chain the phrase with every other phrase marked with the same trace ID.  For example, if `*-3 (4:0)` is annotated as `ARG1` of `given (3:0)`, it is first chained with `NP-SBJ-3 (0:1)` so the result is `0:1*4:0`.  Moreover, since `NP-SBJ-3` includes `*ICH*-1 (1:0)` as its descendant, it is again chained with `S-1 (5:2)` so the overall result is `0:1;5:2*4:0`.
-
 {{{
 ((S
   (NP-SBJ-3 (NNS Orders)
@@ -52,3 +51,8 @@
                 (VP (VB dig))))))
   (. .)))
 }}}
+
+
+=== LINK-SLC ===
+
+When `&` operator is used on some numbered argument (`ARG#`), keep only the last trace as the numbered argument and chain all nodes as `LINK-SLC`.  For example, if the annotation is `0:0&1:0-ARG1` where `1:0` is a trace, it is post-processed to `1:0-ARG1` and `0:0*1:0-LINK-SLC`.

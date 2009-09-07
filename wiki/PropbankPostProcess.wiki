@@ -86,8 +86,7 @@ Once you created a byte file, you are ready to post-process.  Type the following
 
   * When a numbered argument includes only a trace node and itS trace ID (if exists) points to `NP-SBJ`, link the trace node with `NP-SBJ` and annotate the result as `LINK-PCR`.  For the example in Section 2.3 where `*-3 (4:0)` is annotated as `ARG1`, the overall result `0:1;5:2*4:0` is labeled as `LINK-PCR` so that `4:0-ARG1` and `0:1;5:2*4:0-LINK-PCR`.
 
-  * When a numbered argument include `*PRO*` trace, keep the *PRO* trace as the numbered argument and annotate all links (including `*PRO*`) as `LINK-PCR`.  For example, if `[automation machines]*[*PRO*-2] (5:1*9:0)` is annotated as `ARG0` of `work (11:0)`, first link `9:0` with `NP-2 (8:1)', keep `9:0` as `ARG0` and annotate all links as `LINK-PCR', so the result is `9:0-ARG0` and `5:1*8:1*9:0-LINK-PCR`.
-
+  * When a numbered argument include `*PRO*` trace, keep the `*PRO*` trace as the numbered argument and annotate all links (including `*PRO*`) as `LINK-PCR`.  For example, if `[automation machines] * [*PRO*-2] (5:1*9:0)` is annotated as `ARG0` of `work (11:0)`, first link `9:0` with `NP-2 (8:1)' (see Section 2.2), keep `9:0` as `ARG0` and annotate all links as `LINK-PCR', so the result is `9:0-ARG0` and `5:1*8:1*9:0-LINK-PCR`.
 {{{
 ((S
   (PP (IN In)
@@ -110,7 +109,7 @@ Once you created a byte file, you are ready to post-process.  Type the following
 ...
 }}}
 
-=== LINK-SLC ===
+=== 2.5. LINK-SLC ===
 
   * When a numbered argument includes `&` operator, keep only the last trace as the numbered argument, link all nodes (including the trace) and annotate the result as `LINK-SLC`.  For example, if the annotation is `0:0&1:0-ARG1` where `1:0` is a trace, it is post-processed to `1:0-ARG1` and `0:0*1:0-LINK-SLC`.
 
@@ -118,9 +117,9 @@ Once you created a byte file, you are ready to post-process.  Type the following
 
 
 
-=== ARGM-DSP ===
+=== 2.6. ARGM-DSP ===
 
-  * For ARGM-DSP, take the top-level phrase node and concatenate all leaf nodes under the phrase except for the ones belong to `PRN` phrase.  For example, if the annotation is `0:2*6:0-ARGM-DSP`, take the top-level phrase `S (0:2)` and concatenate all leaf nodes under `0:2` except `PRN (6:4)` so the result is `0:0,1:0,8:0,9:0,10:0`.
+  * If the argument label is ARGM-DSP, take the top-level phrase node and concatenate all leaf nodes under the phrase except for the ones belong to `PRN` phrase.  For example, if the annotation is `0:2*6:0-ARGM-DSP`, take the top-level phrase `S (0:2)` and concatenate all leaf nodes under `0:2` except `PRN (6:4)` so the result is `0:0,1:0,8:0,9:0,10:0`.
 {{{
 ((S
   (NP-SBJ (PRP$ His)

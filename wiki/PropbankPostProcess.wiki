@@ -1,10 +1,10 @@
 #summary Post-process on instances annotated in Jubilee
 
-== How to run post-processing scripts ==
+== 1. How to run post-processing scripts ==
 
 All post-processing scripts are under `/home/verbs/shared/cleardata/scripts`.
 
-=== Generate byte indices of tree ===
+=== 1.1. Generate byte indices of tree ===
 
 To generate byte indices of all trees used for Propbank instances, type the following command.
 
@@ -12,16 +12,15 @@ To generate byte indices of all trees used for Propbank instances, type the foll
 ./generate-byte-index.py <byte file> <tree directory>
 }}}
 
-`<tree directory>` is the path of top-level directory that contains all treebank files as in its sub-directories.  `<byte file>` is an output that contains all byte indices of the trees.  For example, if you want to generate a file containing byte indices of the trees in Wall Street Journal, type the following command.
+`<tree directory>` is the path of top-level directory that contains all treebank files as in its sub-directories.  `<byte file>` is the output that contains all byte indices of the trees.  For example, if you want to generate a file containing byte indices of all trees in WSJ, type the following command.
 
 {{{
 ./generate-byte-index.py byte.txt /home/verbs/shared/cleardata/ontonotes/on/english/annotations/parse/nw/wsj
 }}}
 
-This will recursively read all trees under `.../wsj` and generate `byte.txt` containing byte indices of the trees.
+This will recursively read all trees under `/home/verbs/shared/cleardata/ontonotes/on/english/annotations/parse/nw/wsj` and generate `byte.txt` containing byte indices of all trees in WSJ.
 
-
-=== Post-process Propbank instances ===
+=== 1.2. Post-process Propbank instances ===
 
 Once you created a byte file, you are ready to post-process.  Type the following command to run the post-process script.
 
@@ -29,17 +28,16 @@ Once you created a byte file, you are ready to post-process.  Type the following
 ./post-process.py <propbank file> <byte file> <post-processed file>
 }}}
 
-`<propbank file>` is an input that contains Propbank instances need to be post-processed, `<byte file>` is the output of `generate-byte-index.py` and `<post-processed file>` is the output that contains post-processed Propbank instances.  The following section describes what things are done during the post-processing.
+`<propbank file>` is an input that contains Propbank instances to be post-processed. `<byte file>` is the output from `generate-byte-index.py`.  `<post-processed file>` is the output that contains post-processed Propbank instances.  The following section describes what things are done during the post-processing.
+<br><br>
 
-== Things done by post-processing ==
+== 2. Things done by post-processing ==
 
-=== Labels ===
+=== 2.1. Label changes ===
 
-|| *From Jubilee* || *After post-processing* ||
-|| ARGM-RCL || LINK-SLC ||
-|| ARGM-SLC || LINK-SLC ||
-|| ARGM-PCR || LINK-PCR ||
-
+  * ARGM-RCL --> LINK-SLC
+  * ARGM-SLC --> LINK-SLC
+  * ARGM-PCR --> LINK-PCR
 
 === Traces ===
 

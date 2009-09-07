@@ -93,7 +93,7 @@ Once you created a byte file, you are ready to post-process.  Type the following
 
 === LINK-PCR ===
 
-  * When a numbered argument includes only a trace, take its trace ID, chain it with all nodes marked with the same trace ID and annotate the result as `LINK-PCR`.  For the example in *Traces* section, first chain `*T*-1 (8:0-ARG0)` with `WHNP-1 (7:1)` so the result is `7:1*8:0-ARG0`, which is then post-processed to `8:0-ARG0` and `7:1*8:0-LINK-PCR`.
+  * When a numbered argument includes only a trace and the trace is indexed to `NP-SBJ`, take its trace ID, chain it with all nodes marked with the same trace ID and annotate the result as `LINK-PCR`.  For the example in *Traces* section, first chain `*T*-1 (8:0-ARG0)` with `WHNP-1 (7:1)` so the result is `7:1*8:0-ARG0`, which is then post-processed to `8:0-ARG0` and `7:1*8:0-LINK-PCR`.
 
 
 === ARGM-DSP ===

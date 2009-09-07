@@ -119,7 +119,7 @@ Once you created a byte file, you are ready to post-process.  Type the following
 
 === 2.6. ARGM-DSP ===
 
-  * If the argument label is ARGM-DSP, take the top-level phrase node and concatenate all leaf nodes under the phrase except for the ones belong to `PRN` phrase.  For example, if the annotation is `0:2*6:0-ARGM-DSP`, take the top-level phrase `S (0:2)` and concatenate all leaf nodes under `0:2` except `PRN (6:4)` so the result is `0:0,1:0,8:0,9:0,10:0`.
+  * If the argument label is `ARGM-DSP`, take the very top-level phrase node and concatenate all leaf nodes under the phrase except for the ones belong to `PRN` phrase.  Then, annotate the concatenation with the same label as the numbered argument, say _A_, that contains the trace linked in `ARGM-DSP`.  Finally, remove the argument _A_ from the annotation.  For example, if we have `0:2*6:0-ARGM-DSP` and `5:1-ARG1`, take the top-level phrase `S (0:2)` and concatenate all leaf nodes under `0:2` except `PRN (6:4)` so the result is `0:0,1:0,8:0,9:0,10:0`.  Then, annotation the concatenation with the label from `SBAR (5:1)` so the result is `0:0,1:0,8:0,9:0,10:0-ARG1`.  Finally, remove `5:1-ARG1` from the annotation so `0:0,1:0,8:0,9:0,10:0-ARG1` is the only `ARG1` in the annotation.
 {{{
 ((S
   (NP-SBJ (PRP$ His)

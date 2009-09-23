@@ -41,18 +41,13 @@ public class Jubilee
 		
 		String version = "Jubilee 2.1";
 		
-		if (args.length < 1)
-			System.err.println("Usage: java -jar jubilee.jar <userId> [skip] [max-annotations]");
-		else if (args[0].equals("gold"))
-		{
-			if (args.length < 2)
-				new JBToolkit(version, args[0], 0, 2);
-			else if (args.length < 3)
-				new JBToolkit(version, args[0], Integer.parseInt(args[1]), 2);
-			else
-				new JBToolkit(version, args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-		}
+		if (args.length == 1)
+			new JBToolkit(version, args[0], 2, 0);
+		else if (args.length == 2)
+			new JBToolkit(version, args[0], Integer.parseInt(args[1]), 0);
+		else if (args.length == 3)
+			new JBToolkit(version, args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		else
-			new JBToolkit(version, args[0], 0, 2);
+			System.err.println("Usage: java -jar jubilee.jar <userId> [max-annotations] [skip: gold mode only]");
 	}
 }

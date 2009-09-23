@@ -1,0 +1,6 @@
+# This file contains functions and their keyboard shortcuts for Propbank annotation such trace(*), conjunction(,), etc.
+# Format: Function<space>Shortcut
+* 8
+, ,
+& 7
+/ /

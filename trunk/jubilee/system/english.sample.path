@@ -1,0 +1,12 @@
+# ---------------------------------------------------------------------------
+# This file contains directory paths for necessary resources
+# Each path file must including all and only resources indicated below.
+#
+# Resource : Frameset, Treebank, Task, Annotation
+# Path     : The directory-path of the corresponding resource
+# Format   : Resource<space>Path
+# ---------------------------------------------------------------------------
+Frameset ./resource/frameset
+Treebank ./resource/treebank
+Task ./resource/task
+Annotation ./resource/annotation

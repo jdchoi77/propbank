@@ -1,0 +1,32 @@
+# This file contains Propbank ArgM tags and their keyboard shortcuts.
+# Format: M-tag<space>Shortcut
+# Un-used shortcuts:  F G H I J K Q V W X Y Z
+
+# Relation (do not add any tags above this)
+rel .
+
+# Agent tag
+A A
+
+# Modifier tags
+M-ADV V
+M-CAU C
+M-DIR D
+M-DIS I
+M-DSP B
+M-EXT E
+M-LOC L
+M-MNR M
+M-MOD O
+M-NEG N
+# M-PCR 8
+M-SLC 6
+M-PRD 7
+M-PRP P
+M-RCL R
+M-REC 9
+# M-STR S
+M-TMP T
+
+# Undefined tag
+-UNDEF U

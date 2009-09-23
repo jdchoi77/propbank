@@ -105,6 +105,8 @@ public class JBArgPanel extends JPanel implements ActionListener
 	{
 		if (arg.equals(ERASE))
 			tree.updateArg(null, ERASE);
+		else if (arg.equals("M-SLC"))
+			tree.updateArg(null, "LINK-SLC");
 		else
 			tree.updateArg(null, ARG_PREFIX+arg);
 

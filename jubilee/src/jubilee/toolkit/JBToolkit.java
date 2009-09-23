@@ -65,7 +65,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	
 	static public String s_language = "english";
 	
-	public JBToolkit(String title, String userID, int skip, int maxAnn)
+	public JBToolkit(String title, String userID, int maxAnn, int skip)
 	{
 		super(title);
 		str_frameTitle = title;

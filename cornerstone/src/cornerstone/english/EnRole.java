@@ -37,7 +37,7 @@ import javax.swing.border.*;
  */
 public class EnRole extends EnElement implements ActionListener
 {
-	public final int WIDTH = EnEditor.WIDTH - 40;
+	public final int WIDTH = EnEditor.WIDTH - 50;
 	
 	private EnRoles              parent;
 	private JComboBox            cb_n;

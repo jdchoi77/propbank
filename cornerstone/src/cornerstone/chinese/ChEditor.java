@@ -106,11 +106,13 @@ public class ChEditor extends EditorTemplate implements ActionListener
 	/** Creates a new frameset file. */
 	public void menuNew()
 	{
+		if (CURR_FILE != null)	menuSave();
 		String filename = new JDCFileDialog(this, CURR_DIR).save("New file");
 		
 		if (filename != null)
 		{
-			open(SYS_PATH+LANGUAGE+".xml");
+			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			open(SYS_PATH+LANGUAGE+".xml", dir);
 			updateTitle(filename);			
 			addFrameset();
 		}
@@ -119,11 +121,13 @@ public class ChEditor extends EditorTemplate implements ActionListener
 	/** Prompts an input dialog and opens a frameset file. */
 	public void menuOpen()
 	{
+		if (CURR_FILE != null)	menuSave();
 		String filename = new JDCFileDialog(this, CURR_DIR).loadFile("Open file");
 		
 		if (filename != null)
 		{
-			open(filename);
+			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			open(filename, dir);
 			updateTitle(filename);
 		}
 	}
@@ -173,7 +177,7 @@ public class ChEditor extends EditorTemplate implements ActionListener
 	 * Opens {@link fileaname}.
 	 * @param filename name of the file to open
 	 */
-	private void open(String filename)
+	private void open(String filename, String dir)
 	{
 		try
 		{
@@ -187,7 +191,7 @@ public class ChEditor extends EditorTemplate implements ActionListener
 			add(ch_verb, BorderLayout.CENTER);
 			// validate new frameset
 			validate();
-			CURR_DIR = filename.substring(0, filename.lastIndexOf('/')+1);
+			CURR_DIR = dir;
 			saveDir();
 			setLastFramesetID(eVerb);
 		}

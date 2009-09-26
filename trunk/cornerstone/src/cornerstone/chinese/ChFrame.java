@@ -35,7 +35,7 @@ import org.w3c.dom.*;
  */
 public class ChFrame extends ChElement implements ActionListener
 {
-	static final int WIDTH = ChEditor.WIDTH - 35;
+	static final int WIDTH = ChEditor.WIDTH - 45;
 	
 	private ChFrameset     parent;
 	private ChComment      ch_comment;

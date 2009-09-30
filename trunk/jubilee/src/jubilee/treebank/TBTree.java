@@ -506,6 +506,6 @@ public class TBTree
 		for (TBNode child : node.getChildren())
 			str += "\n" + toTextTreeAux(child, indent+"  ");
 		
-		return str;
+		return str+")";	
 	}
 }

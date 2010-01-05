@@ -9,7 +9,7 @@
 
   * The command to launch Jubilee has been changed.  Now you can specify options more flexibly.
 
-java -jar jubilee.jar -u <userId> [-m <max-annotations=2> -p <skip=0> -s <system-folder=system/>]
+  `java -jar jubilee.jar -u <userId> [-m <max-annotations=2> -p <skip=0> -s <system-folder=system/>]`
 
 
 === Jubilee 2.1 (7/24/2009) ===

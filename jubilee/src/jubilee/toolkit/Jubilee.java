@@ -39,15 +39,29 @@ public class Jubilee
 		catch (InstantiationException e) {System.err.println(e);}
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
-		String version = "Jubilee 2.1";
+		String usage  = "Usage: java -jar jubilee.jar -u <userId> [-m max-annotations=2 -p skip=0 -s system-folder=system/]";
+		String title  = "Jubilee 2.11";
+		String userId = null;
+		int    maxAnn = 2;
+		byte   skip   = 0;
+		String sysDir = "system/";
 		
-		if (args.length == 1)
-			new JBToolkit(version, args[0], 2, 0);
-		else if (args.length == 2)
-			new JBToolkit(version, args[0], Integer.parseInt(args[1]), 0);
-		else if (args.length == 3)
-			new JBToolkit(version, args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-		else
-			System.err.println("Usage: java -jar jubilee.jar <userId> [max-annotations] [skip: gold mode only]");
+		if (args.length == 0 || args.length % 2 != 0)	{System.err.println(usage);	return;}
+		
+		for (int i=0; i<args.length; i+=2)
+		{
+			String option = args[i];
+			String value  = args[i+1];
+			
+			if      (option.equals("-u"))	userId = value;
+			else if (option.equals("-m"))	maxAnn = Integer.parseInt(value);
+			else if (option.equals("-p"))	skip   = Byte.parseByte(value);
+			else if (option.equals("-s"))	sysDir = value+"/";
+			else							{System.err.println(usage);	return;}
+		}
+		
+		if (userId == null)	{System.err.println(usage);	return;}
+		
+		new JBToolkit(title, sysDir, userId, maxAnn, skip);
 	}
 }

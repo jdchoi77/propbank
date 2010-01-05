@@ -64,11 +64,13 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	boolean b_skip;
 	
 	static public String s_language = "english";
+	static public String s_sysDir   = null;
 	
-	public JBToolkit(String title, String userID, int maxAnn, int skip)
+	public JBToolkit(String title, String sysDir, String userID, int maxAnn, byte skip)
 	{
 		super(title);
 		str_frameTitle = title;
+		s_sysDir = sysDir;
 		str_userID = userID;
 		b_skip = (skip == 0) ? false : true;
 		i_maxAnn = maxAnn;
@@ -376,6 +378,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 				return false;
 		}
 		
+		pb_origin.setAnnotator(GOLD);
 		return true;
 	}
 	

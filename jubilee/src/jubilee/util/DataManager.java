@@ -26,6 +26,8 @@ package jubilee.util;
 import java.io.*;
 import java.util.*;
 
+import jubilee.toolkit.JBToolkit;
+
 /**
  * @author jdchoi
  * @since 09/13/07
@@ -35,7 +37,7 @@ public class DataManager
 	static final public String PATH = ".path";
 	static final public String ARGS = ".args";
 	static final public String FUNC = "function";	// for propbank functions (trace, etc.)
-	static final public String SYS_DIR = "system/";
+//	static final public String SYS_DIR = "system/";
 	
 	static final private String ARGS_TAG = "args.tag";
 	static final private String ARGS_FUNCTION = "args.func";
@@ -47,7 +49,7 @@ public class DataManager
 	static public String[] getSettings()
 	{
 		ArrayList<String> arr = new ArrayList<String>();
-		String[] list = new File(SYS_DIR).list();
+		String[] list = new File(JBToolkit.s_sysDir).list();
 		
 		for (int i=0; i<list.length; i++)
 		{
@@ -73,7 +75,7 @@ public class DataManager
 
 		try
 		{
-			Scanner scan = new Scanner(new File(SYS_DIR + language + ext));
+			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir + language + ext));
 
 			while (scan.hasNextLine())
 			{
@@ -141,7 +143,7 @@ public class DataManager
 		
 		try
 		{
-			Scanner scan = new Scanner(new File(SYS_DIR+filename));
+			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+filename));
 			String str;
 			
 			while (scan.hasNextLine())
@@ -165,7 +167,7 @@ public class DataManager
 		
 		try
 		{
-			Scanner scan = new Scanner(new File(SYS_DIR+"args.tag"));
+			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+"args.tag"));
 			scan.nextLine();	scan.nextLine();	// skip comments
 			
 			// initialize Arg#
@@ -188,7 +190,7 @@ public class DataManager
 		
 		try
 		{
-			Scanner scan = new Scanner(new File("system/args.tag"));
+			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+"args.tag"));
 			scan.nextLine();	scan.nextLine();	// skip comments
 			
 			// initialize Arg#

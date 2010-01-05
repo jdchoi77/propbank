@@ -1,6 +1,17 @@
 #summary Jubilee: release notes (~ v2.1)
 #labels Phase-Design
 
+=== Jubilee 2.11 (1/4/2010) ===
+
+  * If you choose an option to skip agreed annotations in gold-mode, it now changes user-IDs of all agreed annotations to 'gold' (before, it kept the the user-id of the first annotation).
+
+  * You can specify the system folder by giving a new option (before you had to use the default system folder './system').  This can be useful if you want to keep system files (for different languages/projects) separately (e.g., system-english, system-arabic).  See #3 for more details about how to give options.
+
+  * The command to launch Jubilee has been changed.  Now you can specify options more flexibly.
+
+java -jar jubilee.jar -u <userId> [-m <max-annotations=2> -p <skip=0> -s <system-folder=system/>]
+
+
 === Jubilee 2.1 (7/24/2009) ===
 
   * Jubilee can now view parsed tree in text format.  Click 'Ctrl + T', then it will prompt a window showing the parsed-tree.  To close the window, type 'Ctrl + Shift + Q'.

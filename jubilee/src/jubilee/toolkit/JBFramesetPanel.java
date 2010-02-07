@@ -155,7 +155,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 	public void itemStateChanged(ItemEvent e)
 	{
 		if (cb_roleset.getSelectedIndex() < 0)	return;
-		if (cb_roleset.getSelectedIndex() != 0 && cb_roleset.getSelectedIndex() != cb_roleset.getItemCount()-1)
+		if (cb_roleset.getSelectedIndex() != 0 && cb_roleset.getSelectedIndex() < cb_roleset.getItemCount()-2)
 		{
 			PBPredicate predicate = frameset.getPredicate(getPredicateNum());
 			PBRoleset roleset = predicate.getRoleset(getRolesetNum());
@@ -214,6 +214,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 				}
 			}
 			cb_roleset.insertItemAt(lemmaTok+".ER", k);
+			cb_roleset.insertItemAt(lemmaTok+".LV", k+1);
 			
 			int index = getItemIndex(lemma);
 			if (index != -1)	cb_roleset.setSelectedIndex(index);
@@ -222,6 +223,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 		else
 		{
 			cb_roleset.insertItemAt(lemmaTok+".ER", k);
+			cb_roleset.insertItemAt(lemmaTok+".LV", k+1);
 			cb_roleset.setSelectedIndex(0);
 			tf_predicate.setText("No frameset-file");
 		}

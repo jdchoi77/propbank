@@ -1,0 +1,17 @@
+adv
+cau
+dir
+dis
+dsp
+ext
+loc
+mnr
+mod
+neg
+prd
+prp
+pnc
+rcl
+rec
+slc
+tmp

@@ -51,7 +51,9 @@ public class Cornerstone
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
 		String title = "Conerstone 1.3b";
-		if (args[0].equals("en"))	new EnEditor(title, args[0], args[1]);
-		else						new ChEditor(title, args[0], args[1]);
+		if (args[0].equals("en") || args[0].equals("hi"))
+			new EnEditor(title, args[0], args[1]);
+		else
+			new ChEditor(title, args[0], args[1]);
 	}
 }

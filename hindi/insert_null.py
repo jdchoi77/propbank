@@ -9,13 +9,15 @@ DREL_K2 = 'k2'
 # {'aa':'huaa', 'ii':'huii', 'e':'huey', 'ne':'vaale', 'ne':'vaalaa', 'ne':'vaalii'}
 REL_PRO_VERBS = {'आ':'हुआ', 'ई':'हुई', 'ए':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
 REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
+REL_PRO       = 'RELPRO'
 
-"""
-BIG_PRO_POST_FIX = ['ना', 'नी', 'ने']		# na, nil, ne
-BIG_PRO_NOT      = 'वाला'				# vaalaa
-"""
+BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
+BIG_PRO_NOT    = 'वाला'				# vaalaa
+
 
 class InsertNull:
+	# Inserts rel-pro chunks to 'tree'
+	# tree : Tree
 	def insertRelPro(self, tree):
 		size = len(tree)
 		i    = 0
@@ -26,13 +28,14 @@ class InsertNull:
 			headId = chunk.getName()
 			
 			if not chunk.isChild(DREL_K1, headId):
-				tree.insertFirstChild(headId, self.getRelProChunk(DREL_K1, headId))
+				tree.insertFirstChild(headId, self.getNullChunk(REL_PRO, DREL_K1, headId))
 				i += 1; size += 1
 
 			if not chunk.isChild(DREL_K2, headId):
-				tree.insertLastChild(headId, self.getRelProChunk(DREL_K2, headId))
+				tree.insertLastChild(headId, self.getNullChunk(REL_PRO, DREL_K2, headId))
 				i += 1; size += 1
 				print(tree)
+
 	# Returns true if 'chunk' is a rel-pro verb.
 	# chunk : Chunk
 	def _isRelProVerb(self, chunk):
@@ -47,12 +50,13 @@ class InsertNull:
 	
 		return False
 
-	# Returns a rel-pro chunk.
+	# Returns a null chunk.
+	# label: label of the null chunk (e.g., RELPRO, BIGPRO) : string
 	# drel: dependency relation (either 'k1' or 'k2') : string
 	# headId: ID of the head chunk
-	def getRelProChunk(self, drel, headId):
+	def getNullChunk(self, label, drel, headId):
 		ls = list()
-		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\'RELPRO-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
+		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+'-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
 		ls.append('0.1\tNULL\tNULL\t<fs name=\'NULL\'>')
 		ls.append('\t))')
 

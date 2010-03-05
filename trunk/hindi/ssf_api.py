@@ -6,7 +6,9 @@ DELIM_KEY       = '='
 DELIM_DREL      = ':'
 REG_FS          = re.compile('([<>\s])')
 KEY_DREL        = 'drel'
+
 POS_VERB        = 'VG'
+POS_CONJUNCT    = 'CCP'
 
 BEGIN_DOCUMENT  = '<document'
 BEGIN_HEAD      = '<head'
@@ -191,12 +193,29 @@ class Tree(list):
 		
 		return False
 	
+	# Returns the list of children of 'headId' that are verbs.
+	# headId: ID of the head chunk (e.g., VGF) : string
+	def getVerbChildren(self, headId):
+		ls = list()
+		
+		for chunk in self:
+			if chunk.isChild(None, headId) and chunk.isVerb():
+				ls.append(chunk)
+		
+		return ls
+	
+	# Inserts 'node' as the first child of 'headId'.
+	# node : child of 'headId' : Node
+	# headId: ID of the head chunk (e.g., VGF) : string
 	def insertFirstChild(self, headId, node):
 		for i,chunk in enumerate(self):
 			if chunk.isChild(None, headId) or chunk.getName() == headId:
 				self.insert(i, node)
 				break
 	
+	# Inserts 'node' as the last child of 'headId'.
+	# node : child of 'headId' : Node
+	# headId: ID of the head chunk (e.g., VGF) : string
 	def insertLastChild(self, headId, node):
 		for i,chunk in enumerate(self):
 			if chunk.getName() == headId:
@@ -235,6 +254,10 @@ class Chunk(list):
 	def isVerb(self):
 		return self[0].posStarts(POS_VERB)
 	
+	# Returns true if it is a conjunct-chunk.
+	def isConjunct(self):
+		return self[0].posEquals(POS_CONJUNCT)
+	
 	# Returns ['dependency relation', 'headId'] list of the chunk.
 	def getDrel(self):
 		if not self[0].dic_fs: return None
@@ -249,9 +272,9 @@ class Chunk(list):
 	# headId: ID of the head chunk (e.g., VGF) : string
 	def isChild(self, drel, headId):
 		dinfo = self.getDrel()
-		if not dinfo: return False
+		if not dinfo or len(dinfo) < 2: return False
 		if not drel : return dinfo[1] == headId
-		return dinfo[0] == drel and dinfo[1] == headId
+		return dinfo[0].startswith(drel) and dinfo[1] == headId
 	
 	# Returns the name of the chunk.
 	def getName(self):
@@ -327,8 +350,15 @@ class Node:
 	def posStarts(self, pos):
 		return self.str_pos.startswith(pos)
 
+	# Returns true if the pos-tag is equal to 'pos'.
+	# pos : string
+	def posEquals(self, pos):
+		return self.str_pos == pos
+
 	# Returns the name of the node.
 	def getName(self):
+		if not self.dic_fs: return None
+		
 		if ATTR_NAME in self.dic_fs:
 			return self.dic_fs[ATTR_NAME]
 		

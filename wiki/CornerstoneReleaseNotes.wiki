@@ -1,6 +1,11 @@
 #summary Cornerstone: release notes (~ v1.3)
 
 === Cornerstone 1.3 (9/25/2009) ===
+  * Hindi module is added.
+  * Bugfix: in English/Hindi example frames, the value for 'name' field used to get copied to the values for 'type' and 'src' fields.  It is fixed now.
+
+
+=== Cornerstone 1.3 (9/25/2009) ===
   * Cornerstone is now out of a beta version.
   * Cornerstone automatically saves the annotation for the previous frameset file as you open or create a new frameset file.  Note that you still need to save the annotation for the last frameset file you work on.
 

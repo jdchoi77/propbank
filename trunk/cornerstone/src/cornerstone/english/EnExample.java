@@ -192,8 +192,8 @@ public class EnExample extends EnElement
 	{
 		// attributes
 		setAttribute(EnLib.NAME, tf_name.getText());
-		setAttribute(EnLib.TYPE, tf_name.getText());
-		setAttribute(EnLib.SRC , tf_name.getText());
+		setAttribute(EnLib.TYPE, tf_type.getText());
+		setAttribute(EnLib.SRC , tf_src.getText());
 		
 		// elements
 		en_note.save();

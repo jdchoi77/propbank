@@ -7,8 +7,7 @@ DREL_K1 = 'k1'
 DREL_K2 = 'k2'
 
 # {'aa':'huaa', 'ii':'huii', 'e':'huey', 'ne':'vaale', 'ne':'vaalaa', 'ne':'vaalii'}
-#REL_PRO_VERBS = {'आ':'हुआ', 'ई':'हुई', 'ए':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
-REL_PRO_VERBS = {'ने':'वाले'}
+REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
 REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
 REL_PRO       = 'RELPRO'
 
@@ -17,10 +16,10 @@ BIG_PRO_NOT    = 'वाला'					# vaalaa
 BIG_PRO_KAR    = 'कर'					# kar
 BIG_PRO_TE     = 'ते'					# te
 BIG_PRO_HUEY   = 'हुए'					# huey
-BIG_PRO        = 'BIGPRO'
+BIG_PRO        = 'PRO'
 
 PRO_AUR        = 'और'
-PRO            = 'PRO'
+PRO            = 'pro'
 
 class InsertNull:
 	# Inserts rel-pro chunks to 'tree'.

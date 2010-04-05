@@ -6,6 +6,7 @@ DELIM_KEY       = '='
 DELIM_DREL      = ':'
 REG_FS          = re.compile('([<>\s])')
 KEY_DREL        = 'drel'
+KEY_AF          = 'af'
 
 POS_VERB        = 'VG'
 POS_CONJUNCT    = 'CCP'
@@ -328,7 +329,11 @@ class Node:
 		ls = list()
 		ls.append(BEGIN_FS)
 		
+		if KEY_AF in self.dic_fs:
+			ls.append(KEY_AF + DELIM_KEY + '\'' + self.dic_fs[KEY_AF] + '\'')
+		
 		for key in self.dic_fs:
+			if key == KEY_AF: continue
 			val = self.dic_fs[key]
 			if key == KEY_DREL: val = DELIM_DREL.join(val)
 			ls.append(key + DELIM_KEY + '\'' + val + '\'')

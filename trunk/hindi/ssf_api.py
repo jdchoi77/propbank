@@ -1,3 +1,5 @@
+# author     : Jinho D. Choi
+# last update: 3/4/2010
 import re
 
 DELIM_NODE      = '\t'

@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*- 
+# author     : Jinho D. Choi
+# last update: 3/4/2010
 import sys
 from ssf_api import *
 

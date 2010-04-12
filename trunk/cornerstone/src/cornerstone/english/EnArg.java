@@ -38,6 +38,7 @@ public class EnArg extends EnElement implements ActionListener
 	private JTextField tf_content;
 	private JComboBox  cb_n;
 	private JComboBox  cb_f;
+	private JComboBox  cb_drel;
 	private JButton    bt_remove;
 	
 	/**
@@ -72,6 +73,14 @@ public class EnArg extends EnElement implements ActionListener
 		if (!contains(cb_f, f))	cb_f.addItem(f);
 		cb_f.setSelectedItem(f);
 		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{
+			cb_drel = new JComboBox(EnLib.ARR_DREL);
+			String drel = getAttribute(EnLib.DREL).toLowerCase();
+			if (!contains(cb_drel, drel))	cb_drel.addItem(drel);
+			cb_drel.setSelectedItem(drel);
+		}
+		
 		bt_remove = new JButton("Remove");
 		bt_remove.addActionListener(this);
 	}
@@ -94,8 +103,15 @@ public class EnArg extends EnElement implements ActionListener
 		
 		pn.add(new JLabel("text: "));
 		pn.add(tf_content);
-		pn.add(Box.createHorizontalStrut(5));
 		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{
+			pn.add(Box.createHorizontalStrut(H_GAP));
+			pn.add(new JLabel(EnLib.DREL+": "));
+			pn.add(cb_drel);
+		}
+
+		pn.add(Box.createHorizontalStrut(5));
 		pn.add(bt_remove);
 		
 		add(Box.createVerticalStrut(V_GAP));
@@ -108,6 +124,9 @@ public class EnArg extends EnElement implements ActionListener
 		setAttribute(EnLib.N, (String)cb_n.getSelectedItem());
 		setAttribute(EnLib.F, (String)cb_f.getSelectedItem());
 		setTextContent(tf_content.getText());
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+			setAttribute(EnLib.DREL, (String)cb_drel.getSelectedItem());
 	}
 	
 	/**

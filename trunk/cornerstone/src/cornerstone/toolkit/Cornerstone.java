@@ -27,6 +27,7 @@ import javax.swing.*;
 
 import cornerstone.chinese.ChEditor;
 import cornerstone.english.EnEditor;
+import cornerstone.english.EnLib;
 
 /**
  * <b>Last update:</b> 06/15/2009
@@ -50,8 +51,8 @@ public class Cornerstone
 		catch (InstantiationException e) {System.err.println(e);}
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
-		String title = "Conerstone 1.31";
-		if (args[0].equals("en") || args[0].equals("hi"))
+		String title = "Conerstone 1.33";
+		if (args[0].equals(EnLib.LANG_EN) || args[0].equals(EnLib.LANG_HI))
 			new EnEditor(title, args[0], args[1]);
 		else
 			new ChEditor(title, args[0], args[1]);

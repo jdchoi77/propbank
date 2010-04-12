@@ -30,10 +30,8 @@ import javax.swing.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
-
 import org.w3c.dom.*;
 
-import cornerstone.english.EnLib;
 import cornerstone.toolkit.*;
 
 /**
@@ -112,8 +110,8 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		if (filename != null)
 		{
 			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			updateTitle(filename);
 			open(SYS_PATH+LANGUAGE+".xml", dir);
-			updateTitle(filename);			
 			addFrameset();
 		}
 	}
@@ -127,8 +125,8 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		if (filename != null)
 		{
 			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
-			open(filename, dir);
 			updateTitle(filename);
+			open(filename, dir);
 		}
 	}
 	
@@ -186,8 +184,26 @@ public class ChEditor extends EditorTemplate implements ActionListener
 			// <verb> is the root of the document
 			doc = d_builder.parse(new File(filename));
 			Element eVerb = doc.getDocumentElement();
+			
+			if (LANGUAGE.equals("ar"))
+			{
+				NodeList list = eVerb.getElementsByTagName(ChLib.ID);
+				Element  eId;
+				
+				if (list.getLength() > 0)
+					eId = (Element)list.item(0);
+				else
+				{
+					eId = ChEditor.createEmptyId();
+					eVerb.appendChild(eId);
+				}
+				
+				eId.setTextContent(getLemma());
+			}
+			
 			// add new frameset
 			ch_verb = new ChVerb(eVerb);
+			
 			add(ch_verb, BorderLayout.CENTER);
 			// validate new frameset
 			validate();

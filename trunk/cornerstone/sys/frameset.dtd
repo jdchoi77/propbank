@@ -43,6 +43,7 @@
 <!ATTLIST roleset 
   id   ID #REQUIRED
   name CDATA #IMPLIED
+  vtype CDATA #IMPLIED
   vncls CDATA #IMPLIED
   framnet CDATA #IMPLIED>
 <!ELEMENT roles   (note | role)*>
@@ -86,6 +87,7 @@
 <!ATTLIST role 
   n CDATA #REQUIRED
   f CDATA #IMPLIED
+  drel CDATA #IMPLIED
   descr CDATA #REQUIRED>
 
 <!ELEMENT vnrole EMPTY>
@@ -129,7 +131,8 @@
 <!ELEMENT arg (#PCDATA)>
 <!ATTLIST arg
   n CDATA #REQUIRED
-  f CDATA #IMPLIED>
+  f CDATA #IMPLIED
+  drel CDATA #IMPLIED>
 
 <!-- a rel can have an "f" attribute for a single reason, so that
      auxilliary uses of the verb "have" can be marked as such.

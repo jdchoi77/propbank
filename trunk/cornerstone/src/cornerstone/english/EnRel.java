@@ -87,6 +87,9 @@ public class EnRel extends EnElement implements ActionListener
 		pn.add(new JLabel(EnLib.F+": "));
 		pn.add(cb_f);
 		pn.add(Box.createHorizontalStrut(H_GAP));
+		
+	//	if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+	//		pn.add(Box.createHorizontalStrut(127));
 
 		pn.add(new JLabel("text: "));
 		pn.add(tf_content);

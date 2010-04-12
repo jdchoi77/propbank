@@ -1,5 +1,9 @@
 #summary Cornerstone: release notes (~ v1.32)
 
+=== Cornerstone 1.33 (4/12/2010) ===
+  * I added the 'vtype' field under Roleset.  The field gives an option of choosing either 'unaccusative' or 'unergative', but the values can be updated.  Furthermore, I made 'vncls' and framnet' fields invisible for Hindi (they are currently not used).  When you decide to add VerbNet or FrameNet info, it is very easy to make them visible again.
+  * I added the 'drel' field for each role.  The field contains dependency relations that Archna sent out earlier.  Again, I made 'Add Vnrole' button invisible for now but we can always get that back.
+
 === Cornerstone 1.32 (3/29/2010) ===
   * Cornerstone now can read 'lemma.xml', 'lemma-v.xml', and 'lemma-n.xml'.
   * For Arabic, Cornerstone enforces the verb ID same as the filename.  For example, if the filename is any of ones in #1, the ID field takes 'lemma' as the value.

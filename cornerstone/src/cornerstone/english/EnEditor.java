@@ -75,6 +75,12 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		EnLib.ARR_ASPECT  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.ASPECT);
 		EnLib.ARR_VOICE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VOICE);
 		EnLib.ARR_FORM    = getArray(SYS_PATH+LANGUAGE+"."+EnLib.FORM);
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{			
+			EnLib.ARR_DREL  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.DREL);
+			EnLib.ARR_VTYPE = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VTYPE);
+		}
 	}
 
 	// ---------------------------------- menu*() ----------------------------------
@@ -223,11 +229,6 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		}
 		
 		i_lastRolesetID = max;
-	}
-	
-	private String getLemma()
-	{
-		return CURR_FILE.substring(CURR_FILE.lastIndexOf('/')+1, CURR_FILE.lastIndexOf('.'));
 	}
 	
 	// ---------------------------------- menu*Predicate() ----------------------------------

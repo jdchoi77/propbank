@@ -36,7 +36,7 @@ import org.w3c.dom.*;
  */
 public class EnExampleFrame extends JFrame implements ActionListener
 { 
-	static  final int WIDTH  = 700;
+	static  final int WIDTH  = 770;
 	private final int HEIGHT = 670;
 	
 	private Element              e_frame;

@@ -42,6 +42,7 @@ public class EnRole extends EnElement implements ActionListener
 	private EnRoles              parent;
 	private JComboBox            cb_n;
 	private JComboBox            cb_f;
+	private JComboBox            cb_drel;
 	private JTextField           tf_descr;
 	private ArrayList<EnVnrole>  vt_vnrole;
 	private JButton              bt_removeRole;
@@ -63,7 +64,7 @@ public class EnRole extends EnElement implements ActionListener
 		
 		add(Box.createVerticalStrut(V_GAP));
 		initAttributes();
-		initVnrole();
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))	initVnrole();
 	}
 
 	private void initAttributes()
@@ -80,25 +81,39 @@ public class EnRole extends EnElement implements ActionListener
 		if (!contains(cb_n, n))	cb_n.addItem(n);
 		cb_n.setSelectedItem(n);
 		pn.add(cb_n);
-		pn.add(Box.createHorizontalStrut(H_GAP));
 		
+		pn.add(Box.createHorizontalStrut(H_GAP));
 		pn.add(new JLabel(EnLib.F+": "));
 		cb_f = new JComboBox(EnLib.ARR_F);
 		String f = getAttribute(EnLib.F).toLowerCase();
 		if (!contains(cb_f, f))	cb_f.addItem(f);
 		cb_f.setSelectedItem(f);
 		pn.add(cb_f);
-		pn.add(Box.createHorizontalStrut(H_GAP+15));
 		
+		pn.add(Box.createHorizontalStrut(H_GAP));
 		pn.add(new JLabel(EnLib.DESCR+": "));
 		tf_descr = new JTextField(getAttribute(EnLib.DESCR));
 		pn.add(tf_descr);
-		pn.add(Box.createHorizontalStrut(5));
 		
-		bt_addVnrole = new JButton("Add Vnrole");
-		bt_addVnrole.addActionListener(this);
-		pn.add(bt_addVnrole);
-	
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{
+			pn.add(Box.createHorizontalStrut(H_GAP));
+			pn.add(new JLabel(EnLib.DREL+": "));
+			cb_drel = new JComboBox(EnLib.ARR_DREL);
+			String drel = getAttribute(EnLib.DREL).toLowerCase();
+			if (!contains(cb_drel, drel))	cb_drel.addItem(drel);
+			cb_drel.setSelectedItem(drel);
+			pn.add(cb_drel);
+		}
+		
+		pn.add(Box.createHorizontalStrut(5));
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
+		{
+			bt_addVnrole = new JButton("Add Vnrole");
+			bt_addVnrole.addActionListener(this);
+			pn.add(bt_addVnrole);
+		}
+		
 		bt_removeRole = new JButton("Remove");
 		bt_removeRole.addActionListener(this);
 		pn.add(bt_removeRole);
@@ -146,7 +161,15 @@ public class EnRole extends EnElement implements ActionListener
 		setAttribute(EnLib.F    , (String)cb_f.getSelectedItem());
 		setAttribute(EnLib.DESCR, tf_descr.getText());
 		
-		for (EnVnrole enVnrole : vt_vnrole)		enVnrole.save();
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{
+			setAttribute(EnLib.DREL, (String)cb_drel.getSelectedItem());
+		}
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
+		{
+			for (EnVnrole enVnrole : vt_vnrole)		enVnrole.save();
+		}
 	}
 	
 	/**

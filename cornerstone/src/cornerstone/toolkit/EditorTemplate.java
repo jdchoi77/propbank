@@ -113,6 +113,16 @@ public class EditorTemplate extends JFrame
 		new JOptionPane().showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	protected String getLemma()
+	{
+		String lemma = CURR_FILE.substring(CURR_FILE.lastIndexOf('/')+1, CURR_FILE.lastIndexOf('.'));
+		
+		if (lemma.endsWith("-n") || lemma.endsWith("-v"))
+			return lemma.substring(0, lemma.length()-2);
+		else
+			return lemma;
+	}
+	
 	/**
 	 * Creates an empty element with 'tagName'.
 	 * @param tagName name of the element

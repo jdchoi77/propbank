@@ -24,7 +24,9 @@
 package cornerstone.english;
 
 import java.awt.*;
+
 import javax.swing.*;
+
 import org.w3c.dom.*;
 
 /**
@@ -37,6 +39,7 @@ public class EnRoleset extends EnElement
 	
 	private EnPredicate    parent;
 	private JTextField     tf_name;
+	private JComboBox      cb_vtype;
 	private JTextField     tf_vncls;
 	private JTextField     tf_framnet;
 	private EnNote         en_note;
@@ -74,18 +77,32 @@ public class EnRoleset extends EnElement
 		tf_name = new JTextField(getAttribute(EnLib.NAME));
 		tf_name.setPreferredSize(new Dimension(300, FD_HEIGHT));
 		pnAttr.add(tf_name);
-		pnAttr.add(Box.createHorizontalStrut(H_GAP));	
-		
-		pnAttr.add(new JLabel(EnLib.VNCLS+": "));
-		tf_vncls = new JTextField(getAttribute(EnLib.VNCLS));
-		tf_vncls.setPreferredSize(new Dimension(90, FD_HEIGHT));
-		pnAttr.add(tf_vncls);
 		pnAttr.add(Box.createHorizontalStrut(H_GAP));
 		
-		pnAttr.add(new JLabel(EnLib.FRAMNET+": "));
-		tf_framnet = new JTextField(getAttribute(EnLib.FRAMNET));
-		tf_framnet.setPreferredSize(new Dimension(90, FD_HEIGHT));
-		pnAttr.add(tf_framnet);
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+		{
+			pnAttr.add(new JLabel(EnLib.VTYPE+": "));
+			cb_vtype = new JComboBox(EnLib.ARR_VTYPE);
+			String vtype = getAttribute(EnLib.VTYPE).toLowerCase();
+			if (!contains(cb_vtype, vtype))	cb_vtype.addItem(vtype);
+			cb_vtype.setSelectedItem(vtype);
+			cb_vtype.setPreferredSize(new Dimension(120, FD_HEIGHT));
+			pnAttr.add(cb_vtype);
+		}
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
+		{
+			pnAttr.add(new JLabel(EnLib.VNCLS+": "));
+			tf_vncls = new JTextField(getAttribute(EnLib.VNCLS));
+			tf_vncls.setPreferredSize(new Dimension(90, FD_HEIGHT));
+			pnAttr.add(tf_vncls);
+			pnAttr.add(Box.createHorizontalStrut(H_GAP));
+			
+			pnAttr.add(new JLabel(EnLib.FRAMNET+": "));
+			tf_framnet = new JTextField(getAttribute(EnLib.FRAMNET));
+			tf_framnet.setPreferredSize(new Dimension(90, FD_HEIGHT));
+			pnAttr.add(tf_framnet);
+		}
 		
 		// north pane
 		JPanel pnNorth = new JPanel();
@@ -142,8 +159,15 @@ public class EnRoleset extends EnElement
 	{
 		setAttribute(EnLib.ID     , id);
 		setAttribute(EnLib.NAME   , tf_name.getText());
-		setAttribute(EnLib.VNCLS  , tf_vncls.getText());
-		setAttribute(EnLib.FRAMNET, tf_framnet.getText());
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_HI))
+			setAttribute(EnLib.VTYPE, (String)cb_vtype.getSelectedItem());
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
+		{
+			setAttribute(EnLib.VNCLS  , tf_vncls.getText());
+			setAttribute(EnLib.FRAMNET, tf_framnet.getText());
+		}
 		
 		en_note.save();
 		en_roles.save();

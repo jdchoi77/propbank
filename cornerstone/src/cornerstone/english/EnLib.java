@@ -29,8 +29,13 @@ package cornerstone.english;
  */
 public class EnLib
 {
+	static public String   LANG_EN = "en";	// english
+	static public String   LANG_HI = "hi";	// hindi
+	
 	static public String[] ARR_N;
 	static public String[] ARR_F;
+	static public String[] ARR_DREL;
+	static public String[] ARR_VTYPE;
 	static public String[] ARR_VNTHETA;
 	static public String[] ARR_PERSON;
 	static public String[] ARR_TENSE;
@@ -58,11 +63,13 @@ public class EnLib
 	static public final String NAME    = "name";	// roleset.name, example.name
 	static public final String TYPE    = "type";	// example.type
 	static public final String SRC     = "src";		// example.src
+	static public final String VTYPE   = "vtype";	// roleset.vtype
 	static public final String VNCLS   = "vncls";	// roleset.vncls, vnrole.vncls
 	static public final String VNTHETA = "vntheta";	// vnrole.vntheta
 	static public final String FRAMNET = "framnet";	// roleset.framnet
 	static public final String N       = "n";		// role.n, arg.n
 	static public final String F       = "f";		// role.f, arg.f, rel.f
+	static public final String DREL    = "drel";	// role.drel, arg.drel
 	static public final String DESCR   = "descr";	// role.desrc
 	static public final String PERSON  = "person";	// inflection.person
 	static public final String TENSE   = "tense";	// inflection.tense

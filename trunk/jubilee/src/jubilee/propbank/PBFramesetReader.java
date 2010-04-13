@@ -91,6 +91,15 @@ public class PBFramesetReader
 						roleset.setId(emRoleset.getAttribute("id"));
 						roleset.setName(emRoleset.getAttribute("name"));
 						
+						NodeList ndComment = emRoleset.getElementsByTagName("note");
+						String   comment   = "";
+						for (int k=0; k<ndComment.getLength(); k++)
+						{
+							Element emComment = (Element)ndComment.item(k);
+							comment += emComment.getTextContent().trim()+"\n\n";
+						}
+						roleset.setComment(comment.trim());
+						
 						NodeList ndRole = emRoleset.getElementsByTagName("role");
 						for (int k=0; k<ndRole.getLength(); k++)
 						{
@@ -160,6 +169,15 @@ public class PBFramesetReader
 				PBRoleset roleset = new PBRoleset();
 				roleset.setId(lemma+"."+emRoleset.getAttribute("id"));
 				roleset.setName(emRoleset.getAttribute("edef"));
+				
+				NodeList ndComment = emRoleset.getElementsByTagName("comment");
+				String   comment   = "";
+				for (int j=0; j<ndComment.getLength(); j++)
+				{
+					Element emComment = (Element)ndComment.item(j);
+					comment += emComment.getTextContent().trim()+"\n\n";
+				}
+				roleset.setComment(comment.trim());
 				
 				NodeList ndRole = emRoleset.getElementsByTagName("role");
 				for (int j=0; j<ndRole.getLength(); j++)

@@ -36,6 +36,7 @@ import java.util.*;
 public class PBRoleset
 {
 	private String id, name;
+	private String comment;
 	private Vector<PBRole> roles;
 	private Vector<PBExample> examples;
 	
@@ -52,6 +53,12 @@ public class PBRoleset
 	public String getId()
 	{
 		return id;
+	}
+	
+	/** @return the comment of the roleset. */
+	public String getComment()
+	{
+		return comment;
 	}
 	
 	/**
@@ -84,6 +91,15 @@ public class PBRoleset
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * Sets comment of the roleset.
+	 * @param comment comment of the roleset.
+	 */
+	public void setComment(String comment)
+	{
+		this.comment = comment;
 	}
 	
 	/**

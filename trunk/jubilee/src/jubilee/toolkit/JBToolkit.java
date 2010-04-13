@@ -258,6 +258,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		else if (e.getSource() == mbar.fsNext)			framesetPanel.nextRoleset();
 		else if (e.getSource() == mbar.fsExample)		framesetPanel.showExample();
 		else if (e.getSource() == mbar.fsViewArg)		tv_tree.viewArgument();
+		else if (e.getSource() == mbar.fsViewRolesetComment)	framesetPanel.viewRolesetComment();
 		else if (menuArgumentArg(e))	;
 		else if (menuArgumentFunc(e))	;
 		else if (e.getSource() == mbar.argNoArg)		argPanel.updateArg(e.getActionCommand());

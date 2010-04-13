@@ -1,4 +1,4 @@
-#summary Cornerstone: release notes (~ v1.32)
+#summary Cornerstone: release notes (~ v1.3x)
 
 === Cornerstone 1.33 (4/12/2010) ===
   * I added the 'vtype' field under Roleset.  The field gives an option of choosing either 'unaccusative' or 'unergative', but the values can be updated.  Furthermore, I made 'vncls' and framnet' fields invisible for Hindi (they are currently not used).  When you decide to add VerbNet or FrameNet info, it is very easy to make them visible again.

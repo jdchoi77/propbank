@@ -41,6 +41,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 	PBFramesetReader fr_reader;
 	PBReader pb_reader = null;
 	JDCTextAreaFrame fr_example = null;
+	JDCTextAreaFrame fr_rolesetComment = null;
 	
 	private Vector<Integer> vec_pNum, vec_cNum;
 	
@@ -187,6 +188,14 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 		if (fr_example != null)
 			fr_example.dispose();
 		fr_example = new JDCTextAreaFrame("Examples for "+roleset.getId(), roleset.getExamples());
+	}
+	
+	public void viewRolesetComment()
+	{
+		PBPredicate predicate = frameset.getPredicate(getPredicateNum());
+		PBRoleset roleset = predicate.getRoleset(getRolesetNum());
+		
+		fr_rolesetComment = new JDCTextAreaFrame("Comments for "+roleset.getId(), roleset.getComment());
 	}
 
 	public void updateFrameset(String lemma)

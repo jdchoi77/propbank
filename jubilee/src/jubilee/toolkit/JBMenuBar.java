@@ -33,7 +33,7 @@ public class JBMenuBar extends JMenuBar
 	JBToolkit pbtk;
 	JMenuItem fileOpen, fileSave, fileSaveAs, fileQuit;
 	JMenuItem tbPrev, tbNext, tbJump, tbView;
-	JMenuItem fsPrev, fsNext, fsExample, fsViewArg;
+	JMenuItem fsPrev, fsNext, fsExample, fsViewArg, fsViewRolesetComment;
 	JMenuItem[] argArg, argFunc;
 	JMenuItem argNoArg;
 	JMenuItem helpAbout;
@@ -133,10 +133,13 @@ public class JBMenuBar extends JMenuBar
 		fsNext = getJMenuItem("Next Roleset", KeyEvent.VK_N, KeyEvent.VK_CLOSE_BRACKET, 0);
 		mFrameset.add(fsNext);
 		
-		fsExample = getJMenuItem("Example", KeyEvent.VK_E, KeyEvent.VK_E, KeyEvent.CTRL_MASK);
+		fsExample = getJMenuItem("View Example", KeyEvent.VK_E, KeyEvent.VK_E, KeyEvent.CTRL_MASK);
 		mFrameset.add(fsExample);
 		fsViewArg = getJMenuItem("View Arguments", KeyEvent.VK_W, KeyEvent.VK_W, KeyEvent.CTRL_MASK);
 		mFrameset.add(fsViewArg);
+		
+		fsViewRolesetComment = getJMenuItem("View Roleset Comments", KeyEvent.VK_C, KeyEvent.VK_C, KeyEvent.CTRL_MASK);
+		mFrameset.add(fsViewRolesetComment);
 		
 		add(mFrameset);
 	}

@@ -1,14 +1,19 @@
+# -*- coding: UTF-8 -*- 
+# filename   : ssf_api.py
 # author     : Jinho D. Choi
-# last update: 3/4/2010
+# last update: 4/19/2010
 import re
 
 DELIM_NODE      = '\t'
 DELIM_FS        = ' '
 DELIM_KEY       = '='
 DELIM_DREL      = ':'
-REG_FS          = re.compile('([<>\s])')
+DELIM_AF        = ','
+
 KEY_DREL        = 'drel'
 KEY_AF          = 'af'
+
+REG_FS          = re.compile('([<>\s])')
 
 POS_VERB        = 'VG'
 POS_CONJUNCT    = 'CCP'
@@ -162,6 +167,9 @@ class Tree(list):
 			self.append(chunk)
 			chunk = self._getChunk(lsTree)
 	
+	# Returns the first chunk in 'lsTree' and removes the part from 'lsTree'. 
+	# This method is called from __init__(lsTree).
+	# lsTree: list of tree lines from SSF: list
 	def _getChunk(self, lsTree):
 		ls = list()
 		
@@ -195,6 +203,17 @@ class Tree(list):
 			if chunk.isChild(drel, headId): return True
 		
 		return False
+
+	# Returns the list of children of 'headId'.
+	# headId: ID of the head chunk (e.g., VGF) : string
+	def getChildren(self, headId):
+		ls = list()
+		
+		for chunk in self:
+			if chunk.isChild(None, headId):
+				ls.append(chunk)
+		
+		return ls
 	
 	# Returns the list of children of 'headId' that are verbs.
 	# headId: ID of the head chunk (e.g., VGF) : string
@@ -311,8 +330,9 @@ class Node:
 			val = kv[1]
 			if val[0] == '\'' and val[-1] == '\'': val = val[1:-1]	# strip single quotes
 
-			if key == KEY_DREL: dic[key] = val.split(DELIM_DREL)
-			else              : dic[key] = val
+			if   key == KEY_DREL: dic[key] = val.split(DELIM_DREL)
+			elif key == KEY_AF  : dic[key] = val.split(DELIM_AF)
+			else                : dic[key] = val
 		
 		return dic
 
@@ -337,7 +357,8 @@ class Node:
 		for key in self.dic_fs:
 			if key == KEY_AF: continue
 			val = self.dic_fs[key]
-			if key == KEY_DREL: val = DELIM_DREL.join(val)
+			if   key == KEY_DREL: val = DELIM_DREL.join(val)
+			elif key == KEY_AF  : val = DELIM_AF  .join(val)
 			ls.append(key + DELIM_KEY + '\'' + val + '\'')
 			
 		return DELIM_FS.join(ls) + END_FS
@@ -353,12 +374,12 @@ class Node:
 		return self.str_word == word
 	
 	# Returns true if the pos-tag starts with 'pos'.
-	# pos : string
+	# pos: string
 	def posStarts(self, pos):
 		return self.str_pos.startswith(pos)
 
 	# Returns true if the pos-tag is equal to 'pos'.
-	# pos : string
+	# pos: string
 	def posEquals(self, pos):
 		return self.str_pos == pos
 
@@ -370,5 +391,20 @@ class Node:
 			return self.dic_fs[ATTR_NAME]
 		
 		return None
+	
+	# Returns the feature-value of 'key'.
+	# key: feature-key (e.g., 'drel') : string 
+	def getFeatureValue(self, key):
+		return self.dic_fs[key]
+	
+	# Adds (key, value) to the feature-set.
+	# key  : feature-key (e.g., 'drel') : string
+	# value: feature-value (e.g., 'k1') : string
+	def addFs(self, key, value):
+		self.dic_fs[key] = value
+	
+	def getAF(self):
+		return self.dic_fs[KEY_AF]
+	
 
 ############################## End  : class Node ##############################

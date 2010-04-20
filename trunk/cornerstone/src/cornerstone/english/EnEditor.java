@@ -121,7 +121,7 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		
 		if (filename != null)
 		{
-			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			String dir = filename.substring(0, filename.lastIndexOf(File.separator)+1);
 			open(SYS_PATH+LANGUAGE+".xml", dir);
 			updateTitle(filename);
 			
@@ -139,7 +139,7 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		
 		if (filename != null)
 		{
-			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			String dir = filename.substring(0, filename.lastIndexOf(File.separator)+1);
 			open(filename, dir);
 			updateTitle(filename);
 		}
@@ -272,7 +272,7 @@ public class EnEditor extends EditorTemplate implements ActionListener
 				if (en_frameset.getCurrPredicateIndex() == 0)
 				{
 					en_frameset.editRolesetIds(lemma);
-					updateTitle(CURR_FILE.substring(0, CURR_FILE.lastIndexOf('/')+1) + lemma + ".xml");
+					updateTitle(CURR_FILE.substring(0, CURR_FILE.lastIndexOf(File.separator)+1) + lemma + ".xml");
 				}
 			}
 		}

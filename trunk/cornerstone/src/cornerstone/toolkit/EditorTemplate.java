@@ -14,8 +14,8 @@ import org.w3c.dom.*;
  */
 public class EditorTemplate extends JFrame
 {
-	protected String SYS_PATH    = "sys/";
-	protected String CONFIG_PATH = "config/";
+	protected String SYS_PATH    = "sys"+File.separator;
+	protected String CONFIG_PATH = "config"+File.separator;
 	
 	public static    int WIDTH;
 	protected        int HEIGHT;
@@ -85,7 +85,7 @@ public class EditorTemplate extends JFrame
 		if (extIndex < 0 || !CURR_FILE.substring(extIndex).equalsIgnoreCase(".xml"))
 			CURR_FILE += ".xml";
 		
-		setTitle(TITLE+" - "+CURR_FILE.substring(CURR_FILE.lastIndexOf('/')+1));	
+		setTitle(TITLE+" - "+CURR_FILE.substring(CURR_FILE.lastIndexOf(File.separator)+1));	
 	}
 	
 	protected void saveDir()
@@ -115,7 +115,7 @@ public class EditorTemplate extends JFrame
 	
 	protected String getLemma()
 	{
-		String lemma = CURR_FILE.substring(CURR_FILE.lastIndexOf('/')+1, CURR_FILE.lastIndexOf('.'));
+		String lemma = CURR_FILE.substring(CURR_FILE.lastIndexOf(File.separator)+1, CURR_FILE.lastIndexOf('.'));
 		
 		if (lemma.endsWith("-n") || lemma.endsWith("-v"))
 			return lemma.substring(0, lemma.length()-2);

@@ -109,7 +109,7 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		
 		if (filename != null)
 		{
-			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			String dir = filename.substring(0, filename.lastIndexOf(File.separator)+1);
 			updateTitle(filename);
 			open(SYS_PATH+LANGUAGE+".xml", dir);
 			addFrameset();
@@ -124,7 +124,7 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		
 		if (filename != null)
 		{
-			String dir = filename.substring(0, filename.lastIndexOf('/')+1);
+			String dir = filename.substring(0, filename.lastIndexOf(File.separator)+1);
 			updateTitle(filename);
 			open(filename, dir);
 		}

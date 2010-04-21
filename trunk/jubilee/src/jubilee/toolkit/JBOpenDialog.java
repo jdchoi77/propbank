@@ -69,7 +69,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	{
 		// combobox: dataset
 		cb_setting = new JComboBox(DataManager.getSettings());
-		cb_setting.setBorder(new TitledBorder("Choose a setting"));
+		cb_setting.setBorder(new TitledBorder("Choose a project"));
 		cb_setting.addItemListener(this);
 		str_dataset = DataManager.getContents((String)cb_setting.getItemAt(jbtk.i_currSetting), DataManager.PATH);
 		

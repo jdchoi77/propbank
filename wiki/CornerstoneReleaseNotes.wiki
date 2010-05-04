@@ -1,6 +1,6 @@
 #summary Cornerstone: release notes (~ v1.3x)
 
-=== Cornerstone 1.33 (5/4/2010) ===
+=== Cornerstone 1.34 (5/4/2010) ===
   * Bugfixes when reading files stored in Microsoft Windows platform.  
 
 === Cornerstone 1.33 (4/12/2010) ===

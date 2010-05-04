@@ -1,5 +1,8 @@
 #summary Cornerstone: release notes (~ v1.3x)
 
+=== Cornerstone 1.33 (5/4/2010) ===
+  * Bugfixes when reading files stored in Microsoft Windows platform.  
+
 === Cornerstone 1.33 (4/12/2010) ===
   * I added the 'vtype' field under Roleset.  The field gives an option of choosing either 'unaccusative' or 'unergative', but the values can be updated.  Furthermore, I made 'vncls' and framnet' fields invisible for Hindi (they are currently not used).  When you decide to add VerbNet or FrameNet info, it is very easy to make them visible again.
   * I added the 'drel' field for each role.  The field contains dependency relations that Archna sent out earlier.  Again, I made 'Add Vnrole' button invisible for now but we can always get that back.

@@ -45,6 +45,8 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 	
 	private Vector<Integer> vec_pNum, vec_cNum;
 	
+	private String[] S_TAGS = {"ER", "LV", "NN", "IE"};
+	
 	/**
 	 * @param framesetPath the directiory path of frameset-files
 	 */
@@ -156,7 +158,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 	public void itemStateChanged(ItemEvent e)
 	{
 		if (cb_roleset.getSelectedIndex() < 0)	return;
-		if (cb_roleset.getSelectedIndex() != 0 && cb_roleset.getSelectedIndex() < cb_roleset.getItemCount()-2)
+		if (cb_roleset.getSelectedIndex() != 0 && cb_roleset.getSelectedIndex() < cb_roleset.getItemCount()-S_TAGS.length)
 		{
 			PBPredicate predicate = frameset.getPredicate(getPredicateNum());
 			PBRoleset roleset = predicate.getRoleset(getRolesetNum());
@@ -222,8 +224,9 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 					vec_pNum.add(i);	vec_cNum.add(j);
 				}
 			}
-			cb_roleset.insertItemAt(lemmaTok+".ER", k);
-			cb_roleset.insertItemAt(lemmaTok+".LV", k+1);
+			
+			for (int i=0; i<S_TAGS.length; i++)
+				cb_roleset.insertItemAt(lemmaTok+"."+S_TAGS[i], k+i);
 			
 			int index = getItemIndex(lemma);
 			if (index != -1)	cb_roleset.setSelectedIndex(index);
@@ -231,8 +234,9 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 		}
 		else
 		{
-			cb_roleset.insertItemAt(lemmaTok+".ER", k);
-			cb_roleset.insertItemAt(lemmaTok+".LV", k+1);
+			for (int i=0; i<S_TAGS.length; i++)
+				cb_roleset.insertItemAt(lemmaTok+"."+S_TAGS[i], k+i);
+			
 			cb_roleset.setSelectedIndex(0);
 			tf_predicate.setText("No frameset-file");
 		}

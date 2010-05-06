@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -23,7 +23,9 @@
 */
 package jubilee.toolkit;
 
-import javax.swing.*;
+import java.io.File;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Jubilee
 {
@@ -39,12 +41,12 @@ public class Jubilee
 		catch (InstantiationException e) {System.err.println(e);}
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
-		String usage  = "Usage: java -jar jubilee.jar -u <userId> [-m max-annotations=2 -p skip=0 -s system-folder=system/]";
-		String title  = "Jubilee 2.12";
+		String usage  = "Usage: java -jar jubilee.jar -u <userId> [-m <max-annotations=2> -p <skip=0> -s <system-folder=system>]";
+		String title  = "Jubilee 2.13";
 		String userId = null;
 		int    maxAnn = 2;
 		byte   skip   = 0;
-		String sysDir = "system/";
+		String sysDir = "system" + File.separator;
 		
 		if (args.length == 0 || args.length % 2 != 0)	{System.err.println(usage);	return;}
 		
@@ -56,7 +58,7 @@ public class Jubilee
 			if      (option.equals("-u"))	userId = value;
 			else if (option.equals("-m"))	maxAnn = Integer.parseInt(value);
 			else if (option.equals("-p"))	skip   = Byte.parseByte(value);
-			else if (option.equals("-s"))	sysDir = value+"/";
+			else if (option.equals("-s"))	sysDir = value + File.separator;
 			else							{System.err.println(usage);	return;}
 		}
 		

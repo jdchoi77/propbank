@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -23,187 +23,75 @@
 */
 package jubilee.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+import java.util.Vector;
 
 import jubilee.toolkit.JBToolkit;
 
 /**
- * @author jdchoi
- * @since 09/13/07
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
  */
 public class DataManager
 {
-	static final public String PATH = ".path";
-	static final public String ARGS = ".args";
-	static final public String FUNC = "function";	// for propbank functions (trace, etc.)
-//	static final public String SYS_DIR = "system/";
+	static final public String PATH_FILE_EXT = ".path";
+	static final public String ARGS_FILE_EXT = ".args";
+	static final public String OPERATOR_FILE = "function.args";	// operators (*, &, etc.)
 	
-	static final private String ARGS_TAG = "args.tag";
-	static final private String ARGS_FUNCTION = "args.func";
+	static final public String FRAMESET   = "Frameset";
+	static final public String TREEBANK   = "Treebank";
+	static final public String SOURCE     = "Source";
+	static final public String TASK       = "Task";
+	static final public String ANNOTATION = "Annotation";
+	static final public String GOLD_ID    = "gold";
 	
-	/**
-	 * Gets the list of *.path files.
-	 * @return the list of *.path files.
-	 */
-	static public String[] getSettings()
+	/** @return the list of project filenames. */
+	static public Vector<String> getProjects()
 	{
-		ArrayList<String> arr = new ArrayList<String>();
-		String[] list = new File(JBToolkit.s_sysDir).list();
+		Vector<String> arr  = new Vector<String>();
+		String[]          list = new File(JBToolkit.s_sysDir).list();
 		
-		for (int i=0; i<list.length; i++)
+		for (String filename : list)
 		{
-			int dotIndex = list[i].lastIndexOf(".");
-			if (dotIndex != -1 && list[i].substring(dotIndex).equals(PATH))
-				arr.add(list[i].substring(0, dotIndex));
+			if (filename.endsWith(PATH_FILE_EXT))
+			{
+				int dotIndex = filename.lastIndexOf(".");
+				arr.add(filename.substring(0, dotIndex));
+			}
 		}
 				
 		Collections.sort(arr);
-		return StringManager.valueOf(arr);
+		return arr;
 	}
 	
 	/**
-	 * Reads 'system/language.ext' and returns contents of the file.
-	 * @param language the language for the contents.
-	 * @param ext the extension of the file (DataManager.PATH | ARGS).
-	 * @return the contents.
+	 * Returns contents of <code>filename</code>.
+	 * @param filename name of the file containing the contents
 	 */
-	// used
-	static public String[][] getContents(String language, String ext)
+	static public ArrayList<String[]> getContents(String filename)
 	{
-		Vector<String> vec = new Vector<String>();
+		ArrayList<String[]> list = new ArrayList<String[]>();
 
 		try
 		{
-			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir + language + ext));
+			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir + filename));
 
 			while (scan.hasNextLine())
 			{
 				String line = scan.nextLine().trim();
 				// skip comments and blank-lines
 				if (line.length() > 0 && line.charAt(0) != '#')
-					vec.add(line);
+					list.add(line.split(" "));
 			}
 			
 			scan.close();
 		}
-		catch (IOException e){System.err.println(e);}
+		catch (IOException e){e.printStackTrace();}
 		
-		StringTokenizer tok = new StringTokenizer(vec.get(0));
-		String[][] str = new String[vec.size()][tok.countTokens()];
-		for (int i=0; i<vec.size(); i++)
-		{
-			tok = new StringTokenizer(vec.get(i));
-			for (int j=0; tok.hasMoreTokens(); j++)
-				str[i][j] = tok.nextToken();
-		}
-
-		return str;
-	}
-	
-	/**
-	 * Gets 'dataset' and return the directory-path of 'resource'. 
-	 * @param dataset 1st row = resource, 2nd row = directory-path.
-	 * @param resource resource of the directory-path. ex) Treebank, Frameset, etc.
-	 * @return (resource exists) ? the directory-path : ".".
-	 */
-	// used
-	static public String getPath(String[][] dataset, String resource)
-	{
-		for (int i=0; i<dataset.length; i++)
-			if (dataset[i][0].equalsIgnoreCase(resource))
-				return dataset[i][1];
-		
-		return ".";
-	}
-	
-	
-	
-	
-	
-	
-	
-
-	
-	// used
-	static public Vector<String> getArgTags()
-	{
-		return getArg(ARGS_TAG);
-	}
-	
-	static public Vector<String> getArgFunctions()
-	{
-		return getArg(ARGS_FUNCTION);
-	}
-	
-	// used
-	static private Vector<String> getArg(String filename)
-	{
-		Vector<String> vec_arg = new Vector<String>();
-		
-		try
-		{
-			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+filename));
-			String str;
-			
-			while (scan.hasNextLine())
-			{
-				str = scan.nextLine().trim();
-				
-				if (str.charAt(0) != '!')	// skip comments
-					vec_arg.add(str);
-			}
-		}
-		catch (IOException e){System.err.println(e);}
-		
-		return vec_arg;
-	}
-	
-	
-	
-	static public Vector<String> getPBArg()
-	{
-		Vector<String> vec_arg = new Vector<String>();
-		
-		try
-		{
-			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+"args.tag"));
-			scan.nextLine();	scan.nextLine();	// skip comments
-			
-			// initialize Arg#
-			int n = Integer.parseInt(scan.nextLine());	// last # of arguments
-			for (int i=0; i<=n; i++)	vec_arg.add("ARG"+i);
-			
-			scan.nextLine();	// skip a comment
-			
-			// initialize ArgM
-			while (scan.hasNextLine())	vec_arg.add("ARGM-"+scan.nextLine().trim());
-		}
-		catch (IOException e){System.err.println(e);}
-		
-		return vec_arg;
-	}
-	
-	static public Vector<String> getPBArg(String prefix)
-	{
-		Vector<String> vec_arg = new Vector<String>();
-		
-		try
-		{
-			Scanner scan = new Scanner(new File(JBToolkit.s_sysDir+"args.tag"));
-			scan.nextLine();	scan.nextLine();	// skip comments
-			
-			// initialize Arg#
-			int n = Integer.parseInt(scan.nextLine());	// last # of arguments
-			for (int i=0; i<=n; i++)	vec_arg.add(prefix+"ARG"+i);
-			
-			scan.nextLine();	// skip a comment
-			
-			// initialize ArgM
-			while (scan.hasNextLine())	vec_arg.add(prefix+"ARGM-"+scan.nextLine().trim());
-		}
-		catch (IOException e){System.err.println(e);}
-		
-		return vec_arg;
+		return list;
 	}
 }

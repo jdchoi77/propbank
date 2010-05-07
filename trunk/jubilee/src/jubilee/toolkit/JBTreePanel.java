@@ -35,6 +35,7 @@ import jubilee.treebank.*;
  * 'TBTreePanel' takes 'TBTree' and shows the tree in 'JTree' format.
  * Last update: 09/22/07
  */
+@SuppressWarnings("serial")
 public class JBTreePanel extends JPanel
 {
 	private TBTree tb_tree;
@@ -42,9 +43,7 @@ public class JBTreePanel extends JPanel
 	private String prevLoc, prevArg;
 	JDCTextAreaFrame fr_argView = null;
 	
-	/**
-	 * Puts a JTree in a container.  TBTree has not be initialized yet.
-	 */
+	/** Puts a JTree in a container.  TBTree has not be initialized yet. */
 	public JBTreePanel()
 	{
 		TreeCellRenderer renderer = new TBTreeRenderer();
@@ -126,7 +125,6 @@ public class JBTreePanel extends JPanel
 			if (!relLoc.equals(""))	tb_tree.setArg(relLoc+","+currLoc, PBReader.REL);
 			else					tb_tree.setArg(currLoc, PBReader.REL);
 		}
-			
 		else if (prevArg != null)
 			tb_tree.setArg(prevLoc+func+currLoc, prevArg);
 		

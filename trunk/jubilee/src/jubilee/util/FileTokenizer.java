@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -22,49 +22,30 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 package jubilee.util;
-import java.util.*;
-import java.io.*;
-
-import jubilee.toolkit.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  * FileTokenizer applies jdk standard string-tokenizer to the entire string within a file.
  * To create a file-tokenizer, you need to pass the name of a file you want to tokenize.
  * For example, if 'test.txt' file contains the text below,
- * <pre>
- * Hi I'm Jinho!
- * File-tokenizer works great!
  * 
- * here is how the file-tokenizer works.
- * 
- * Code:
- * FileTokenizer tok = new FileTokenizer("test.txt");
- * while (tok.hasMoreTokens())
- *     System.out.println(tok.nextToken());
- * 
- * Output:
- * Hi
- * I'm
- * Jinho!
- * File-tokenizer
- * works
- * great!
- * </pre>
- * @since 08/0707
  * @see StringTokenizer
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
  */
 public class FileTokenizer
 {
-	/**
-	 * White spaces such as " \t\n\r\f".
-	 */
+	/** White spaces such as " \t\n\r\f". */
 	final static public String WHITE = " \t\n\r\f";
 	
-	private Scanner mb_scan;
+	private Scanner         mb_scan;
 	private StringTokenizer mb_tok;
-	private String mb_delim;
-	private boolean mb_returnDelims;
-	private int mb_numLines;
+	private String          mb_delim;
+	private boolean         mb_returnDelims;
+	private int             mb_numLines;
 	
 	/**
 	 * Constructs a file-tokenizer for a file 'filename'.

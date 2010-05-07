@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -26,42 +26,28 @@ package jubilee.util;
 import java.io.*;
 import java.util.*;
 
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
 public class StringManager
 {
 	static public String addIndent(String str, int length)
 	{
-		String tmp = str;
+		StringBuilder build = new StringBuilder();
+
+		build.append(str);
+		for (int i=str.length(); i<length; i++)	build.append(" ");
 		
-		for (int i=str.length(); i<length; i++)
-			tmp += " ";
-		
-		return tmp;
+		return build.toString();
 	}
 	
-	static public String[] valueOf(Vector<String> vec)
-	{
-		String str[] = new String[vec.size()];
-		vec.toArray(str);
-		
-		return str;
-	}
-	
-	static public String[] valueOf(ArrayList<String> arr)
+	static public String[] toArray(ArrayList<String> arr)
 	{
 		String str[] = new String[arr.size()];
 		arr.toArray(str);
 		
 		return str;
-	}
-	
-	static public Vector<String> toVector(String[] str)
-	{
-		Vector<String> vec = new Vector<String>();
-		
-		for (int i=0; i<str.length; i++)
-			vec.add(str[i]);
-		
-		return vec;
 	}
 	
 	static public boolean isInteger(String str)

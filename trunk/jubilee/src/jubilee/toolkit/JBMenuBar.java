@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -23,65 +23,78 @@
 */
 package jubilee.toolkit;
 
-import java.awt.event.*;
-import javax.swing.*;
-import jubilee.propbank.*;
-import jubilee.util.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import jubilee.propbank.PBReader;
+import jubilee.util.DataManager;
+
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
+@SuppressWarnings("serial")
 public class JBMenuBar extends JMenuBar
 {
-	JBToolkit pbtk;
-	JMenuItem fileOpen, fileSave, fileSaveAs, fileQuit;
-	JMenuItem tbPrev, tbNext, tbJump, tbView;
-	JMenuItem fsPrev, fsNext, fsExample, fsViewArg, fsViewRolesetComment;
-	JMenuItem[] argArg, argFunc;
-	JMenuItem argNoArg;
-	JMenuItem helpAbout;
-	JMenu mArgTag;
+	private JBToolkit jbtk;
+	private JMenu     mn_args;
+	
+	JMenuItem   fileOpen, fileSave, fileSaveAs, fileQuit;
+	JMenuItem   tbPrev, tbNext, tbJump, tbView;
+	JMenuItem   fsPrev, fsNext, fsViewExample, fsViewArgument, fsViewRolesetComment;
+	JMenuItem[] argArgs, argFunc;
+	JMenuItem   argErase;
+	JMenuItem   helpAbout;
 	
 	/**
 	 * Creates a menubar.
-	 * @param pbtk parent class.
+	 * @param jbtk parent class.
 	 */
-	public JBMenuBar(JBToolkit pbtk)
+	public JBMenuBar(JBToolkit jbtk)
 	{
-		this.pbtk = pbtk;
+		this.jbtk = jbtk;
 		
 		initMenuFile();
 		initMenuTreebank();
 		initMenuFrameset();
-		initMenuArg();
+		initMenuArgument();
 		initMenuHelp();
 	}
 	
-	// called from JBToolkit.initProperties()
-	void setMenuArgTag(String[][] arg)
+	/** Called from {@link JBToolkit#initProperties(String, java.util.HashMap)} */
+	void setMenuArgTag(ArrayList<String[]> args)
 	{
-		mArgTag.removeAll();
-		argArg = new JMenuItem[JBArgPanel.NUM_ARG+arg.length-1];
-		PBReader.REL = arg[0][0];
+		mn_args.removeAll();
+		argArgs = new JMenuItem[JBArgPanel.NUM_ARG+args.size()-1];
+		PBReader.REL = args.get(0)[0];
 
 		// number argument-tags
 		int k = 0;
 		for (int i=0; i<JBArgPanel.NUM_ARG; i++)
 		{
-			argArg[k] = getJMenuItem(String.valueOf(i), 48+i, 48+i, 0);
-			mArgTag.add(argArg[k++]);
+			argArgs[k] = getJMenuItem(String.valueOf(i), 48+i, 48+i, 0);
+			mn_args.add(argArgs[k++]);
 		}
-		mArgTag.addSeparator();
+		mn_args.addSeparator();
 
 		// add ArgM tags
-		for (int i=1; i<arg.length; i++)
+		for (int i=1; i<args.size(); i++)
 		{
-			argArg[k] = getJMenuItem(arg[i][0], 0, arg[i][1].charAt(0), 0);
-			mArgTag.add(argArg[k++]);
+			String[] arg = args.get(i);
+			argArgs[k] = getJMenuItem(arg[0], 0, arg[1].charAt(0), 0);
+			mn_args.add(argArgs[k++]);
 		}
-		mArgTag.addSeparator();
+		mn_args.addSeparator();
 		
 		// no arguement-tag
-		argNoArg = getJMenuItem(JBArgPanel.ERASE, 0, KeyEvent.VK_MINUS, 0);
-		mArgTag.add(argNoArg);
-		mArgTag.revalidate();
+		argErase = getJMenuItem(JBArgPanel.ERASE, 0, KeyEvent.VK_MINUS, 0);
+		mn_args.add(argErase);
+		mn_args.revalidate();
 	}
 	
 	private void initMenuFile()
@@ -133,10 +146,10 @@ public class JBMenuBar extends JMenuBar
 		fsNext = getJMenuItem("Next Roleset", KeyEvent.VK_N, KeyEvent.VK_CLOSE_BRACKET, 0);
 		mFrameset.add(fsNext);
 		
-		fsExample = getJMenuItem("View Example", KeyEvent.VK_E, KeyEvent.VK_E, KeyEvent.CTRL_MASK);
-		mFrameset.add(fsExample);
-		fsViewArg = getJMenuItem("View Arguments", KeyEvent.VK_W, KeyEvent.VK_W, KeyEvent.CTRL_MASK);
-		mFrameset.add(fsViewArg);
+		fsViewExample = getJMenuItem("View Example", KeyEvent.VK_E, KeyEvent.VK_E, KeyEvent.CTRL_MASK);
+		mFrameset.add(fsViewExample);
+		fsViewArgument = getJMenuItem("View Arguments", KeyEvent.VK_W, KeyEvent.VK_W, KeyEvent.CTRL_MASK);
+		mFrameset.add(fsViewArgument);
 		
 		fsViewRolesetComment = getJMenuItem("View Roleset Comments", KeyEvent.VK_C, KeyEvent.VK_C, KeyEvent.CTRL_MASK);
 		mFrameset.add(fsViewRolesetComment);
@@ -144,29 +157,29 @@ public class JBMenuBar extends JMenuBar
 		add(mFrameset);
 	}
 	
-	private void initMenuArg()
+	private void initMenuArgument()
 	{
 		JMenu mArg = new JMenu("Argument");
 		mArg.setMnemonic(KeyEvent.VK_A);
 		
 		// --------------- argument-tags ---------------
-		mArgTag = new JMenu("Arguments");
-		mArg.add(mArgTag);
+		mn_args = new JMenu("Arguments");
+		mArg.add(mn_args);
 		
 		// --------------- function-tags ---------------
 		JMenu mArgFunc = new JMenu("Functions");
 		
-		String[][] func = DataManager.getContents(DataManager.FUNC, DataManager.ARGS);
-		argFunc = new JMenuItem[func.length];
+		ArrayList<String[]> operators = DataManager.getContents(DataManager.OPERATOR_FILE);
+		argFunc = new JMenuItem[operators.size()];
 		
-		for (int i=0; i<func.length; i++)
+		for (int i=0; i<operators.size(); i++)
 		{
-			argFunc[i] = getJMenuItem(func[i][0], 0, func[i][1].charAt(0), KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);
+			String[] operator = operators.get(i);
+			argFunc[i] = getJMenuItem(operator[0], 0, operator[1].charAt(0), KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);
 			mArgFunc.add(argFunc[i]);
 		}
 		
 		mArg.add(mArgFunc);		
-		
 		add(mArg);
 	}
 	
@@ -185,7 +198,7 @@ public class JBMenuBar extends JMenuBar
 	private JMenuItem getJMenuItem(String text, int mnemonic)
 	{
 		JMenuItem mi = new JMenuItem(text, mnemonic);		
-		mi.addActionListener(pbtk);
+		mi.addActionListener(jbtk);
 		
 		return mi;
     }
@@ -196,7 +209,7 @@ public class JBMenuBar extends JMenuBar
 		JMenuItem mi = new JMenuItem(text, mnemonic);
 		
 		mi.setAccelerator(KeyStroke.getKeyStroke(keyCode, modifiers));
-		mi.addActionListener(pbtk);
+		mi.addActionListener(jbtk);
 		
 		return mi;
     }

@@ -23,22 +23,31 @@
 */
 package jubilee.toolkit;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+@SuppressWarnings("serial")
 public class JBArgPanel extends JPanel implements ActionListener
 {
-	final private Font BT_FONT = new Font("Arial", Font.PLAIN, 12);
-	static public final int NUM_ARG = 6;
-	static public final String ERASE = "ERASE";
-	static String ARG_PREFIX = "ARG";
+	static public final int    NUM_ARG = 6;
+	static public final String ERASE   = "ERASE";
+	
+	private final String ARG_PREFIX = "ARG";
+	private final Font   BT_FONT    = new Font("Arial", Font.PLAIN, 12);
+	
 	private JBTreePanel tree;
-	private JButton bt_noArg = null;
-	private JButton[] bt_arg;
-	private JPanel pn_button;
-	private JBToolkit pbtk;
+	private JButton     bt_erase = null;
+	private JButton[]   bt_arg;
+	private JPanel      pn_button;
+	private JBToolkit   pbtk;
 
 	/**
 	 * Creates the argument panel.
@@ -62,23 +71,26 @@ public class JBArgPanel extends JPanel implements ActionListener
 		return pn_button;
 	}
 	
-	public void updateArgButtons(String[][] tag)
+	public void updateArgButtons(ArrayList<String[]> args)
 	{
-		if (bt_noArg != null)
+		if (bt_erase != null)
 		{
 			for (int i=0; i<bt_arg.length; i++)	pn_button.remove(bt_arg[i]);
-			pn_button.remove(bt_noArg);
+			pn_button.remove(bt_erase);
 		}
 		
-		bt_arg = new JButton[NUM_ARG+tag.length-1];
+		bt_arg = new JButton[NUM_ARG+args.size()-1];
 		int k = 0;
 		for (int i=0; i<NUM_ARG; i++)
 			bt_arg[k++] = getJButton(String.valueOf(i));
 		
-		for (int i=1; i<tag.length; i++)
-			bt_arg[k++] = getJButton(tag[i][0] + " (" + tag[i][1] + ")");
+		for (int i=1; i<args.size(); i++)
+		{
+			String[] arg = args.get(i);
+			bt_arg[k++] = getJButton(arg[0] + " (" + arg[1] + ")");
+		}
 
-		bt_noArg = getJButton(ERASE+" (-)");
+		bt_erase = getJButton(ERASE+" (-)");
 		pn_button.revalidate();
 	}
 	

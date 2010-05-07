@@ -27,6 +27,10 @@ import java.io.File;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
 public class Jubilee
 {
 	static public void main(String[] args)

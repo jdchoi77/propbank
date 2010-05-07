@@ -23,11 +23,20 @@
 */
 package jubilee.treebank;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 
-import jubilee.propbank.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import jubilee.propbank.PBReader;
+
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
+@SuppressWarnings("serial")
 public class TBNodePanel extends JPanel
 {
 	private final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
@@ -58,7 +67,7 @@ public class TBNodePanel extends JPanel
 		if (node.getArg() != null)	lb_arg.setText(node.getLoc() + PBReader.ARG_JOINER + node.getArg());
 		else						lb_arg.setText("");
 		
-		lb_tag.setForeground(Color.gray);
+		lb_tag .setForeground(Color.gray);
 		lb_word.setForeground(Color.black);
 		if (lb_arg.getText().contains(PBReader.REL))	lb_arg.setForeground(Color.red);
 		else											lb_arg.setForeground(Color.blue);

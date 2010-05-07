@@ -31,6 +31,7 @@ import javax.swing.border.*;
 import jubilee.awt.JDCTextAreaFrame;
 import jubilee.propbank.*;
 
+@SuppressWarnings("serial")
 public class JBFramesetPanel extends JPanel implements ActionListener, ItemListener
 {
 	PBFrameset frameset;

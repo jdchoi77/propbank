@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -23,17 +23,21 @@
 */
 package jubilee.treebank;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.tree.*;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeCellRenderer;
 
 import jubilee.toolkit.JBToolkit;
 
 /**
- * 'TBTreeRnderer' provides 'TreeCellRenderer' for 'TBTreePanel'.
- * Last update: 09/22/07
- * @see TBTreePanel, TreeCellRenderer
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
  */
+@SuppressWarnings("serial")
 public class TBTreeRenderer extends TBNodePanel implements TreeCellRenderer
 {
 	/**

@@ -209,7 +209,10 @@ public class TBTree
 	 */
 	public String getSentence()
 	{
-		return getWordsAux(mb_head, " ").trim();
+		StringBuilder build = new StringBuilder();
+		getWordsAux(build, mb_head, " ");
+		
+		return build.toString();
 	}
 	
 	/**
@@ -245,9 +248,25 @@ public class TBTree
 				lemma += getWordsAux(it.next(), joiner);
 		}
 		else
-			return node.getWord() + joiner;
+			return node.getWord() + joiner;	
 		
 		return lemma;
+	}
+	
+	private void getWordsAux(StringBuilder build, TBNode node, String joiner)
+	{
+		if (node.getChildren() != null)
+		{
+			Iterator<TBNode> it = node.getChildren().iterator();
+			
+			while (it.hasNext())
+				getWordsAux(build, it.next(), joiner);
+		}
+		else if (!node.pos.equals("-NONE-"))
+		{
+			build.append(node.getWord());
+			build.append(joiner);
+		}
 	}
 	
 	/**

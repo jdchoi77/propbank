@@ -23,10 +23,19 @@
 */
 package jubilee.awt;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JFrame;
+
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
+@SuppressWarnings("serial")
 public class JDCTextAreaFrame extends JFrame implements ActionListener
 {
 	private JDCTextAreaFrameMenuBar mbar;

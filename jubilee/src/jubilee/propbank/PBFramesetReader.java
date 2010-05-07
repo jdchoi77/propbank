@@ -58,7 +58,7 @@ public class PBFramesetReader
 	
 	public PBFrameset getFrameset(String lemma)
 	{
-		File file = new File(path+"/"+lemma+".xml");
+		File file = new File(path+File.separator+lemma+".xml");
 		
 		if (!file.exists())
 			return null;
@@ -74,7 +74,7 @@ public class PBFramesetReader
 		
 		try
 		{
-			Document doc = builder.parse(new File(path+"/"+lemma+".xml"));
+			Document doc = builder.parse(new File(path+File.separator+lemma+".xml"));
 			
 			NodeList ndPredicate = doc.getElementsByTagName("predicate");
 			for (int i=0; i<ndPredicate.getLength(); i++)
@@ -156,7 +156,7 @@ public class PBFramesetReader
 		
 		try
 		{
-			Document doc = builder.parse(new File(path+"/"+lemma+".xml"));
+			Document doc = builder.parse(new File(path+File.separator+lemma+".xml"));
 			
 			NodeList ndId = doc.getElementsByTagName("id");
 			PBPredicate predicate = new PBPredicate();

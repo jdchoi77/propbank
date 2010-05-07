@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,10 @@
 package jubilee.toolkit;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
@@ -31,17 +35,12 @@ import jubilee.awt.*;
 import jubilee.propbank.*;
 import jubilee.util.*;
 
+@SuppressWarnings("serial")
 public class JBToolkit extends JFrame implements ActionListener, ItemListener, ListSelectionListener
 {
-	static final String FRAMESET = "Frameset";
-	static final String TREEBANK = "Treebank";
-	static final String TASK = "Task";
-	static final String ANN = "Annotation";
-	static final String GOLD = "gold";
-	
 	private String str_frameTitle;
 	private String str_userID;
-	private String[][] str_dataset;		// dataset[0] = resource, dataset[1] = directory-paths
+	private HashMap<String, String> str_dataset;		// dataset[0] = resource, dataset[1] = directory-paths
 	private String str_annFile;			// path of annotation file
 	
 	// Treeview: top-pane
@@ -86,7 +85,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	
 	boolean isGold()
 	{
-		return str_userID.equalsIgnoreCase(GOLD);
+		return str_userID.equalsIgnoreCase(DataManager.GOLD_ID);
 	}
 	
 	String getUserID()
@@ -191,46 +190,46 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	}
 	
 	// called from JBOpenDialog
-	void initProperties(String language, String[][] dataset)
+	void initProperties(String language, HashMap<String, String> dataset)
 	{
-		String[][] argTag = DataManager.getContents(language, DataManager.ARGS);
+		ArrayList<String[]> argTag = DataManager.getContents(language + DataManager.ARGS_FILE_EXT);
 		
 		str_dataset = dataset;
 		mbar.setMenuArgTag(argTag);
 		argPanel.updateArgButtons(argTag);
-		framesetPanel.setProperties(language, DataManager.getPath(str_dataset, FRAMESET));
+		framesetPanel.setProperties(language, str_dataset.get(DataManager.FRAMESET));
 		s_language = language;
 	}
 	
 	// called from JBOpenDialog
 	void openFile(String[] filename, boolean isNewTask)
 	{
-		str_annFile = DataManager.getPath(str_dataset, ANN) + "/" + filename[0] + "." + str_userID;
+		str_annFile = str_dataset.get(DataManager.ANNOTATION) + File.separator + filename[0] + "." + str_userID;
 		setTitle(str_frameTitle + " - " + filename[0]);
 		
 		if (isNewTask)
 		{
 			if (isGold())
 			{
-				String taskFile = DataManager.getPath(str_dataset, ANN) + "/" + filename[1];
-				pb_origin = new PBReader(taskFile, DataManager.getPath(str_dataset, TREEBANK));
+				String taskFile = str_dataset.get(DataManager.ANNOTATION) + File.separator + filename[1];
+				pb_origin = new PBReader(taskFile, str_dataset.get(DataManager.TREEBANK));
 			}
 			else
 			{
-				String taskFile = DataManager.getPath(str_dataset, TASK) + "/" + filename[0];
-				pb_origin = new PBReader(taskFile, DataManager.getPath(str_dataset, TREEBANK));
+				String taskFile = str_dataset.get(DataManager.TASK) + File.separator + filename[0];
+				pb_origin = new PBReader(taskFile, str_dataset.get(DataManager.TREEBANK));
 			}
 		}
 		else
-			pb_origin = new PBReader(str_annFile, DataManager.getPath(str_dataset, TREEBANK));
+			pb_origin = new PBReader(str_annFile, str_dataset.get(DataManager.TREEBANK));
 		
 		if (isGold())
 		{
 			pb_more = new PBReader[filename.length-1];
 			for (int i=1; i<filename.length; i++)
 			{
-				filename[i] = DataManager.getPath(str_dataset, ANN) + "/" + filename[i];
-				pb_more[i-1] = new PBReader(filename[i], DataManager.getPath(str_dataset, TREEBANK));
+				filename[i] = str_dataset.get(DataManager.ANNOTATION) + File.separator + filename[i];
+				pb_more[i-1] = new PBReader(filename[i], str_dataset.get(DataManager.TREEBANK));
 			}
 		}
 			
@@ -256,12 +255,12 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		else if (e.getSource() == mbar.tbView)			menuTbView();
 		else if (e.getSource() == mbar.fsPrev)			framesetPanel.prevRoleset();
 		else if (e.getSource() == mbar.fsNext)			framesetPanel.nextRoleset();
-		else if (e.getSource() == mbar.fsExample)		framesetPanel.showExample();
-		else if (e.getSource() == mbar.fsViewArg)		tv_tree.viewArgument();
+		else if (e.getSource() == mbar.fsViewExample)		framesetPanel.showExample();
+		else if (e.getSource() == mbar.fsViewArgument)		tv_tree.viewArgument();
 		else if (e.getSource() == mbar.fsViewRolesetComment)	framesetPanel.viewRolesetComment();
 		else if (menuArgumentArg(e))	;
 		else if (menuArgumentFunc(e))	;
-		else if (e.getSource() == mbar.argNoArg)		argPanel.updateArg(e.getActionCommand());
+		else if (e.getSource() == mbar.argErase)		argPanel.updateArg(e.getActionCommand());
 		else if (e.getSource() == mbar.helpAbout)		menuHelpAbout();
 	}
 	
@@ -379,10 +378,11 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 				return false;
 		}
 		
-		pb_origin.setAnnotator(GOLD);
+		pb_origin.setAnnotator(DataManager.GOLD_ID);
 		return true;
 	}
 	
+	@SuppressWarnings("static-access")
 	private void menuTbJump()
 	{
 		String str = new JOptionPane().showInputDialog(this, "Jump to", "Jump to");
@@ -404,9 +404,9 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	
 	private boolean menuArgumentArg(ActionEvent e)
 	{
-		for (int i=0; i<mbar.argArg.length; i++)
+		for (int i=0; i<mbar.argArgs.length; i++)
 		{
-			if (e.getSource() == mbar.argArg[i])
+			if (e.getSource() == mbar.argArgs[i])
 			{
 				argPanel.updateArg(e.getActionCommand());
 				return true;
@@ -430,6 +430,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		return false;
 	}
 	
+	@SuppressWarnings("static-access")
 	private void menuHelpAbout()
 	{
 		String msg = str_frameTitle + "\n";

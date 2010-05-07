@@ -55,25 +55,19 @@ import jubilee.treebank.*;
  */
 public class PBReader
 {
-	/**
-	 * argument-joiner used in annotation files.
-	 */
+	/** argument-joiner used in annotation files */
 	static public final String ARG_JOINER = "-";
-	/**
-	 * annotation functions.
-	 */
+	/** annotation functions */
 	static public final String ANT_FUNC = "*,;&";
-	/**
-	 * argument tag for relation.
-	 */
+	/** argument tag for relation */
 	static public String REL = "rel";
 	
-	private Vector<String> vec_prefix;		// treebank-path s# t#_of_predicate
-	private Vector<String> vec_annotator;
-	private Vector<String> vec_lemma;
-	private Vector<String> vec_extra;
-	private Vector<TBTree> vec_tree;
-	private int i_currIndex;				// index of the current tree
+	private ArrayList<String> ls_prefix;		// treebank-path s# t#_of_predicate
+	private ArrayList<String> ls_annotator;
+	private ArrayList<String> ls_lemma;
+	private ArrayList<String> ls_extra;
+	private ArrayList<TBTree> ls_tree;
+	private int               i_currIndex;		// index of the current tree
 	
 	/**
 	 * Opens 'annotationFile', finds trees from 'treebankPath', and collects information.
@@ -82,12 +76,12 @@ public class PBReader
 	 */
 	public PBReader(String annotationFile, String treebankPath)
 	{
-		vec_prefix = new Vector<String>();
-		vec_annotator = new Vector<String>();
-		vec_lemma = new Vector<String>();
-		vec_extra = new Vector<String>();
-		vec_tree = new Vector<TBTree>();
-		i_currIndex = 0;
+		ls_prefix    = new ArrayList<String>();
+		ls_annotator = new ArrayList<String>();
+		ls_lemma     = new ArrayList<String>();
+		ls_extra     = new ArrayList<String>();
+		ls_tree      = new ArrayList<TBTree>();
+		i_currIndex  = 0;
 		
 		try
 		{
@@ -109,10 +103,10 @@ public class PBReader
 		String filename = tok.nextToken();						// treebank-path
 		int sentenceIdx = Integer.parseInt(tok.nextToken());	// s#
 		int predicateIdx = Integer.parseInt(tok.nextToken());	// t#_of_predicate
-		vec_prefix.add(filename+" "+sentenceIdx+" "+predicateIdx);
+		ls_prefix.add(filename+" "+sentenceIdx+" "+predicateIdx);
 		
 		// get the tree
-		TBReader tbank = new TBReader(treebankPath+"/"+filename);
+		TBReader tbank = new TBReader(treebankPath+File.separator+filename);
 		TBTree tree = null;
 		
 		for (int i=0; i<=sentenceIdx; i++)			// reach the tree
@@ -123,11 +117,11 @@ public class PBReader
 		tree.setArg(predicateIdx+":0", REL);
 		
 		String annotator = tok.nextToken();			// annotator
-		vec_annotator.add(annotator);
+		ls_annotator.add(annotator);
 		String predicateLemma = tok.nextToken();	// predicate_lemma
-		vec_lemma.add(predicateLemma);
+		ls_lemma.add(predicateLemma);
 		String extra = tok.nextToken();				// -----
-		vec_extra.add(extra);
+		ls_extra.add(extra);
 		
 		while (tok.hasMoreTokens())
 		{
@@ -154,7 +148,7 @@ public class PBReader
 			}
 		}
 		
-		vec_tree.add(tree);
+		ls_tree.add(tree);
 	}
 	
 	/**
@@ -173,11 +167,11 @@ public class PBReader
 		
 		for (int i=0; i<getSize(); i++)
 		{
-			str = vec_prefix.get(i);
-			str += " " + vec_annotator.get(i);
-			str += " " + vec_lemma.get(i);
-			str += " " + vec_extra.get(i);
-			str += " " + vec_tree.get(i).toPropbank();
+			str = ls_prefix.get(i);
+			str += " " + ls_annotator.get(i);
+			str += " " + ls_lemma.get(i);
+			str += " " + ls_extra.get(i);
+			str += " " + ls_tree.get(i).toPropbank();
 			
 			fout.println(str);
 		}
@@ -189,7 +183,7 @@ public class PBReader
 	 */
 	public int getSize()
 	{
-		return vec_tree.size();
+		return ls_tree.size();
 	}
 	
 	/**
@@ -198,7 +192,7 @@ public class PBReader
 	 */
 	public String getPrefix()
 	{
-		return vec_prefix.get(i_currIndex);
+		return ls_prefix.get(i_currIndex);
 	}
 	
 	/**
@@ -207,7 +201,7 @@ public class PBReader
 	 */
 	public String getAnnotator()
 	{
-		return vec_annotator.get(i_currIndex);
+		return ls_annotator.get(i_currIndex);
 	}
 	
 	/**
@@ -216,7 +210,7 @@ public class PBReader
 	 */
 	public String getLemma()
 	{
-		return vec_lemma.get(i_currIndex);
+		return ls_lemma.get(i_currIndex);
 	}
 	
 	/**
@@ -225,7 +219,7 @@ public class PBReader
 	 */
 	public String getExtra()
 	{
-		return vec_extra.get(i_currIndex);
+		return ls_extra.get(i_currIndex);
 	}
 	
 	/**
@@ -234,7 +228,7 @@ public class PBReader
 	 */
 	public TBTree getTBTree()
 	{
-		return vec_tree.get(i_currIndex);
+		return ls_tree.get(i_currIndex);
 	}
 	
 	/**
@@ -261,7 +255,7 @@ public class PBReader
 	 */
 	public void setLemma(String lemma)
 	{
-		vec_lemma.set(i_currIndex, lemma);
+		ls_lemma.set(i_currIndex, lemma);
 	}
 	
 	/**
@@ -270,14 +264,14 @@ public class PBReader
 	 */
 	public void setAnnotator(String annotator)
 	{
-		vec_annotator.set(i_currIndex, annotator);
+		ls_annotator.set(i_currIndex, annotator);
 	}
 	
 	public void copyCurrent(PBReader pb)
 	{
-		vec_prefix.set(pb.getIndex(), pb.getPrefix());
-		vec_lemma.set(pb.getIndex(), pb.getLemma());
-		vec_extra.set(pb.getIndex(), pb.getExtra());
-		vec_tree.set(pb.getIndex(), pb.getTBTree().clone());
+		ls_prefix.set(pb.getIndex(), pb.getPrefix());
+		ls_lemma.set(pb.getIndex(), pb.getLemma());
+		ls_extra.set(pb.getIndex(), pb.getExtra());
+		ls_tree.set(pb.getIndex(), pb.getTBTree().clone());
 	}
 }

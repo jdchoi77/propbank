@@ -23,7 +23,8 @@
 */
 package jubilee.awt;
 
-import java.awt.*;
+import java.awt.FileDialog;
+import java.awt.Frame;
 
 /**
  * 'JDCFileDialog' creates a file-dialog that can act as either 'LOAD' or 'SAVE'.
@@ -38,8 +39,8 @@ import java.awt.*;
 		System.out.println(fd.save());
 	}
  * </pre>
- * <b>Last update:</b> 09/11/2007
  * @author Jinho D. Choi
+ * <b>Last update:</b> 9/11/2007
  */
 public class JDCFileDialog
 {

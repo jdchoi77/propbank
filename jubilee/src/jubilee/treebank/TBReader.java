@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -67,21 +67,18 @@ import jubilee.util.*;
  * Pierre Vinken , 61 years old , will join the board as a nonexecutive director Nov. 29 .
  * Mr. Vinken is chairman of Elsevier N.V. , the Dutch publishing group .
  * </pre>
- * Last update: 09/22/07
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 9/22/2007
  * @see TBTree
  */
 public class TBReader
 {
-	/**
-	 * Left Round Bracket "(".
-	 */
+	/** Left Round Bracket "(" */
 	final public String LRB = "(";
-	/**
-	 * Right Round Bracket ")".
-	 */
+	/** Right Round Bracket ")" */
 	final public String RRB = ")";
 	
-	final private String HEAD = "HEAD";
+	private final String HEAD = "HEAD";
 	private FileTokenizer mb_tok;
 	private int mb_numTree;
 	private String filename;
@@ -98,10 +95,7 @@ public class TBReader
 		this.filename = filename;
 	}
 	
-	/**
-	 * Returns the next tree in the Treebank.
-	 * @return (there exists a tree) ? the next tree : null 
-	 */
+	/** @return (there exists a tree) ? the next tree : null */
 	public TBTree nextTree()
 	{
 		String str;
@@ -148,10 +142,7 @@ public class TBReader
 		return new TBTree(tmp);							// omit the dummy head
 	}
 	
-	/**
-	 * Returns the current tree number in this file.
-	 * @return the current tree number.
-	 */
+	/** @return the current tree number in this file. */
 	public int getTreeNumber()
 	{
 		return mb_numTree;

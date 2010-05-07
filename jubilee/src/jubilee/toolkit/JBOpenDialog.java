@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2007-2009, Regents of the University of Colorado
+* Copyright (c) 2007, Regents of the University of Colorado
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,51 @@
 */
 package jubilee.toolkit;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
-import jubilee.util.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import jubilee.util.DataManager;
+
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
+@SuppressWarnings("serial")
 public class JBOpenDialog extends JDialog implements ActionListener, ItemListener, ListSelectionListener
 {
-	private JBToolkit jbtk;
-	private JComboBox cb_setting;
-	private JList ls_newTask = null, ls_myTask = null;
-	private DefaultListModel lm_newTask, lm_myTask;
-	private JButton bt_cancel, bt_enter;
-	private String str_dataset[][];
-	int i_maxAnn;
+	private JBToolkit              jbtk;
+	private JComboBox              cb_projects;
+	private JList                  ls_newTask = null;
+	private JList                  ls_myTask  = null;
+	private DefaultListModel       lm_newTask;
+	private DefaultListModel       lm_myTask;
+	private JButton                bt_cancel;
+	private JButton                bt_enter;
+	private HashMap<String,String> m_dataset;
+	private int                    i_maxAnn;
 	
 	/**
 	 * Initializes the open-dialog.
@@ -52,7 +78,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	{
 		super(jbtk, "Open a task", true);
 		this.jbtk = jbtk;
-		i_maxAnn = maxAnn;
+		i_maxAnn  = maxAnn;
 		
 		Container cp = getContentPane();
 		initComponents(cp, isCancel);
@@ -68,10 +94,12 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	private void initComponents(Container cp, boolean isCancel)
 	{
 		// combobox: dataset
-		cb_setting = new JComboBox(DataManager.getSettings());
-		cb_setting.setBorder(new TitledBorder("Choose a project"));
-		cb_setting.addItemListener(this);
-		str_dataset = DataManager.getContents((String)cb_setting.getItemAt(jbtk.i_currSetting), DataManager.PATH);
+		cb_projects = new JComboBox(DataManager.getProjects());
+		cb_projects.setBorder(new TitledBorder("Choose a project"));
+		cb_projects.addItemListener(this);
+		
+		ArrayList<String[]> list = DataManager.getContents((String)cb_projects.getItemAt(jbtk.i_currSetting) + DataManager.PATH_FILE_EXT);
+		m_dataset = getMap(list);
 		
 		// lists new and my tasks
 		lm_newTask = new DefaultListModel();
@@ -90,7 +118,15 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 		bt_cancel.setEnabled(isCancel);
 		bt_enter = getJButton(cp, "Enter");
 		
-		cb_setting.setSelectedIndex(jbtk.i_currSetting);
+		cb_projects.setSelectedIndex(jbtk.i_currSetting);
+	}
+	
+	private HashMap<String, String> getMap(ArrayList<String[]> list)
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (String[] arr : list)	map.put(arr[0], arr[1]);
+		
+		return map;
 	}
 	
 	private JButton getJButton(Container cp, String title)
@@ -105,14 +141,14 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	private void initJList()
 	{
 		// get file lists
-		File taskDir = new File(DataManager.getPath(str_dataset, jbtk.TASK));
-		File annDir = new File(DataManager.getPath(str_dataset, jbtk.ANN));
+		File taskDir = new File(m_dataset.get(DataManager.TASK));
+		File annDir  = new File(m_dataset.get(DataManager.ANNOTATION));
 		String[] tasklist = taskDir.list();	Arrays.sort(tasklist);
-		String[] annlist = annDir.list();	Arrays.sort(annlist);
+		String[] annlist  = annDir.list();	Arrays.sort(annlist);
 		
 		// remove previous lists
 		lm_newTask.removeAllElements();
-		lm_myTask.removeAllElements();
+		lm_myTask .removeAllElements();
 		
 		// add new task lists
 		for (int i=0; i<tasklist.length; i++)
@@ -126,7 +162,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 		for (int i=0; i<annlist.length; i++)
 		{
 			String task = annlist[i].substring(0, annlist[i].lastIndexOf("."));
-			String id = annlist[i].substring(annlist[i].lastIndexOf(".")+1);
+			String id   = annlist[i].substring(annlist[i].lastIndexOf(".")+1);
 			vec.add(task);
 			
 			if (id.equalsIgnoreCase(jbtk.getUserID()))
@@ -148,7 +184,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	{
 		cp.setLayout(new BorderLayout());
 		
-		cp.add(cb_setting, BorderLayout.NORTH);
+		cp.add(cb_projects, BorderLayout.NORTH);
 		
 		JPanel pnC = new JPanel();
 		pnC.setLayout(new GridLayout(0,2));
@@ -170,7 +206,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	 */
 	public void valueChanged(ListSelectionEvent e)
 	{
-		if (e.getSource() == ls_newTask)
+		if      (e.getSource() == ls_newTask)
 			ls_myTask.clearSelection();
 		else if (e.getSource() == ls_myTask)
 			ls_newTask.clearSelection();
@@ -181,9 +217,10 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	 */
 	public void itemStateChanged(ItemEvent e)
 	{
-		if (e.getSource() == cb_setting)
+		if (e.getSource() == cb_projects)
 		{
-			str_dataset = DataManager.getContents((String)cb_setting.getSelectedItem(), DataManager.PATH);
+			ArrayList<String[]> list = DataManager.getContents((String)cb_projects.getSelectedItem() + DataManager.PATH_FILE_EXT);
+			m_dataset = getMap(list);
 			initJList();
 		}
 	}
@@ -193,7 +230,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bt_cancel)			dispose();
+		if      (e.getSource() == bt_cancel)	dispose();
 		else if (e.getSource() == bt_enter)		actionBtEnter();
 	}
 
@@ -201,10 +238,10 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	{
 		if (ls_newTask.isSelectionEmpty() && ls_myTask.isSelectionEmpty())	return;
 		
-		StringTokenizer tok = new StringTokenizer((String)cb_setting.getSelectedItem(), ".");
-		jbtk.i_currSetting = cb_setting.getSelectedIndex();
+		StringTokenizer tok = new StringTokenizer((String)cb_projects.getSelectedItem(), ".");
+		jbtk.i_currSetting = cb_projects.getSelectedIndex();
 		String language = tok.nextToken();
-		jbtk.initProperties(language, str_dataset);	// tok.nextToken() = language
+		jbtk.initProperties(language, m_dataset);	// tok.nextToken() = language
 		
 		if (!ls_newTask.isSelectionEmpty())
 		{
@@ -221,6 +258,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 		dispose();
 	}
 	
+	@SuppressWarnings("static-access")
 	private String[] getFileList(String fstFile, boolean isNew)
 	{
 		Vector<String> vec = new Vector<String>();
@@ -228,7 +266,7 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 
 		if (jbtk.isGold())
 		{
-			File annDir = new File(DataManager.getPath(str_dataset, jbtk.ANN));
+			File annDir = new File(m_dataset.get(DataManager.ANNOTATION));
 			String[] annlist = annDir.list();	Arrays.sort(annlist);
 			
 			for (int i=0; i<annlist.length; i++)

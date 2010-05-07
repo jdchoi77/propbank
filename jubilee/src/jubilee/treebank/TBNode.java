@@ -37,7 +37,8 @@ import jubilee.util.*;
  * parent - the parent node
  * children vector - the children nodes 
  * </pre>
- * Last update: 09/22/07
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 9/22/2007
  */
 public class TBNode
 {

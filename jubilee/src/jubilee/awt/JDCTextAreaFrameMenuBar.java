@@ -23,9 +23,18 @@
 */
 package jubilee.awt;
 
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.KeyEvent;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+/**
+ * @author Jinho D. Choi
+ * <b>Last update:</b> 5/6/2010
+ */
+@SuppressWarnings("serial")
 public class JDCTextAreaFrameMenuBar extends JMenuBar
 {
 	JDCTextAreaFrame parent;

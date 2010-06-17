@@ -46,7 +46,7 @@ public class Jubilee
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
 		String usage  = "Usage: java -jar jubilee.jar -u <userId> [-m <max-annotations=2> -p <skip=0> -s <system-folder=system>]";
-		String title  = "Jubilee 2.13";
+		String title  = "Jubilee 2.14";
 		String userId = null;
 		int    maxAnn = 2;
 		byte   skip   = 0;

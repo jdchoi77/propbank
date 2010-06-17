@@ -64,7 +64,8 @@ public class PBReader
 	
 	private ArrayList<String> ls_prefix;		// treebank-path s# t#_of_predicate
 	private ArrayList<String> ls_annotator;
-	private ArrayList<String> ls_lemma;
+	private ArrayList<String> ls_frame;
+	private ArrayList<String> ls_roleset;
 	private ArrayList<String> ls_extra;
 	private ArrayList<TBTree> ls_tree;
 	private int               i_currIndex;		// index of the current tree
@@ -78,7 +79,8 @@ public class PBReader
 	{
 		ls_prefix    = new ArrayList<String>();
 		ls_annotator = new ArrayList<String>();
-		ls_lemma     = new ArrayList<String>();
+		ls_frame     = new ArrayList<String>();
+		ls_roleset   = new ArrayList<String>();
 		ls_extra     = new ArrayList<String>();
 		ls_tree      = new ArrayList<TBTree>();
 		i_currIndex  = 0;
@@ -116,11 +118,13 @@ public class PBReader
 		tree.moveToTerminal(predicateIdx);
 		tree.setArg(predicateIdx+":0", REL);
 		
-		String annotator = tok.nextToken();			// annotator
+		String annotator = tok.nextToken();	// annotator
 		ls_annotator.add(annotator);
-		String predicateLemma = tok.nextToken();	// predicate_lemma
-		ls_lemma.add(predicateLemma);
-		String extra = tok.nextToken();				// -----
+		String frame = tok.nextToken();		// lemma-v | lemma-n
+		ls_frame.add(frame);
+		String roleset = tok.nextToken();	// roleset
+		ls_roleset.add(roleset);
+		String extra = tok.nextToken();		// -----
 		ls_extra.add(extra);
 		
 		while (tok.hasMoreTokens())
@@ -157,7 +161,7 @@ public class PBReader
 	 */
 	public void toFile(String filename)
 	{
-		PrintStream fout = null;	String str;
+		PrintStream fout = null;
 		
 		try
 		{
@@ -167,13 +171,20 @@ public class PBReader
 		
 		for (int i=0; i<getSize(); i++)
 		{
-			str = ls_prefix.get(i);
-			str += " " + ls_annotator.get(i);
-			str += " " + ls_lemma.get(i);
-			str += " " + ls_extra.get(i);
-			str += " " + ls_tree.get(i).toPropbank();
+			StringBuilder build = new StringBuilder();
+			build.append(ls_prefix.get(i));
+			build.append(" ");
+			build.append(ls_annotator.get(i));
+			build.append(" ");
+			build.append(ls_frame.get(i));
+			build.append(" ");
+			build.append(ls_roleset.get(i));
+			build.append(" ");
+			build.append(ls_extra.get(i));
+			build.append(" ");
+			build.append(ls_tree.get(i).toPropbank());
 			
-			fout.println(str);
+			fout.println(build.toString());
 		}
 	}
 
@@ -204,13 +215,18 @@ public class PBReader
 		return ls_annotator.get(i_currIndex);
 	}
 	
+	public String getFrame()
+	{
+		return ls_frame.get(i_currIndex);
+	}
+	
 	/**
 	 * Gets the current predicate lemma.
 	 * @return the current predicate lemma
 	 */
-	public String getLemma()
+	public String getRoleset()
 	{
-		return ls_lemma.get(i_currIndex);
+		return ls_roleset.get(i_currIndex);
 	}
 	
 	/**
@@ -255,7 +271,7 @@ public class PBReader
 	 */
 	public void setLemma(String lemma)
 	{
-		ls_lemma.set(i_currIndex, lemma);
+		ls_roleset.set(i_currIndex, lemma);
 	}
 	
 	/**
@@ -270,7 +286,8 @@ public class PBReader
 	public void copyCurrent(PBReader pb)
 	{
 		ls_prefix.set(pb.getIndex(), pb.getPrefix());
-		ls_lemma.set(pb.getIndex(), pb.getLemma());
+		ls_frame.set(pb.getIndex(), pb.getFrame());
+		ls_roleset.set(pb.getIndex(), pb.getRoleset());
 		ls_extra.set(pb.getIndex(), pb.getExtra());
 		ls_tree.set(pb.getIndex(), pb.getTBTree().clone());
 	}

@@ -250,7 +250,9 @@ public class ChEditor extends EditorTemplate implements ActionListener
 	
 	private void addFrameset()
 	{
-		Element eFrameset = createEmptyFrameset("f"+(++i_lastFramesetID));
+		Element eFrameset;
+		if (LANGUAGE.equals("ar"))	eFrameset = createEmptyFrameset("0"+(++i_lastFramesetID));
+		else						eFrameset = createEmptyFrameset("f"+(++i_lastFramesetID));
 		
 		ch_verb.appendChild(eFrameset);
 		ch_verb.addFrameset(eFrameset);

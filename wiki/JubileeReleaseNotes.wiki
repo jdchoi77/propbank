@@ -2,8 +2,12 @@
 #labels Phase-Design
 
 === Jubilee 2.14 (6/17/2010) ===
+
   * Frameset filenames have been changed (choose.xml -> choose-v.xml).  In Jubilee task files, these frameset filenames are now inserted as an additional column.  Jubilee now supports the new format (but not the old format).
 
+=== Jubilee 2.13 (5/6/2010) ===
+
+  * 'NN' and 'IE' tags are added for roleset IDs.
 
 === Jubilee 2.12 (4/13/2010) ===
 

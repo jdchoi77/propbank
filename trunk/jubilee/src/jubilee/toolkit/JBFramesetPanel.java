@@ -201,10 +201,10 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 		fr_rolesetComment = new JDCTextAreaFrame("Comments for "+roleset.getId(), roleset.getComment());
 	}
 
-	public void updateFrameset(String lemma)
+	public void updateFrameset(String frame, String roleset)
 	{
-		StringTokenizer tok = new StringTokenizer(lemma, ".");
-		String lemmaTok = tok.nextToken();
+		StringTokenizer tok = new StringTokenizer(roleset, ".");
+		String lemma = tok.nextToken();
 		
 		// remove previous settings
 		cb_roleset.removeAllItems();
@@ -212,31 +212,31 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 		vec_cNum.removeAllElements();
 		
 		int k = 0;
-		cb_roleset.insertItemAt(lemmaTok+".XX", k++);
-		if ((frameset = fr_reader.getFrameset(lemmaTok)) != null)
+		cb_roleset.insertItemAt(lemma+".XX", k++);
+		if ((frameset = fr_reader.getFrameset(frame)) != null)
 		{
 			for (int i=0; i<frameset.getSize(); i++)
 			{
 				PBPredicate predicate = frameset.getPredicate(i);
-				String[] roleset = predicate.getRolesetID();
-				for (int j=0; j<roleset.length; j++)
+				String[] rolesets = predicate.getRolesetID();
+				for (int j=0; j<rolesets.length; j++)
 				{
-					cb_roleset.insertItemAt(roleset[j], k++);
+					cb_roleset.insertItemAt(rolesets[j], k++);
 					vec_pNum.add(i);	vec_cNum.add(j);
 				}
 			}
 			
 			for (int i=0; i<S_TAGS.length; i++)
-				cb_roleset.insertItemAt(lemmaTok+"."+S_TAGS[i], k+i);
+				cb_roleset.insertItemAt(lemma+"."+S_TAGS[i], k+i);
 			
-			int index = getItemIndex(lemma);
+			int index = getItemIndex(roleset);
 			if (index != -1)	cb_roleset.setSelectedIndex(index);
 			else				cb_roleset.setSelectedIndex(0);
 		}
 		else
 		{
 			for (int i=0; i<S_TAGS.length; i++)
-				cb_roleset.insertItemAt(lemmaTok+"."+S_TAGS[i], k+i);
+				cb_roleset.insertItemAt(lemma+"."+S_TAGS[i], k+i);
 			
 			cb_roleset.setSelectedIndex(0);
 			tf_predicate.setText("No frameset-file");

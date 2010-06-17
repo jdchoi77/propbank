@@ -289,7 +289,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	{
 		tv_tree.setTree(pb_origin.getTBTree());
 		ta_sentence.setText(pb_origin.getTBTree().getSentence());
-		framesetPanel.updateFrameset(pb_origin.getLemma());
+		framesetPanel.updateFrameset(pb_origin.getFrame(), pb_origin.getRoleset());
 	}
 	
 	private void updateGoldList()

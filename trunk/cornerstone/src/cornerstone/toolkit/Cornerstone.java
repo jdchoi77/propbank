@@ -51,7 +51,7 @@ public class Cornerstone
 		catch (InstantiationException e) {System.err.println(e);}
 		catch (IllegalAccessException e) {System.err.println(e);}
 		
-		String title = "Conerstone 1.34";
+		String title = "Conerstone 1.35";
 		if (args[0].equals(EnLib.LANG_EN) || args[0].equals(EnLib.LANG_HI))
 			new EnEditor(title, args[0], args[1]);
 		else

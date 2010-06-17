@@ -1,6 +1,10 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.14 (6/17/2010) ===
+  * Frameset filenames have been changed (choose.xml -> choose-v.xml).  In Jubilee task files, these frameset filenames are now inserted as an additional column.  Jubilee now supports the new format (but not the old format).
+
+
 === Jubilee 2.12 (4/13/2010) ===
 
   * On the menu, there is a new item called 'View roleset comments' (shortcut: Ctrl+c).  When you select the menu, it will view the comments (notes) of the currently selected roleset (equivalent to frameset in Arabic), indicated in the corresponding frameset file.

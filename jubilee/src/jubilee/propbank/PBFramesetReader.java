@@ -157,7 +157,8 @@ public class PBFramesetReader
 		try
 		{
 			Document doc = builder.parse(new File(path+File.separator+lemma+".xml"));
-			
+			lemma = lemma.substring(0, lemma.lastIndexOf('-'));
+						
 			NodeList ndId = doc.getElementsByTagName("id");
 			PBPredicate predicate = new PBPredicate();
 			predicate.setLemma(ndId.item(0).getTextContent().trim());

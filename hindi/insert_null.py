@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*- 
 # filename   : insert_null.py
 # author     : Jinho D. Choi
-# last update: 3/4/2010
+# last update: 6/28/2010
 import sys
 from ssf_api import *
 
@@ -14,7 +14,8 @@ REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'न�
 REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
 REL_PRO       = 'RELPRO'
 
-BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
+#BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
+BIG_PRO_SUFFIX = ['ना']					# naa
 BIG_PRO_NOT    = 'वाला'					# vaalaa
 BIG_PRO_KAR    = 'कर'					# kar
 BIG_PRO_TE     = 'ते'					# te
@@ -36,12 +37,13 @@ class InsertNull:
 			if not self._isRelProVerb(chunk): continue
 			headId = chunk.getName()
 			if not headId: continue
+			drel = chunk.getDrel()
 			
-			if not tree.existChild(DREL_K1, headId):
+			if drel[0] == 'nmod__k1inv' and not tree.existChild(DREL_K1, headId):
 				tree.insertFirstChild(headId, self.getNullChunk(REL_PRO, DREL_K1, headId))
 				i += 1; size += 1
 
-			if not tree.existChild(DREL_K2, headId):
+			if drel[0] == 'nmod__k2inv' and not tree.existChild(DREL_K2, headId):
 				tree.insertLastChild(headId, self.getNullChunk(REL_PRO, DREL_K2, headId))
 				i += 1; size += 1
 
@@ -144,7 +146,7 @@ ins = InsertNull()
 for tree in ssf.getTrees():
 	ins.insertRelPro(tree)
 	ins.insertBigPro(tree)
-	ins.insertPro(tree)
+#	ins.insertPro(tree)
 
 ssf.print(OUT_FILE)
 

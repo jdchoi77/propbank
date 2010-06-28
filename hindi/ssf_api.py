@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*- 
 # filename   : ssf_api.py
 # author     : Jinho D. Choi
-# last update: 4/19/2010
+# last update: 6/28/2010
 import re
 
 DELIM_NODE      = '\t'
@@ -11,6 +11,7 @@ DELIM_DREL      = ':'
 DELIM_AF        = ','
 
 KEY_DREL        = 'drel'
+KEY_PBMREL      = 'pbmrel'
 KEY_AF          = 'af'
 
 REG_FS          = re.compile('([<>\s])')
@@ -289,10 +290,24 @@ class Chunk(list):
 		
 		return None
 	
+	# Returns ['pbm-dependency relation', 'headId'] list of the chunk.
+	def getPBMrel(self):
+		if not self[0].dic_fs: return None
+		
+		if KEY_PBMREL in self[0].dic_fs:
+			return self[0].dic_fs[KEY_PBMREL]
+		
+		return None
+	
 	# Returns true if the chunk is a child of 'headId' with a dependency relation 'drel'.
 	# drel: dependency relation (e.g., k1) : string
 	# headId: ID of the head chunk (e.g., VGF) : string
 	def isChild(self, drel, headId):
+		minfo = self.getPBMrel()
+		if minfo:
+			if not drel: return minfo[1] == headId
+			return minfo[0].startswith(drel) and minfo[1] == headId
+		
 		dinfo = self.getDrel()
 		if not dinfo or len(dinfo) < 2: return False
 		if not drel : return dinfo[1] == headId
@@ -330,9 +345,10 @@ class Node:
 			val = kv[1]
 			if val[0] == '\'' and val[-1] == '\'': val = val[1:-1]	# strip single quotes
 
-			if   key == KEY_DREL: dic[key] = val.split(DELIM_DREL)
-			elif key == KEY_AF  : dic[key] = val.split(DELIM_AF)
-			else                : dic[key] = val
+			if   key == KEY_DREL  : dic[key] = val.split(DELIM_DREL)
+			elif key == KEY_PBMREL: dic[key] = val.split(DELIM_DREL)
+			elif key == KEY_AF    : dic[key] = val.split(DELIM_AF)
+			else                  : dic[key] = val
 		
 		return dic
 
@@ -352,13 +368,14 @@ class Node:
 		ls.append(BEGIN_FS)
 		
 		if KEY_AF in self.dic_fs:
-			ls.append(KEY_AF + DELIM_KEY + '\'' + self.dic_fs[KEY_AF] + '\'')
+			ls.append(KEY_AF + DELIM_KEY + '\'' + DELIM_AF.join(self.dic_fs[KEY_AF]) + '\'')
 		
 		for key in self.dic_fs:
 			if key == KEY_AF: continue
 			val = self.dic_fs[key]
-			if   key == KEY_DREL: val = DELIM_DREL.join(val)
-			elif key == KEY_AF  : val = DELIM_AF  .join(val)
+			if   key == KEY_DREL  : val = DELIM_DREL.join(val)
+			elif key == KEY_PBMREL: val = DELIM_DREL.join(val)
+			elif key == KEY_AF    : val = DELIM_AF  .join(val)
 			ls.append(key + DELIM_KEY + '\'' + val + '\'')
 			
 		return DELIM_FS.join(ls) + END_FS
@@ -404,6 +421,7 @@ class Node:
 		self.dic_fs[key] = value
 	
 	def getAF(self):
+		if not self.dic_fs: return None
 		return self.dic_fs[KEY_AF]
 	
 

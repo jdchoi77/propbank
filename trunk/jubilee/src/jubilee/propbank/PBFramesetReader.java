@@ -62,7 +62,7 @@ public class PBFramesetReader
 		
 		if (!file.exists())
 			return null;
-		if (language.equalsIgnoreCase("english"))		// english frameset
+		if (language.equalsIgnoreCase("english") || language.equalsIgnoreCase("hindi"))		// english frameset
 			return getFramesetEng(lemma);
 		else
 			return getFramesetOther(lemma);

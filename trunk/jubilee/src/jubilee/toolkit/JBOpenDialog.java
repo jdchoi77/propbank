@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -144,7 +145,15 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 		File taskDir = new File(m_dataset.get(DataManager.TASK));
 		File annDir  = new File(m_dataset.get(DataManager.ANNOTATION));
 		String[] tasklist = taskDir.list();	Arrays.sort(tasklist);
-		String[] annlist  = annDir.list();	Arrays.sort(annlist);
+	//	String[] annlist  = annDir .list();	Arrays.sort(annlist);
+		
+		List     <String> tmp1 = Arrays.asList(annDir.list());
+		ArrayList<String> tmp2 = new ArrayList<String>();
+		for (String str : tmp1)
+			if (jbtk.isGold() || !str.endsWith(".gold"))	tmp2.add(str);
+		
+		String[] annlist = new String[tmp2.size()];
+		tmp2.toArray(annlist);	Arrays.sort(annlist);
 		
 		// remove previous lists
 		lm_newTask.removeAllElements();
@@ -161,8 +170,9 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 		// add ann file list and remove the corresponding task list
 		for (int i=0; i<annlist.length; i++)
 		{
-			String task = annlist[i].substring(0, annlist[i].lastIndexOf("."));
-			String id   = annlist[i].substring(annlist[i].lastIndexOf(".")+1);
+			int    index = annlist[i].lastIndexOf(".");
+			String task  = annlist[i].substring(0, index);
+			String id    = annlist[i].substring(index+1);
 			vec.add(task);
 			
 			if (id.equalsIgnoreCase(jbtk.getUserID()))

@@ -1,6 +1,10 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.15 (7/21/2010) ===
+
+  * In annotation mode, 'gold' annotations are no longer counted as parts of the double annotations.
+
 === Jubilee 2.14 (6/17/2010) ===
 
   * Frameset filenames have been changed (choose.xml -> choose-v.xml).  In Jubilee task files, these frameset filenames are now inserted as an additional column.  Jubilee now supports the new format (but not the old format).

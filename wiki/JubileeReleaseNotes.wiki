@@ -1,7 +1,7 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
-=== Jubilee 2.15 (7/21/2010) ===
+=== Jubilee 2.16 (8/17/2010) ===
 
   * 'YY' tag is added for frameset ID representing 'No argument predicate.
 

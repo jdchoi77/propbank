@@ -46,7 +46,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 	
 	private Vector<Integer> vec_pNum, vec_cNum;
 	
-	private String[] S_TAGS = {"ER", "LV", "NN", "IE"};
+	private String[] S_TAGS = {"ER", "LV", "NN", "IE", "YY"};
 	
 	/**
 	 * @param framesetPath the directiory path of frameset-files

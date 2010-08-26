@@ -119,7 +119,10 @@ public class PBFramesetReader
 							
 							NodeList ndText = emExample.getElementsByTagName("text");
 							if (ndText.getLength() > 0)
-								example.setText(ndText.item(0).getTextContent().trim());
+							{
+								String text = "Example: " + name + "\n\n" + ndText.item(0).getTextContent().trim();
+								example.setText(text);
+							}
 							
 							NodeList ndArg = emExample.getElementsByTagName("arg");
 							for (int l=0; l<ndArg.getLength(); l++)
@@ -134,7 +137,7 @@ public class PBFramesetReader
 							
 							NodeList ndRel = emExample.getElementsByTagName("rel");
 							if (ndRel.getLength() > 0)
-								example.setRel(ndRel.item(0).getTextContent().trim() + "(" + name + ")");
+								example.setRel(ndRel.item(0).getTextContent().trim());
 					
 							roleset.addExample(example);
 						}

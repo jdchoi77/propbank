@@ -4,6 +4,7 @@
 === Jubilee 2.16 (8/17/2010) ===
 
   * 'YY' tag is added for frameset ID representing 'No argument predicate.
+  * For English, 'name' in example window becomes the title of the example.
 
 === Jubilee 2.15 (7/21/2010) ===
 

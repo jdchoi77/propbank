@@ -247,7 +247,6 @@ public class JBOpenDialog extends JDialog implements ActionListener, ItemListene
 	private void actionBtEnter()
 	{
 		if (ls_newTask.isSelectionEmpty() && ls_myTask.isSelectionEmpty())	return;
-		
 		StringTokenizer tok = new StringTokenizer((String)cb_projects.getSelectedItem(), ".");
 		jbtk.i_currSetting = cb_projects.getSelectedIndex();
 		String language = tok.nextToken();

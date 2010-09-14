@@ -54,6 +54,11 @@ public class TBTree
 		mb_head = mb_curr = head;
 	}
 	
+	public TBNode getRootNode()
+	{
+		return mb_head;
+	}
+	
 	public String getPredicate(String[] tags)
 	{
 		String predicate[] = {""};

@@ -45,7 +45,7 @@ public class JBMenuBar extends JMenuBar
 	private JMenu     mn_args;
 	
 	JMenuItem   fileOpen, fileSave, fileSaveAs, fileQuit;
-	JMenuItem   tbPrev, tbNext, tbJump, tbView;
+	JMenuItem   tbPrev, tbNext, tbJump, tbView, tbDepTree;
 	JMenuItem   fsPrev, fsNext, fsViewExample, fsViewArgument, fsViewRolesetComment;
 	JMenuItem[] argArgs, argFunc;
 	JMenuItem   argErase;
@@ -133,6 +133,10 @@ public class JBMenuBar extends JMenuBar
 		
 		tbView = getJMenuItem("View Tree in Text", KeyEvent.VK_T, KeyEvent.VK_T, KeyEvent.CTRL_MASK);
 		mTreebank.add(tbView);
+		
+		tbDepTree = getJMenuItem("View Dependency Tree", KeyEvent.VK_D, KeyEvent.VK_D, KeyEvent.CTRL_MASK);
+		mTreebank.add(tbDepTree);
+		
 		add(mTreebank);
 	}
 	

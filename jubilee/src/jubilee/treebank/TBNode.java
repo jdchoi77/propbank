@@ -22,9 +22,9 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 package jubilee.treebank;
-import java.util.*;
+import java.util.ArrayList;
 
-import jubilee.util.*;
+import jubilee.util.StringManager;
 
 /**
  * 'TBNode' represents a node in Treebank.  It contains the following fields.
@@ -44,7 +44,7 @@ public class TBNode
 {
 	String pos, word, arg, loc;
 	TBNode parent;
-	Vector<TBNode> children;
+	ArrayList<TBNode> children;
 	
 	/**
 	 * Creates a node and assigns its parent and tag.
@@ -78,7 +78,7 @@ public class TBNode
 		
 		if (origin.children != null)
 		{
-			curr.children = new Vector<TBNode>();
+			curr.children = new ArrayList<TBNode>();
 			
 			for (int i=0; i<origin.getChildren().size(); i++)
 				curr.children.add(copySelf(origin.children.get(i), curr));
@@ -138,7 +138,7 @@ public class TBNode
 	 * Returns its children in vector.
 	 * @return (isExist(children)) ? the children : null.
 	 */
-	public Vector<TBNode> getChildren()
+	public ArrayList<TBNode> getChildren()
 	{
 		return children;
 	}
@@ -152,6 +152,11 @@ public class TBNode
 	public void setWord(String word)
 	{
 		this.word = StringManager.getUTF8(word);
+	}
+	
+	public void setPos(String pos)
+	{
+		this.pos = pos;
 	}
 		
 	/**
@@ -181,8 +186,33 @@ public class TBNode
 	public void addChild(TBNode child)
 	{
 		if (children == null)
-			children = new Vector<TBNode>();
+			children = new ArrayList<TBNode>();
 		
 		children.add(child);
+	}
+	
+	public String toWords()
+	{
+		return toWordsAux(this);
+	}
+	
+	private String toWordsAux(TBNode curr)
+	{
+		ArrayList<TBNode> children = curr.getChildren();
+		
+		if (children != null)
+		{
+			StringBuilder build = new StringBuilder();
+			
+			for (TBNode child : children)
+			{
+				build.append(toWordsAux(child));
+				build.append(" ");
+			}
+
+			return build.toString().trim();
+		}
+		else
+			return curr.word;
 	}
 }

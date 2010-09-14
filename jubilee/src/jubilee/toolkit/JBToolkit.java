@@ -199,6 +199,8 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		argPanel.updateArgButtons(argTag);
 		framesetPanel.setProperties(language, str_dataset.get(DataManager.FRAMESET));
 		s_language = language;
+		if (language.equals("hindi"))	mbar.tbDepTree.setVisible(true);
+		else							mbar.tbDepTree.setVisible(false);
 	}
 	
 	// called from JBOpenDialog
@@ -253,10 +255,11 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		else if (e.getSource() == mbar.tbNext || e.getSource() == bt_next)	actionBtNext();
 		else if (e.getSource() == mbar.tbJump)			menuTbJump();
 		else if (e.getSource() == mbar.tbView)			menuTbView();
-		else if (e.getSource() == mbar.fsPrev)			framesetPanel.prevRoleset();
-		else if (e.getSource() == mbar.fsNext)			framesetPanel.nextRoleset();
-		else if (e.getSource() == mbar.fsViewExample)		framesetPanel.showExample();
-		else if (e.getSource() == mbar.fsViewArgument)		tv_tree.viewArgument();
+		else if (e.getSource() == mbar.tbDepTree)		menuTbDepTree();
+		else if (e.getSource() == mbar.fsPrev)					framesetPanel.prevRoleset();
+		else if (e.getSource() == mbar.fsNext)					framesetPanel.nextRoleset();
+		else if (e.getSource() == mbar.fsViewExample)			framesetPanel.showExample();
+		else if (e.getSource() == mbar.fsViewArgument)			tv_tree.viewArgument();
 		else if (e.getSource() == mbar.fsViewRolesetComment)	framesetPanel.viewRolesetComment();
 		else if (menuArgumentArg(e))	;
 		else if (menuArgumentFunc(e))	;
@@ -398,6 +401,11 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	private void menuTbView()
 	{
 		new JDCTextAreaFrame("Text View", tv_tree.getTree().toTextTree());
+	}
+	
+	private void menuTbDepTree()
+	{
+		new JDCDepTreeFrame("Dependency Tree: "+pb_origin.getIndex(), pb_origin.getDepTree());
 	}
 	
 	// ------------------ Menu-Argument Action ------------------

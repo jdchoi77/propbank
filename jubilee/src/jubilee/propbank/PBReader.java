@@ -23,11 +23,20 @@
 */
 package jubilee.propbank;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
 
-import jubilee.treebank.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
+import jubilee.hindi.HDUtil;
+import jubilee.toolkit.JBToolkit;
+import jubilee.treebank.TBReader;
+import jubilee.treebank.TBTree;
+import jdsl.core.ref.NodeTree;
 /**
  * 'PBReader' reads a Propbank annotation file and stores all information from both treebank 
  * and annotation into vectors.
@@ -67,8 +76,9 @@ public class PBReader
 	private ArrayList<String> ls_frame;
 	private ArrayList<String> ls_roleset;
 	private ArrayList<String> ls_extra;
-	private ArrayList<TBTree> ls_tree;
+	private ArrayList<TBTree> ls_pTree;
 	private int               i_currIndex;		// index of the current tree
+	private ArrayList<NodeTree> ls_dTree;
 	
 	/**
 	 * Opens 'annotationFile', finds trees from 'treebankPath', and collects information.
@@ -82,8 +92,11 @@ public class PBReader
 		ls_frame     = new ArrayList<String>();
 		ls_roleset   = new ArrayList<String>();
 		ls_extra     = new ArrayList<String>();
-		ls_tree      = new ArrayList<TBTree>();
+		ls_pTree     = new ArrayList<TBTree>();
 		i_currIndex  = 0;
+		
+		if (JBToolkit.s_language.equals("hindi"))
+			ls_dTree = new ArrayList<NodeTree>();
 		
 		try
 		{
@@ -109,14 +122,14 @@ public class PBReader
 		
 		// get the tree
 		TBReader tbank = new TBReader(treebankPath+File.separator+filename);
-		TBTree tree = null;
+		TBTree   pTree = null;
 		
 		for (int i=0; i<=sentenceIdx; i++)			// reach the tree
-			tree = tbank.nextTree();
+			pTree = tbank.nextTree();
 		
 		// add 'rel' as an argument to the predicate
-		tree.moveToTerminal(predicateIdx);
-		tree.setArg(predicateIdx+":0", REL);
+		pTree.moveToTerminal(predicateIdx);
+		pTree.setArg(predicateIdx+":0", REL);
 		
 		String annotator = tok.nextToken();	// annotator
 		ls_annotator.add(annotator);
@@ -143,16 +156,22 @@ public class PBReader
 				tok_description.nextToken();	// :
 				int height = Integer.parseInt(tok_description.nextToken());
 				
-				tree.moveTo(terminalIdx, height);
+				pTree.moveTo(terminalIdx, height);
 				loc += simbol + terminalIdx + ":" + height;
-				tree.setArg(loc, arg);
+				pTree.setArg(loc, arg);
 				
 				if (tok_description.hasMoreTokens())		// get symbol
 					simbol = tok_description.nextToken();
 			}
 		}
 		
-		ls_tree.add(tree);
+		ls_pTree.add(pTree);
+
+		if (JBToolkit.s_language.equals("hindi"))
+		{
+			ls_dTree.add(HDUtil.getTree(pTree.getRootNode()));
+			HDUtil.cleanTree(pTree.getRootNode());
+		}
 	}
 	
 	/**
@@ -182,7 +201,7 @@ public class PBReader
 			build.append(" ");
 			build.append(ls_extra.get(i));
 			build.append(" ");
-			build.append(ls_tree.get(i).toPropbank());
+			build.append(ls_pTree.get(i).toPropbank());
 			
 			fout.println(build.toString());
 		}
@@ -194,7 +213,7 @@ public class PBReader
 	 */
 	public int getSize()
 	{
-		return ls_tree.size();
+		return ls_pTree.size();
 	}
 	
 	/**
@@ -244,7 +263,12 @@ public class PBReader
 	 */
 	public TBTree getTBTree()
 	{
-		return ls_tree.get(i_currIndex);
+		return ls_pTree.get(i_currIndex);
+	}
+	
+	public NodeTree getDepTree()
+	{
+		return ls_dTree.get(i_currIndex);
 	}
 	
 	/**
@@ -289,6 +313,6 @@ public class PBReader
 		ls_frame.set(pb.getIndex(), pb.getFrame());
 		ls_roleset.set(pb.getIndex(), pb.getRoleset());
 		ls_extra.set(pb.getIndex(), pb.getExtra());
-		ls_tree.set(pb.getIndex(), pb.getTBTree().clone());
+		ls_pTree.set(pb.getIndex(), pb.getTBTree().clone());
 	}
 }

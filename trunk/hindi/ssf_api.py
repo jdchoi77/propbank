@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*- 
 # filename   : ssf_api.py
 # author     : Jinho D. Choi
-# last update: 6/28/2010
+# last update: 10/6/2010
 import re
 
 DELIM_NODE      = '\t'
@@ -11,8 +11,10 @@ DELIM_DREL      = ':'
 DELIM_AF        = ','
 
 KEY_DREL        = 'drel'
+KEY_DMREL       = 'dmrel'
 KEY_PBMREL      = 'pbmrel'
 KEY_AF          = 'af'
+KEY_VOICETYPE   = 'voicetype'
 
 REG_FS          = re.compile('([<>\s])')
 
@@ -63,7 +65,9 @@ class SSF:
 	# Returns the string of 'start'*['end'*], read from 'fin'.
 	# This method is called from __init__().
 	def _getText(self, fin, start, end=None):
-		text = fin.readline()
+		for text in fin:
+			if text.strip(): break
+			
 		if not text.startswith(start): return None
 		if not end                   : return text.strip()
 		
@@ -245,6 +249,15 @@ class Tree(list):
 				self.insert(i, node)
 				break
 	
+	def toJubilee(self):
+		lTree = ['((SSF']
+		for chunk in self:
+			lTree.append('    '+chunk.toJubilee())
+		lTree.append('))')
+		
+		return '\n'.join(lTree)
+	
+	
 ############################## End  : class Tree  ##############################
 ############################## Begin: class Chunk ##############################
 
@@ -290,6 +303,15 @@ class Chunk(list):
 		
 		return None
 	
+	# Returns ['dm-dependency relation', 'headId'] list of the chunk.
+	def getDMrel(self):
+		if not self[0].dic_fs: return None
+		
+		if KEY_DMREL in self[0].dic_fs:
+			return self[0].dic_fs[KEY_DMREL]
+		
+		return None
+	
 	# Returns ['pbm-dependency relation', 'headId'] list of the chunk.
 	def getPBMrel(self):
 		if not self[0].dic_fs: return None
@@ -299,11 +321,16 @@ class Chunk(list):
 		
 		return None
 	
+	def getMrel(self):
+		mrel = self.getDMrel()
+		if mrel: return mrel
+		else   : return self.getPBMrel()
+	
 	# Returns true if the chunk is a child of 'headId' with a dependency relation 'drel'.
 	# drel: dependency relation (e.g., k1) : string
 	# headId: ID of the head chunk (e.g., VGF) : string
 	def isChild(self, drel, headId):
-		minfo = self.getPBMrel()
+		minfo = self.getMrel()
 		if minfo:
 			if not drel: return minfo[1] == headId
 			return minfo[0].startswith(drel) and minfo[1] == headId
@@ -316,6 +343,29 @@ class Chunk(list):
 	# Returns the name of the chunk.
 	def getName(self):
 		return self[0].getName()
+	
+	def getAnyRelInString(self):
+		rel = self.getDrel()
+		if rel: return rel
+		rel = self.getDMrel()
+		if rel: return rel
+		rel = self.getPBMrel()
+		if rel: return rel
+		
+		return ['root','ROOT']
+	
+	def toJubilee(self):
+		lsTop = [self[0].getName()]				# ['NP3']
+		lsTop.extend(self.getAnyRelInString())	# ['pof','VGNN']
+		voiceType = self[0].getVoiceType()
+		if voiceType: lsTop.append(voiceType)
+
+		print(lsTop)		
+		ls = [':'.join(lsTop)]
+		for i in range(1, len(self)):
+			ls.append(self[i].toJubilee())
+		
+		return '(' + ' '.join(ls) + ')'
 
 ############################## End  : class Chunk ##############################
 ############################## Begin: class Node  ##############################
@@ -346,6 +396,7 @@ class Node:
 			if val[0] == '\'' and val[-1] == '\'': val = val[1:-1]	# strip single quotes
 
 			if   key == KEY_DREL  : dic[key] = val.split(DELIM_DREL)
+			elif key == KEY_DMREL : dic[key] = val.split(DELIM_DREL)
 			elif key == KEY_PBMREL: dic[key] = val.split(DELIM_DREL)
 			elif key == KEY_AF    : dic[key] = val.split(DELIM_AF)
 			else                  : dic[key] = val
@@ -374,6 +425,7 @@ class Node:
 			if key == KEY_AF: continue
 			val = self.dic_fs[key]
 			if   key == KEY_DREL  : val = DELIM_DREL.join(val)
+			elif key == KEY_DMREL : val = DELIM_DREL.join(val)
 			elif key == KEY_PBMREL: val = DELIM_DREL.join(val)
 			elif key == KEY_AF    : val = DELIM_AF  .join(val)
 			ls.append(key + DELIM_KEY + '\'' + val + '\'')
@@ -408,7 +460,7 @@ class Node:
 			return self.dic_fs[ATTR_NAME]
 		
 		return None
-	
+
 	# Returns the feature-value of 'key'.
 	# key: feature-key (e.g., 'drel') : string 
 	def getFeatureValue(self, key):
@@ -424,5 +476,20 @@ class Node:
 		if not self.dic_fs: return None
 		return self.dic_fs[KEY_AF]
 	
+	def getVoiceType(self):
+		if not self.dic_fs: return None
+		if KEY_VOICETYPE in self.dic_fs:
+			return self.dic_fs[KEY_VOICETYPE]
+		else:
+			return None
+	
+	def getLemma(self):
+		af = self.getAF()
+		if af and af[0]: return af[0]
+		return self.str_word
+	
+	# node representation for Jubilee
+	def toJubilee(self):
+		return '(' + self.str_pos + ' ' + self.str_word + ')'
 
 ############################## End  : class Node ##############################

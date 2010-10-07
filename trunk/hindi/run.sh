@@ -1,7 +1,7 @@
 #!/bin/bash
 DIR=$1
 
-for filename in $( ls $DIR/*.prun );
+for filename in $( ls $DIR/*.$2 );
 do
         echo $filename
         ./insert_null.py $filename $filename.null

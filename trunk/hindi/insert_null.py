@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3.1
 # -*- coding: UTF-8 -*- 
 # filename   : insert_null.py
 # author     : Jinho D. Choi
-# last update: 6/28/2010
+# last update: 10/6/2010
 import sys
 from ssf_api import *
 
@@ -10,7 +10,8 @@ DREL_K1 = 'k1'
 DREL_K2 = 'k2'
 
 # {'aa':'huaa', 'ii':'huii', 'e':'huey', 'ne':'vaale', 'ne':'vaalaa', 'ne':'vaalii'}
-REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
+#REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
+#REL_PRO_DRELS = set(['nmod__k1inv', 'nmod__k2inv'])
 REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
 REL_PRO       = 'RELPRO'
 
@@ -55,11 +56,14 @@ class InsertNull:
 		drel = chunk.getDrel()
 		if not drel or drel[0] not in REL_PRO_DRELS: return False
 		
+		return True
+		'''
 		for suffix in REL_PRO_VERBS:
 			if chunk[1].wordEnds(suffix) and chunk[2].wordEquals(REL_PRO_VERBS[suffix]):
 				return True
 	
 		return False
+		'''
 
 	# Inserts big-pro chunks to 'tree'.
 	# tree : Tree
@@ -131,7 +135,8 @@ class InsertNull:
 	# headId: ID of the head chunk
 	def getNullChunk(self, label, drel, headId):
 		ls = list()
-		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+'-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
+	#	ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+'-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
+		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
 		ls.append('0.1\tNULL\tNULL\t<fs name=\'NULL\'>')
 		ls.append('\t))')
 

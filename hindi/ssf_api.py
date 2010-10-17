@@ -19,6 +19,8 @@ KEY_VOICETYPE   = 'voicetype'
 REG_FS          = re.compile('([<>\s])')
 
 POS_VERB        = 'VG'
+POS_FINITE_VERB = 'VGF'
+POS_MAIN_VERB   = 'VM'
 POS_CONJUNCT    = 'CCP'
 
 BEGIN_DOCUMENT  = '<document'
@@ -290,6 +292,9 @@ class Chunk(list):
 	def isVerb(self):
 		return self[0].posStarts(POS_VERB)
 	
+	def isFiniteVerb(self):
+		return self[0].posEquals(POS_FINITE_VERB)
+	
 	# Returns true if it is a conjunct-chunk.
 	def isConjunct(self):
 		return self[0].posEquals(POS_CONJUNCT)
@@ -332,6 +337,7 @@ class Chunk(list):
 	def isChild(self, drel, headId):
 		minfo = self.getMrel()
 		if minfo:
+			if len(minfo) < 2: return False
 			if not drel: return minfo[1] == headId
 			return minfo[0].startswith(drel) and minfo[1] == headId
 		
@@ -360,12 +366,20 @@ class Chunk(list):
 		voiceType = self[0].getVoiceType()
 		if voiceType: lsTop.append(voiceType)
 
-		print(lsTop)		
+	#	print(lsTop)		
 		ls = [':'.join(lsTop)]
 		for i in range(1, len(self)):
 			ls.append(self[i].toJubilee())
 		
 		return '(' + ' '.join(ls) + ')'
+	
+	def getMainVerb(self):
+		for node in self[1:]:
+			if node.posEquals(POS_MAIN_VERB):
+				return node
+		
+		return None
+		
 
 ############################## End  : class Chunk ##############################
 ############################## Begin: class Node  ##############################

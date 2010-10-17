@@ -6,8 +6,22 @@
 import sys
 from ssf_api import *
 
-DREL_K1 = 'k1'
-DREL_K2 = 'k2'
+# initializes trans verbs
+f_trans   = open('map_trans.txt')
+s_intrans = set()
+s_ditrans = set()
+
+for line in f_trans:
+	l = line.split()
+	if   l[2] == 'I': s_intrans.add(l[0])
+	elif l[2] == 'D': s_ditrans.add(l[0])
+
+f_trans.close()
+
+DREL_K1  = 'k1'
+DREL_K2  = 'k2'
+DREL_K4  = 'k4'
+DREL_POF = "pof"
 
 # {'aa':'huaa', 'ii':'huii', 'e':'huey', 'ne':'vaale', 'ne':'vaalaa', 'ne':'vaalii'}
 #REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
@@ -15,15 +29,14 @@ DREL_K2 = 'k2'
 REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
 REL_PRO       = 'RELPRO'
 
-#BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
-BIG_PRO_SUFFIX = ['ना']					# naa
+BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
+#BIG_PRO_SUFFIX = ['ना']					# naa
 BIG_PRO_NOT    = 'वाला'					# vaalaa
 BIG_PRO_KAR    = 'कर'					# kar
 BIG_PRO_TE     = 'ते'					# te
 BIG_PRO_HUEY   = 'हुए'					# huey
 BIG_PRO        = 'PRO'
 
-PRO_AUR        = 'और'
 PRO            = 'pro'
 
 class InsertNull:
@@ -43,8 +56,7 @@ class InsertNull:
 			if drel[0] == 'nmod__k1inv' and not tree.existChild(DREL_K1, headId):
 				tree.insertFirstChild(headId, self.getNullChunk(REL_PRO, DREL_K1, headId))
 				i += 1; size += 1
-
-			if drel[0] == 'nmod__k2inv' and not tree.existChild(DREL_K2, headId):
+			elif drel[0] == 'nmod__k2inv' and not tree.existChild(DREL_K2, headId):
 				tree.insertLastChild(headId, self.getNullChunk(REL_PRO, DREL_K2, headId))
 				i += 1; size += 1
 
@@ -109,25 +121,26 @@ class InsertNull:
 		
 		while i < size:
 			chunk = tree[i]; i += 1
-			if not self._isProConjunct(chunk): continue
+			if not chunk.isFiniteVerb(): continue
 			headId = chunk.getName()
 			if not headId: continue
-			verbLinks = tree.getVerbChildren(headId)
-			if not verbLinks: continue
+			if tree.existChild(DREL_POF, headId): continue
+			mainV  = chunk.getMainVerb()
+			if not mainV : continue
+			lemma  = mainV.getLemma()
 			
-			for child in verbLinks:
-				childId = child.getName()
-				if not childId: continue
-				if not tree.existChild(DREL_K1, childId):
-					tree.insertFirstChild(childId, self.getNullChunk(PRO, DREL_K1, childId))
-					size += 1
+			if not tree.existChild(DREL_K1, headId):
+				tree.insertFirstChild(headId, self.getNullChunk(PRO, DREL_K1, headId))
+				i += 1; size += 1
 			
-			i = tree.index(chunk) + 1
+			if not tree.existChild(DREL_K4, headId) and lemma in s_ditrans:
+				tree.insertLastChild(headId, self.getNullChunk(PRO, DREL_K4, headId))
+				i += 1; size += 1
+			
+			if not tree.existChild(DREL_K2, headId) and lemma not in s_intrans:
+				tree.insertLastChild(headId, self.getNullChunk(PRO, DREL_K2, headId))
+				i += 1; size += 1
 
-	# Returns true if 'chunk' is a conjunct for pro chunk.
-	# chunk : Chunk
-	def _isProConjunct(self, chunk):
-		return chunk.isConjunct() and chunk[1].wordEquals(PRO_AUR)
 
 	# Returns a null chunk.
 	# label: label of the null chunk (e.g., RELPRO, BIGPRO) : string
@@ -135,8 +148,8 @@ class InsertNull:
 	# headId: ID of the head chunk
 	def getNullChunk(self, label, drel, headId):
 		ls = list()
-	#	ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+'-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
-		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
+		ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+'-'+drel+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
+	#	ls.append('0\t((\tNULL__NP\t<fs pbmrel=\''+label+DELIM_DREL+headId+'\' name=\'NULL__NP\'>')
 		ls.append('0.1\tNULL\tNULL\t<fs name=\'NULL\'>')
 		ls.append('\t))')
 
@@ -151,7 +164,7 @@ ins = InsertNull()
 for tree in ssf.getTrees():
 	ins.insertRelPro(tree)
 	ins.insertBigPro(tree)
-#	ins.insertPro(tree)
+	ins.insertPro(tree)
 
 ssf.print(OUT_FILE)
 

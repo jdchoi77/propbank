@@ -19,14 +19,17 @@ for line in f_trans:
 f_trans.close()
 
 DREL_K1  = 'k1'
+DREL_K1S = 'k1s'
 DREL_K2  = 'k2'
 DREL_K4  = 'k4'
+DREL_K4A = 'k4a'
+DREL_K7  = 'k7'
 DREL_POF = "pof"
 
 # {'aa':'huaa', 'ii':'huii', 'e':'huey', 'ne':'vaale', 'ne':'vaalaa', 'ne':'vaalii'}
 #REL_PRO_VERBS = {'ा':'हुआ', 'ी':'हुई', 'े':'हुए', 'ने':'वाले', 'ने':'वाला', 'ने':'वाली'}
 #REL_PRO_DRELS = set(['nmod__k1inv', 'nmod__k2inv'])
-REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv'}
+REL_PRO_DRELS = {'nmod__k1inv', 'nmod__k2inv', 'nmod__pofinv'}
 REL_PRO       = 'RELPRO'
 
 BIG_PRO_SUFFIX = ['ना', 'नी', 'ने']		# naa, nil, ne
@@ -37,7 +40,10 @@ BIG_PRO_TE     = 'ते'					# te
 BIG_PRO_HUEY   = 'हुए'					# huey
 BIG_PRO        = 'PRO'
 
+PRO_AUR        = 'और'
 PRO            = 'pro'
+
+GAP_PRO        = 'gap_pro'
 
 class InsertNull:
 	# Inserts rel-pro chunks to 'tree'.
@@ -53,7 +59,7 @@ class InsertNull:
 			if not headId: continue
 			drel = chunk.getDrel()
 			
-			if drel[0] == 'nmod__k1inv' and not tree.existChild(DREL_K1, headId):
+			if (drel[0] == 'nmod__k1inv' or drel[0] == 'nmod__pofinv') and not tree.existChild(DREL_K1, headId):
 				tree.insertFirstChild(headId, self.getNullChunk(REL_PRO, DREL_K1, headId))
 				i += 1; size += 1
 			elif drel[0] == 'nmod__k2inv' and not tree.existChild(DREL_K2, headId):
@@ -129,7 +135,7 @@ class InsertNull:
 			if not mainV : continue
 			lemma  = mainV.getLemma()
 			
-			if not tree.existChild(DREL_K1, headId):
+			if not tree.existChild(DREL_K1, headId) and not tree.existChild(DREL_K4A, headId):
 				tree.insertFirstChild(headId, self.getNullChunk(PRO, DREL_K1, headId))
 				i += 1; size += 1
 			
@@ -137,9 +143,43 @@ class InsertNull:
 				tree.insertLastChild(headId, self.getNullChunk(PRO, DREL_K4, headId))
 				i += 1; size += 1
 			
-			if not tree.existChild(DREL_K2, headId) and lemma not in s_intrans:
+			if not tree.existChild(DREL_K2, headId) and not tree.existChild(DREL_K1S, headId) and not tree.existChild(DREL_K7, headId) and lemma not in s_intrans:
 				tree.insertLastChild(headId, self.getNullChunk(PRO, DREL_K2, headId))
 				i += 1; size += 1
+
+	# Inserts pro chunks to 'tree'.
+	# tree : Tree
+	def insertGapPro(self, tree):
+		size = len(tree)
+		i    = 0
+		
+		while i < size:
+			chunk = tree[i]; i += 1
+			if not chunk.isFiniteVerb(): continue
+			drel = chunk.getDrel()
+			if not drel or len(drel) < 2: continue
+			head = tree.getChunk(drel[1])
+			if head and not self._isProConjunct(head): continue
+			headId = chunk.getName()
+			if not headId: continue
+			if tree.existChild(DREL_POF, headId): continue
+			mainV  = chunk.getMainVerb()
+			if not mainV : continue
+			lemma  = mainV.getLemma()
+			
+			if not tree.existChild(DREL_K1, headId):
+				tree.insertFirstChild(headId, self.getNullChunk(GAP_PRO, DREL_K1, headId))
+				i += 1; size += 1
+			
+			if not tree.existChild(DREL_K4, headId) and lemma in s_ditrans:
+				tree.insertLastChild(headId, self.getNullChunk(GAP_PRO, DREL_K4, headId))
+				i += 1; size += 1
+			
+			if not tree.existChild(DREL_K2, headId) and lemma not in s_intrans:
+				tree.insertLastChild(headId, self.getNullChunk(GAP_PRO, DREL_K2, headId))
+				i += 1; size += 1
+
+
 
 
 	# Returns a null chunk.
@@ -154,6 +194,12 @@ class InsertNull:
 		ls.append('\t))')
 
 		return Chunk(ls)
+	
+	# Returns true if 'chunk' is a conjunct for pro chunk.
+	# chunk : Chunk
+	def _isProConjunct(self, chunk):
+		return chunk.isConjunct() and chunk[1].wordEquals(PRO_AUR)
+
 
 SSF_FILE = sys.argv[1]
 OUT_FILE = sys.argv[2]
@@ -164,6 +210,7 @@ ins = InsertNull()
 for tree in ssf.getTrees():
 	ins.insertRelPro(tree)
 	ins.insertBigPro(tree)
+#	ins.insertGapPro(tree)
 	ins.insertPro(tree)
 
 ssf.print(OUT_FILE)

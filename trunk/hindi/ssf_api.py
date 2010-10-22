@@ -201,6 +201,13 @@ class Tree(list):
 		ls.append(END_SENTENCE)
 	
 		return '\n'.join(ls)
+		
+	def getChunk(self, name):
+		for chunk in self:
+			if chunk.nameEquals(name):
+				return chunk
+		
+		return None
 	
 	# Returns true if there exists a child of 'headId' with a dependency relation 'drel'.
 	# drel: dependency relation (e.g., k1) : string
@@ -379,6 +386,9 @@ class Chunk(list):
 				return node
 		
 		return None
+	
+	def nameEquals(self, name):
+		return self[0].nameEquals(name)
 		
 
 ############################## End  : class Chunk ##############################
@@ -474,6 +484,11 @@ class Node:
 			return self.dic_fs[ATTR_NAME]
 		
 		return None
+	
+	def nameEquals(self, name):
+		curr = self.getName();
+		if curr: return curr == name
+		return False
 
 	# Returns the feature-value of 'key'.
 	# key: feature-key (e.g., 'drel') : string 

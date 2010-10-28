@@ -69,7 +69,7 @@ class SSF:
 	def _getText(self, fin, start, end=None):
 		for text in fin:
 			if text.strip(): break
-			
+
 		if not text.startswith(start): return None
 		if not end                   : return text.strip()
 		
@@ -266,6 +266,28 @@ class Tree(list):
 		
 		return '\n'.join(lTree)
 	
+	def generateTokenIDs(self):
+		tokId = 0
+		
+		for chunk in self:
+			for i,node in enumerate(chunk[1:]):
+				node.tokenId = tokId + i
+			
+			tokId += len(chunk) - 1
+			
+	def isCycle(self, name):
+		chunk = self.getChunk(name)
+		rel   = chunk.getRel()
+		
+		while rel and len(rel) >= 2:
+			chunk = self.getChunk(rel[1])
+			if chunk.getName() == name:
+				return True
+			rel = chunk.getRel()
+		
+		return False
+			
+	
 	
 ############################## End  : class Tree  ##############################
 ############################## Begin: class Chunk ##############################
@@ -338,6 +360,11 @@ class Chunk(list):
 		if mrel: return mrel
 		else   : return self.getPBMrel()
 	
+	def getRel(self):
+		rel = self.getDrel()
+		if rel: return rel
+		else  : return self.getMrel()
+	
 	# Returns true if the chunk is a child of 'headId' with a dependency relation 'drel'.
 	# drel: dependency relation (e.g., k1) : string
 	# headId: ID of the head chunk (e.g., VGF) : string
@@ -368,8 +395,9 @@ class Chunk(list):
 		return ['root','ROOT']
 	
 	def toJubilee(self):
-		lsTop = [self[0].getName()]				# ['NP3']
-		lsTop.extend(self.getAnyRelInString())	# ['pof','VGNN']
+		if self.getPBMrel(): lsTop = ['NULL__NP']
+		else               : lsTop = [self[0].getName()]	# ['NP3']
+		lsTop.extend(self.getAnyRelInString())						# ['pof','VGNN']
 		voiceType = self[0].getVoiceType()
 		if voiceType: lsTop.append(voiceType)
 
@@ -403,6 +431,7 @@ class Node:
 		self.str_word = word
 		self.str_pos  = pos
 		self.dic_fs   = self._getFs(fs)
+		self.tokenId  = -1
 		
 	# Returns the dictionary of 'fs'.
 	# This method is called from __init__().
@@ -485,6 +514,9 @@ class Node:
 		
 		return None
 	
+	def getPos(self):
+		return self.str_pos
+	
 	def nameEquals(self, name):
 		curr = self.getName();
 		if curr: return curr == name
@@ -503,6 +535,7 @@ class Node:
 	
 	def getAF(self):
 		if not self.dic_fs: return None
+		if not KEY_AF in self.dic_fs: return None
 		return self.dic_fs[KEY_AF]
 	
 	def getVoiceType(self):
@@ -512,13 +545,28 @@ class Node:
 		else:
 			return None
 	
+	def getWord(self):
+		return self.str_word
+	
 	def getLemma(self):
 		af = self.getAF()
 		if af and af[0]: return af[0]
 		return self.str_word
 	
+	def setLemma(self, lemma):
+		af = self.getAF()
+		if not af:
+			af = self.getBlankAF()
+		
+		af[0] = lemma
+	
+	def getBlankAF(self):
+		return ['','','','','','','','']
+	
 	# node representation for Jubilee
 	def toJubilee(self):
-		return '(' + self.str_pos + ' ' + self.str_word + ')'
+		word = self.str_word.replace('(','[')
+		word = word.replace(')',']')
+		return '(' + self.str_pos + ' ' + word + ')'
 
 ############################## End  : class Node ##############################

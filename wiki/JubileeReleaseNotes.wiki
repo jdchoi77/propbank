@@ -1,6 +1,11 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.17 (10/27/2010) ===
+
+  * The skip mode now checks if both annotations and rolesets agree.
+  * Hindi dependency tree module is added.
+
 === Jubilee 2.16 (8/17/2010) ===
 
   * 'YY' tag is added for frameset ID representing 'No argument predicate.

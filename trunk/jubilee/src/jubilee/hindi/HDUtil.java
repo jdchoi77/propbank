@@ -57,7 +57,7 @@ public class HDUtil
 			
 			if (cpos[2].equals(parentName))
 			{
-				Position dChild = dTree.insertLastChild(dParent, cpos[1]+":"+pChild.toWords());
+				Position dChild = dTree.insertLastChild(dParent, cpos[0]+":"+cpos[1]+":"+pChild.toWords());
 				setDepTree(pSSF, dTree, dChild, cpos[0]);
 			}
 		}

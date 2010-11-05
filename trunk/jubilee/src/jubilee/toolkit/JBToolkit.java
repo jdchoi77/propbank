@@ -374,10 +374,11 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	private boolean isGoldSame()
 	{
 		String tmp = pb_origin.getTBTree().toPropbank();
+		
 		for (int i=0; i<pb_more.length; i++)
 		{
 			pb_more[i].setIndex(pb_origin.getIndex());
-			if (!tmp.equals(pb_more[i].getTBTree().toPropbank()))
+			if (!tmp.equals(pb_more[i].getTBTree().toPropbank()) || !pb_origin.getRoleset().equals(pb_more[i].getRoleset()))
 				return false;
 		}
 		

@@ -37,7 +37,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class JBArgPanel extends JPanel implements ActionListener
 {
-	static public final int    NUM_ARG = 6;
+	static public       int    NUM_ARG = 6;
 	static public final String ERASE   = "ERASE";
 	
 	private final String ARG_PREFIX = "ARG";
@@ -73,6 +73,9 @@ public class JBArgPanel extends JPanel implements ActionListener
 	
 	public void updateArgButtons(ArrayList<String[]> args)
 	{
+		if (JBToolkit.s_language.equals("hindi"))
+			NUM_ARG = 4;
+		
 		if (bt_erase != null)
 		{
 			for (int i=0; i<bt_arg.length; i++)	pn_button.remove(bt_arg[i]);

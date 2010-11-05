@@ -77,8 +77,7 @@ public class TBReader
 	final public String LRB = "(";
 	/** Right Round Bracket ")" */
 	final public String RRB = ")";
-	
-	private final String HEAD = "HEAD";
+	private final String HEAD = "TOP";
 	private FileTokenizer mb_tok;
 	private int mb_numTree;
 	private String filename;
@@ -107,7 +106,7 @@ public class TBReader
 		}
 		while(!str.equals(LRB));
 		
-		int numBracket = 0;
+		int numBracket = 1;
 		TBNode head = new TBNode(null, HEAD);	// dummy-head
 		TBNode curr = head;						// pointer to the current node
 		
@@ -115,6 +114,8 @@ public class TBReader
 		{
 			if ((str = nextToken()) == null)
 				errorMsg("more token needed");
+			
+			if (numBracket == 1 && str.equals(HEAD))	continue;
 			
 			if (str.equals(LRB))
 			{
@@ -134,12 +135,12 @@ public class TBReader
 			else
 				curr.setWord(str);						// str = word
 		}
-		while (numBracket >= 0);
+		while (numBracket > 0);
 		
 		mb_numTree++;
-		TBNode tmp = head.getChildren().get(0);
-		tmp.setParent(null);
-		return new TBTree(tmp);							// omit the dummy head
+	//	TBNode tmp = head.getChildren().get(0);			// omit the dummy head
+	//	tmp.setParent(null);
+		return new TBTree(head);							
 	}
 	
 	/** @return the current tree number in this file. */

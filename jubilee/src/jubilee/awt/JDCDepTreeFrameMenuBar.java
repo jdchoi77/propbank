@@ -23,73 +23,52 @@
 */
 package jubilee.awt;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
-import jdsl.core.ref.NodeTree;
-import jubilee.hindi.BoundingBoxCalculator;
-import jubilee.hindi.TreeDrawer;
-
-/** 
- * Frame containing a Hindi dependency tree.
+/**
  * @author Jinho D. Choi
- * <b>Last update:</b> 9/13/2010
-*/
+ * <b>Last update:</b> 5/6/2010
+ */
 @SuppressWarnings("serial")
-public class JDCDepTreeFrame extends JFrame implements ActionListener
+public class JDCDepTreeFrameMenuBar extends JMenuBar
 {
-	static final Color bg = new Color(238, 238, 238);
-	private NodeTree               g_tree;
-	private JDCDepTreeFrameMenuBar mbar;
+	JDCDepTreeFrame parent;
+	JMenuItem fileQuit;
 	
-	public JDCDepTreeFrame(String title, NodeTree tree)
+	/**
+	 * Creates a menubar.
+	 * @param pbtk parent class.
+	 */
+	public JDCDepTreeFrameMenuBar(JDCDepTreeFrame parent)
 	{
-		super(title);
-		g_tree = tree;
-		
-		mbar = new JDCDepTreeFrameMenuBar(this);
-		setJMenuBar(mbar);
-		setBounds(20, 20, 800, 400);
-		setBackground(bg);
-		
-		addWindowListener(new WindowAdapt());
-		setVisible(true);
+		this.parent = parent;
+		initMenuFile();
 	}
 	
-	public void paint(Graphics g)
+	private void initMenuFile()
 	{
-		g.setColor(getBackground());
-		new BoundingBoxCalculator(getGraphics()).execute(g_tree);
-
-		TreeDrawer draw = new TreeDrawer(g);
-		draw.execute(g_tree);
+		JMenu mFile = new JMenu("File");
+		mFile.setMnemonic(KeyEvent.VK_F);
 		
-		setSize(draw.i_width, draw.i_height);
-		invalidate();
+		fileQuit = getJMenuItem("Quit", KeyEvent.VK_Q, KeyEvent.VK_Q, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);
+		mFile.add(fileQuit);
+		
+		add(mFile);
+	}
+	
+	// set menu-item with name, short-key, accelerator
+	private JMenuItem getJMenuItem(String text, int mnemonic, int keyCode, int modifiers)
+	{
+		JMenuItem mi = new JMenuItem(text, mnemonic);
+		
+		mi.setAccelerator(KeyStroke.getKeyStroke(keyCode, modifiers));
+		mi.addActionListener(parent);
+		
+		return mi;
     }
-	
-    class WindowAdapt extends WindowAdapter
-	{
-		public void windowClosing(WindowEvent e)
-		{		dispose();		}
-	}
-    
-    public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == mbar.fileQuit)		dispose();
-	}
-    
-    class MyAdjustmentListener implements AdjustmentListener {
-        public void adjustmentValueChanged(AdjustmentEvent e) {
-          repaint();
-        }
-      }
 }

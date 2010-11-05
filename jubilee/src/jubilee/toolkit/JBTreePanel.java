@@ -145,6 +145,7 @@ public class JBTreePanel extends JPanel
 	 * The current pointer of TBTree will be set according to the currently selected node in JTree.
 	 * @return the relative location.
 	 */
+	@SuppressWarnings("unchecked")
 	private String getLoc()
 	{
 		// current node

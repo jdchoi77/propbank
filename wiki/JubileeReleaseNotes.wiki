@@ -1,6 +1,11 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.18 (11/5/2010) ===
+
+  * TOP-node is now always displayed.
+  * Hindi dependency tree is polished.
+
 === Jubilee 2.17 (10/27/2010) ===
 
   * The skip mode now checks if both annotations and rolesets agree.

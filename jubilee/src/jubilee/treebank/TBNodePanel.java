@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jubilee.propbank.PBReader;
+import jubilee.toolkit.JBToolkit;
 
 /**
  * @author Jinho D. Choi
@@ -66,8 +67,12 @@ public class TBNodePanel extends JPanel
 		else						lb_word.setText("");
 		if (node.getArg() != null)	lb_arg.setText(node.getLoc() + PBReader.ARG_JOINER + node.getArg());
 		else						lb_arg.setText("");
+
+		if (node.depParent != null && node.depParent.equals(JBToolkit.s_predPos))
+			lb_tag.setForeground(Color.red);
+		else						
+			lb_tag.setForeground(Color.gray);
 		
-		lb_tag .setForeground(Color.gray);
 		lb_word.setForeground(Color.black);
 		if (lb_arg.getText().contains(PBReader.REL))	lb_arg.setForeground(Color.red);
 		else											lb_arg.setForeground(Color.blue);

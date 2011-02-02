@@ -45,6 +45,7 @@ public class TBNode
 	String pos, word, arg, loc;
 	TBNode parent;
 	ArrayList<TBNode> children;
+	public String depParent;
 	
 	/**
 	 * Creates a node and assigns its parent and tag.
@@ -58,6 +59,7 @@ public class TBNode
 		this.pos = pos;
 		word = arg = loc = null;
 		children = null;
+		depParent = null;
 	}
 	
 	/* (non-Javadoc)
@@ -168,6 +170,16 @@ public class TBNode
 	{
 		this.loc = loc;
 		this.arg = arg;
+	}
+	
+	public void addNull(String loc, String arg)
+	{
+		this.loc = loc;
+
+		if (this.arg == null || this.arg.startsWith("ARG"))
+			this.arg = arg;
+		else
+			this.arg += ":"+arg;
 	}
 	
 	/**

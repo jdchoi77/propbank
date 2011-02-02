@@ -104,6 +104,7 @@ public class TreeDrawer extends EulerTour {
     else
     {
     	String[] arr = str.split(":");
+    	
     	g.setColor(Color.blue);
     	g.drawString(arr[0]+" - "+arr[2],x,y);
     	g.setColor(Color.red);

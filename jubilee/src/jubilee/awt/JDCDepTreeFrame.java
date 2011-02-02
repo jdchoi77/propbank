@@ -72,7 +72,7 @@ public class JDCDepTreeFrame extends JFrame implements ActionListener
 		TreeDrawer draw = new TreeDrawer(g);
 		draw.execute(g_tree);
 		
-		setSize(draw.i_width, draw.i_height);
+	//	setSize(draw.i_width, draw.i_height);
 		invalidate();
     }
 	

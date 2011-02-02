@@ -1,6 +1,9 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.18a (2/2/2011) ===
+  * Menu-shortkeys for Hindi empty categories are added.
+
 === Jubilee 2.18 (11/5/2010) ===
 
   * TOP-node is now always displayed.

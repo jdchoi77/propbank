@@ -128,6 +128,12 @@ public class JBArgPanel extends JPanel implements ActionListener
 		pbtk.updateGoldTopList();
 	}
 	
+	public void updateNull(String arg)
+	{
+		tree.updateNull(arg);
+		pbtk.updateGoldTopList();
+	}
+	
 	public void setFunction(String func)
 	{
 		tree.updateArg(func, "");

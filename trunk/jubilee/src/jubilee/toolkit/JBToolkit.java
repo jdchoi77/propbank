@@ -64,6 +64,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	
 	static public String s_language = "english";
 	static public String s_sysDir   = null;
+	static public String s_predPos  = null;
 	
 	public JBToolkit(String title, String sysDir, String userID, int maxAnn, byte skip)
 	{
@@ -199,8 +200,8 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		argPanel.updateArgButtons(argTag);
 		framesetPanel.setProperties(language, str_dataset.get(DataManager.FRAMESET));
 		s_language = language;
-		if (language.equals("hindi"))	mbar.tbDepTree.setVisible(true);
-		else							mbar.tbDepTree.setVisible(false);
+		if (language.equals("hindi"))	mbar.setHindiMenu(true);
+		else							mbar.setHindiMenu(false);
 	}
 	
 	// called from JBOpenDialog
@@ -265,6 +266,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		else if (menuArgumentFunc(e))	;
 		else if (e.getSource() == mbar.argErase)		argPanel.updateArg(e.getActionCommand());
 		else if (e.getSource() == mbar.helpAbout)		menuHelpAbout();
+		else if (s_language.equals("hindi") && menuNulls(e))	;
 	}
 	
 	public void itemStateChanged(ItemEvent e)
@@ -273,6 +275,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		{
 			menuFileSave();
 			pb_origin.setIndex(cb_jump.getSelectedIndex());
+			s_predPos = pb_origin.getPredPos();
 			updateAll();
 			updateGoldList();
 		}
@@ -439,13 +442,24 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		return false;
 	}
 	
+	private boolean menuNulls(ActionEvent e)
+	{
+		if (mbar.isNullMenu(e.getSource()))
+		{
+			argPanel.updateNull(e.getActionCommand());
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@SuppressWarnings("static-access")
 	private void menuHelpAbout()
 	{
 		String msg = str_frameTitle + "\n";
 		msg += "Jinho D. Choi\n";
 		msg += "University of Colorado\n\n";
-		msg += "http://verbs.colorado.edu/~choijd/jubilee";
+		msg += "http://code.google.com/p/propbank/";
 		
 		new JOptionPane().showMessageDialog(this, msg, "About", JOptionPane.INFORMATION_MESSAGE);
 	}

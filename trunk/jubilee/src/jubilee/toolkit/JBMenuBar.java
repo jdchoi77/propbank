@@ -50,6 +50,7 @@ public class JBMenuBar extends JMenuBar
 	JMenuItem[] argArgs, argFunc;
 	JMenuItem   argErase;
 	JMenuItem   helpAbout;
+	JMenuItem   nullPRO0, nullPRO1, nullREL0, nullREL1, nullpro0, nullpro1, nullpro2, nullGAP0, nullGAP1, nullGAP2;
 	
 	/**
 	 * Creates a menubar.
@@ -63,7 +64,33 @@ public class JBMenuBar extends JMenuBar
 		initMenuTreebank();
 		initMenuFrameset();
 		initMenuArgument();
+		initMenuNulls();
+		
 		initMenuHelp();
+	}
+	
+	public void setHindiMenu(boolean visible)
+	{
+		tbDepTree.setVisible(visible);
+		
+		nullPRO0.setVisible(visible);
+		nullPRO1.setVisible(visible);
+		nullREL0.setVisible(visible);
+		nullREL1.setVisible(visible);
+		nullpro0.setVisible(visible);
+		nullpro1.setVisible(visible);
+		nullpro2.setVisible(visible);
+		nullGAP0.setVisible(visible);
+		nullGAP1.setVisible(visible);
+		nullGAP2.setVisible(visible);
+	}
+	
+	public boolean isNullMenu(Object menu)
+	{
+		return menu == nullPRO0 || menu == nullPRO1 || 
+		       menu == nullREL0 || menu == nullREL1 ||
+		       menu == nullpro0 || menu == nullpro1 || menu == nullpro2 ||
+		       menu == nullGAP0 || menu == nullGAP1 || menu == nullGAP2;
 	}
 	
 	/** Called from {@link JBToolkit#initProperties(String, java.util.HashMap)} */
@@ -185,6 +212,31 @@ public class JBMenuBar extends JMenuBar
 		
 		mArg.add(mArgFunc);		
 		add(mArg);
+	}
+	
+	private void initMenuNulls()
+	{
+		JMenu mNull = new JMenu("Nulls");
+		mNull.setMnemonic(KeyEvent.VK_N);
+		
+		nullPRO0 = getJMenuItem("PRO-ARG0", 0, KeyEvent.VK_0, KeyEvent.CTRL_MASK);	mNull.add(nullPRO0);
+		nullPRO1 = getJMenuItem("PRO-ARG1", 0, KeyEvent.VK_1, KeyEvent.CTRL_MASK);	mNull.add(nullPRO1);
+		mNull.addSeparator();
+		
+		nullREL0 = getJMenuItem("REL-ARG0", 0, KeyEvent.VK_0, KeyEvent.ALT_MASK);	mNull.add(nullREL0);
+		nullREL1 = getJMenuItem("REL-ARG1", 0, KeyEvent.VK_1, KeyEvent.ALT_MASK);	mNull.add(nullREL1);
+		mNull.addSeparator();
+		
+		nullpro0 = getJMenuItem("pro-ARG0", 0, KeyEvent.VK_0, KeyEvent.SHIFT_MASK);	mNull.add(nullpro0);
+		nullpro1 = getJMenuItem("pro-ARG1", 0, KeyEvent.VK_1, KeyEvent.SHIFT_MASK);	mNull.add(nullpro1);
+		nullpro2 = getJMenuItem("pro-ARG2", 0, KeyEvent.VK_2, KeyEvent.SHIFT_MASK);	mNull.add(nullpro2);
+		mNull.addSeparator();
+		
+		nullGAP0 = getJMenuItem("GAP-ARG0", 0, KeyEvent.VK_0, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);	mNull.add(nullGAP0);
+		nullGAP1 = getJMenuItem("GAP-ARG1", 0, KeyEvent.VK_1, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);	mNull.add(nullGAP1);
+		nullGAP2 = getJMenuItem("GAP-ARG2", 0, KeyEvent.VK_2, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);	mNull.add(nullGAP2);
+
+		add(mNull);
 	}
 	
 	private void initMenuHelp()

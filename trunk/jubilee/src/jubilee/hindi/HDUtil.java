@@ -33,27 +33,31 @@ public class HDUtil
 	{
 		NodeTree dTree = new NodeTree();
 		Position dRoot = dTree.root();
-		
+	
 		setDepTree(pSSF, dTree, dRoot, "ROOT");
 		dTree.replaceElement(dRoot, "ROOT");
+		
 		
 		return dTree;
 	}
 	
-	static public void cleanTree(TBNode pSSF)
+	static public void cleanTree(TBNode pSSF)	
 	{
 		for (TBNode child : pSSF.getChildren())
 		{
 			String[] cpos = child.getPos().split(":");	// NP:k1:VGF
 			child.setPos(cpos[0]);
+			child.depParent = cpos[2];
 		}
 	}
 	
 	static private void setDepTree(TBNode pSSF, NodeTree dTree, Position dParent, String parentName)
 	{
+		String[] cpos;
+		
 		for (TBNode pChild : pSSF.getChildren())
 		{
-			String[] cpos = pChild.getPos().split(":");	// NP:k1:VGF
+			cpos = pChild.getPos().split(":");	// NP:k1:VGF
 			
 			if (cpos[2].equals(parentName))
 			{

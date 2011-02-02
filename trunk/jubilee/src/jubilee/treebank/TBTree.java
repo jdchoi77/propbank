@@ -220,6 +220,11 @@ public class TBTree
 		return build.toString();
 	}
 	
+	public String getPos()
+	{
+		return mb_curr.getPos();
+	}
+	
 	/**
 	 * Gets all words in order including and below the current pointing node.
 	 * Words are joined with a space (ex. a boy)
@@ -340,6 +345,11 @@ public class TBTree
 		mb_curr.setLocArg(loc, arg);
 	}
 	
+	public void addNull(String loc, String str)
+	{
+		mb_curr.addNull(loc, str);
+	}
+	
 	// ---------------------------- to*() ----------------------------
 	
 	public String toSentence(boolean isArg)
@@ -377,11 +387,17 @@ public class TBTree
 		Vector<String> vec_loc = new Vector<String>();
 		toPropbankAux(mb_head, vec_arg, vec_loc);
 
-		String str = "";
+		StringBuilder build = new StringBuilder();
+		
 		for (int i=0; i<vec_arg.size(); i++)
-			str += vec_loc.get(i) + PBReader.ARG_JOINER + vec_arg.get(i) + " ";
+		{
+			build.append(vec_loc.get(i));
+			build.append(PBReader.ARG_JOINER);
+			build.append(vec_arg.get(i));
+			build.append(" ");
+		}
 	
-		return str.trim();
+		return build.toString().trim();
 	}
 	
 	// traverse the tree

@@ -140,6 +140,16 @@ public class JBTreePanel extends JPanel
 		j_tree.setSelectionInterval(selectionRow[0], selectionRow[selectionRow.length-1]);
 	}
 	
+	public void updateNull(String arg)
+	{
+		int[] selectionRow = j_tree.getSelectionRows();
+		
+		tb_tree.addNull(getLoc(), arg);
+		
+		setTree(tb_tree);		
+		j_tree.setSelectionInterval(selectionRow[0], selectionRow[selectionRow.length-1]);
+	}
+	
 	/**
 	 * Gets the relative location of TBTree for the currently selected node in JTree.
 	 * The current pointer of TBTree will be set according to the currently selected node in JTree.

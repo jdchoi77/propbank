@@ -24,7 +24,6 @@
 package jubilee.propbank;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -32,11 +31,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import jdsl.core.ref.NodeTree;
 import jubilee.hindi.HDUtil;
 import jubilee.toolkit.JBToolkit;
 import jubilee.treebank.TBReader;
 import jubilee.treebank.TBTree;
-import jdsl.core.ref.NodeTree;
 /**
  * 'PBReader' reads a Propbank annotation file and stores all information from both treebank 
  * and annotation into vectors.
@@ -79,6 +78,7 @@ public class PBReader
 	private ArrayList<TBTree> ls_pTree;
 	private int               i_currIndex;		// index of the current tree
 	private ArrayList<NodeTree> ls_dTree;
+	private ArrayList<String> ls_predPos;
 	
 	/**
 	 * Opens 'annotationFile', finds trees from 'treebankPath', and collects information.
@@ -96,7 +96,10 @@ public class PBReader
 		i_currIndex  = 0;
 		
 		if (JBToolkit.s_language.equals("hindi"))
+		{
 			ls_dTree = new ArrayList<NodeTree>();
+			ls_predPos = new ArrayList<String>();
+		}
 		
 		try
 		{
@@ -166,11 +169,13 @@ public class PBReader
 		}
 		
 		ls_pTree.add(pTree);
-
+		
 		if (JBToolkit.s_language.equals("hindi"))
 		{
 			ls_dTree.add(HDUtil.getTree(pTree.getRootNode()));
 			HDUtil.cleanTree(pTree.getRootNode());
+			pTree.moveTo(predicateIdx, 1);
+			ls_predPos.add(pTree.getPos());
 		}
 	}
 	
@@ -269,6 +274,11 @@ public class PBReader
 	public NodeTree getDepTree()
 	{
 		return ls_dTree.get(i_currIndex);
+	}
+	
+	public String getPredPos()
+	{
+		return (ls_predPos == null) ? null : ls_predPos.get(i_currIndex);
 	}
 	
 	/**

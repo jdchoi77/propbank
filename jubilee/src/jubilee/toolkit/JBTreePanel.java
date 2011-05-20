@@ -155,7 +155,6 @@ public class JBTreePanel extends JPanel
 	 * The current pointer of TBTree will be set according to the currently selected node in JTree.
 	 * @return the relative location.
 	 */
-	@SuppressWarnings("unchecked")
 	private String getLoc()
 	{
 		// current node
@@ -166,6 +165,7 @@ public class JBTreePanel extends JPanel
 		int leafIndex = 0, height = -1;
 		
 		// get the height of the current node for the first leaf
+		@SuppressWarnings("rawtypes")
 		Enumeration ef = leaf.pathFromAncestorEnumeration(node);
 		while (ef.hasMoreElements())
 		{

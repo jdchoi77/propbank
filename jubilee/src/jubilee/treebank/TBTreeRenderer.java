@@ -57,8 +57,19 @@ public class TBTreeRenderer extends TBNodePanel implements TreeCellRenderer
 		TBNode tbnode = (TBNode)node.getUserObject();
 		
 		copyTBNode(tbnode);
-		int width = 350;
-		int height = (JBToolkit.s_language.equals("arabic")) ? 25 : 18;
+		int width, height;
+		
+		if (JBToolkit.s_language.equals("arabic"))
+		{
+			width = 500;
+			height = 25;
+		}
+		else
+		{
+			width = 350;
+			height = 18;
+		}
+		
 		setPreferredSize(new Dimension(width, height));
 
 		if (sel)	setBackground(UIManager.getColor("Tree.selectionBackground"));

@@ -359,22 +359,24 @@ public class TBTree
 	
 	private String toSentenceAux(TBNode curr, boolean isArg)
 	{
-		String str = "";
+		StringBuilder build = new StringBuilder();
 		
 		if (curr.children == null)
 		{
 			if (curr.arg != null && isArg)
 				return "[_"+curr.arg+" "+curr.word+"] ";
-			else
+			else if (!curr.pos.equals("-NONE-"))
 				return curr.word + " ";
+			else
+				return "";
 		}
 		else
 		{
-			for (int i=0; i<curr.children.size(); i++)
-				str += toSentenceAux(curr.children.get(i), isArg);
+			for (TBNode child : curr.children)
+				build.append(toSentenceAux(child, isArg));
 		}
 		
-		return str;
+		return build.toString();
 	}
 	
 	/**

@@ -23,13 +23,19 @@
 */
 package jubilee.awt;
 
-import java.awt.TextArea;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /**
  * @author Jinho D. Choi
@@ -46,7 +52,40 @@ public class JDCTextAreaFrame extends JFrame implements ActionListener
 		
 		mbar = new JDCTextAreaFrameMenuBar(this);
 		setJMenuBar(mbar);
-		add(new TextArea(example));
+		
+		add(new JScrollPane(new JTextArea(example)));
+		addWindowListener(new WindowAdapt());
+		
+		setBounds(20, 20, 700, 700);
+		setVisible(true);
+	}
+	
+	public JDCTextAreaFrame(String title, String example, int lineNum)
+	{
+		super(title);
+		
+		mbar = new JDCTextAreaFrameMenuBar(this);
+		setJMenuBar(mbar);
+		
+		JTextArea ta = new JTextArea(example);
+		int bId = 0, eId = -1;
+		
+		for (int i=0; i<=lineNum; i++)
+		{
+			bId = eId + 1;
+			eId = example.indexOf("\n", bId);
+		}
+		
+		Highlighter h = ta.getHighlighter();
+		try
+		{
+			h.addHighlight(bId, eId, new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW));
+		}
+		catch (BadLocationException e) {e.printStackTrace();}
+		
+		ta.setCaretPosition(bId);
+		
+		add(new JScrollPane(ta), BorderLayout.CENTER);
 		addWindowListener(new WindowAdapt());
 		
 		setBounds(20, 20, 700, 700);

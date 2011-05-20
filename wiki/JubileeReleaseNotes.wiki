@@ -1,6 +1,11 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.19 (5/20/2011) ===
+  * Jubilee can now view contextual information.  On the menu, if you choose [Treebank - View Contexts] or use a shortkey of "SHIFT+CTRL+o", it prompts a pop-up window showing the context of the chosen Treebank file.  The sentence for the currently selected tree is highlighted with yellow.
+
+* The PropBank reader API is updated so it can read Treebank data faster.  If a task file is sorted by (treePath, treeId, predId), and there is a fair amount of instances read from the same Treebank file, it reads the instances noticeably faster now.
+
 === Jubilee 2.18a (2/2/2011) ===
   * Menu-shortkeys for Hindi empty categories are added.
 

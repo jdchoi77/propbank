@@ -256,6 +256,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 		else if (e.getSource() == mbar.tbNext || e.getSource() == bt_next)	actionBtNext();
 		else if (e.getSource() == mbar.tbJump)			menuTbJump();
 		else if (e.getSource() == mbar.tbView)			menuTbView();
+		else if (e.getSource() == mbar.tbViewContexts)	menuTbViewContexts();
 		else if (e.getSource() == mbar.tbDepTree)		menuTbDepTree();
 		else if (e.getSource() == mbar.fsPrev)					framesetPanel.prevRoleset();
 		else if (e.getSource() == mbar.fsNext)					framesetPanel.nextRoleset();
@@ -295,7 +296,7 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	{
 		tv_tree.setTree(pb_origin.getTBTree());
 		ta_sentence.setText(pb_origin.getTBTree().getSentence());
-		framesetPanel.updateFrameset(pb_origin.getFrame(), pb_origin.getRoleset());
+		framesetPanel.updateFrameset(pb_origin.getType(), pb_origin.getRoleset());
 	}
 	
 	private void updateGoldList()
@@ -405,6 +406,12 @@ public class JBToolkit extends JFrame implements ActionListener, ItemListener, L
 	private void menuTbView()
 	{
 		new JDCTextAreaFrame("Text View", tv_tree.getTree().toTextTree());
+	}
+	
+	private void menuTbViewContexts()
+	{
+		PBInstance instance = pb_origin.getInstance();
+		new JDCTextAreaFrame("Contexts", pb_origin.getContexts(), instance.getTreeId());
 	}
 	
 	private void menuTbDepTree()

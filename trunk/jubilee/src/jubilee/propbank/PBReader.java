@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -70,78 +71,90 @@ public class PBReader
 	/** argument tag for relation */
 	static public String REL = "rel";
 	
-	private ArrayList<String> ls_prefix;		// treebank-path s# t#_of_predicate
-	private ArrayList<String> ls_annotator;
-	private ArrayList<String> ls_frame;
-	private ArrayList<String> ls_roleset;
-	private ArrayList<String> ls_extra;
-	private ArrayList<TBTree> ls_pTree;
-	private int               i_currIndex;		// index of the current tree
-	private ArrayList<NodeTree> ls_dTree;
-	private ArrayList<String> ls_predPos;
-	
+	private ArrayList<PBInstance>	ls_instance;
+	private TBReader				tb_reader;
+	private TBTree                  p_tree;
+	private String					s_treeDir;
+	private int						i_currIdx;		// index of the current tree
+	private HashMap<String,String>	m_context;
+	private int						i_prevTreeId;
+	private String					s_prevTreePath;
+		
 	/**
 	 * Opens 'annotationFile', finds trees from 'treebankPath', and collects information.
 	 * @param annotationFile the path of the annotation file.
-	 * @param treebankPath the path of the treebank.
+	 * @param treebankDir the path of the treebank.
 	 */
-	public PBReader(String annotationFile, String treebankPath)
+	public PBReader(String annotationFile, String treebankDir)
 	{
-		ls_prefix    = new ArrayList<String>();
-		ls_annotator = new ArrayList<String>();
-		ls_frame     = new ArrayList<String>();
-		ls_roleset   = new ArrayList<String>();
-		ls_extra     = new ArrayList<String>();
-		ls_pTree     = new ArrayList<TBTree>();
-		i_currIndex  = 0;
-		
-		if (JBToolkit.s_language.equals("hindi"))
-		{
-			ls_dTree = new ArrayList<NodeTree>();
-			ls_predPos = new ArrayList<String>();
-		}
+		ls_instance  = new ArrayList<PBInstance>();
+		s_treeDir    = treebankDir + File.separator;
+		i_currIdx    = 0;
+		m_context    = new HashMap<String, String>();
+		i_prevTreeId = -1;
+		s_prevTreePath = "";
 		
 		try
 		{
 			Scanner scan = new Scanner(new File(annotationFile));
 			
 			while (scan.hasNextLine())
-				tokenizeLine(scan.nextLine(), treebankPath);
+				tokenizeLine(scan.nextLine());
 			
 			scan.close();
 		}
 		catch (IOException e) {System.err.println(e);}
 	}
 		
-	private void tokenizeLine(String line, String treebankPath)
+	private void tokenizeLine(String line)
 	{
 		StringTokenizer tok = new StringTokenizer(line);
 		if (!tok.hasMoreTokens())	return;		// ignore empty line
 		
-		String filename = tok.nextToken();						// treebank-path
-		int sentenceIdx = Integer.parseInt(tok.nextToken());	// s#
-		int predicateIdx = Integer.parseInt(tok.nextToken());	// t#_of_predicate
-		ls_prefix.add(filename+" "+sentenceIdx+" "+predicateIdx);
+		PBInstance instance = new PBInstance();
+		
+		instance.treePath = tok.nextToken();
+		instance.treeId   = Integer.parseInt(tok.nextToken());
+		instance.predId   = Integer.parseInt(tok.nextToken());
 		
 		// get the tree
-		TBReader tbank = new TBReader(treebankPath+File.separator+filename);
-		TBTree   pTree = null;
+		if (instance.treeId < i_prevTreeId || !instance.treePath.equals(s_prevTreePath))
+		{
+			tb_reader = new TBReader(s_treeDir + instance.treePath);
+			i_prevTreeId   = -1;
+			s_prevTreePath = instance.treePath;
+		}
 		
-		for (int i=0; i<=sentenceIdx; i++)			// reach the tree
-			pTree = tbank.nextTree();
+		if (!m_context.containsKey(s_prevTreePath))
+		{
+			TBReader reader = new TBReader(s_treeDir + s_prevTreePath);
+			TBTree   tree;
+			StringBuilder build = new StringBuilder();
+			
+			for (int i=0; (tree = reader.nextTree()) != null; i++)
+			{
+				build.append(tree.toSentence(false));
+				build.append("\n");
+			}
+			
+			m_context.put(s_prevTreePath, build.toString().trim());
+		}
+		
+		for (int i=i_prevTreeId; i<instance.treeId; i++)
+			p_tree = tb_reader.nextTree();
+		
+		TBTree pTree = p_tree.clone();
+		i_prevTreeId = instance.treeId;
 		
 		// add 'rel' as an argument to the predicate
-		pTree.moveToTerminal(predicateIdx);
-		pTree.setArg(predicateIdx+":0", REL);
+		pTree.moveToTerminal(instance.predId);
+		pTree.setArg(instance.predId+":0", REL);
 		
-		String annotator = tok.nextToken();	// annotator
-		ls_annotator.add(annotator);
-		String frame = tok.nextToken();		// lemma-v | lemma-n
-		ls_frame.add(frame);
-		String roleset = tok.nextToken();	// roleset
-		ls_roleset.add(roleset);
-		String extra = tok.nextToken();		// -----
-		ls_extra.add(extra);
+		instance.annotator = tok.nextToken();
+		instance.type      = tok.nextToken();
+		instance.roleset   = tok.nextToken();
+		instance.aspect    = tok.nextToken();
+		instance.pTree     = pTree;
 		
 		while (tok.hasMoreTokens())
 		{
@@ -168,15 +181,16 @@ public class PBReader
 			}
 		}
 		
-		ls_pTree.add(pTree);
-		
 		if (JBToolkit.s_language.equals("hindi"))
 		{
-			ls_dTree.add(HDUtil.getTree(pTree.getRootNode()));
+			instance.dTree = HDUtil.getTree(pTree.getRootNode());
 			HDUtil.cleanTree(pTree.getRootNode());
-			pTree.moveTo(predicateIdx, 1);
-			ls_predPos.add(pTree.getPos());
+			
+			pTree.moveTo(instance.predId, 1);
+			instance.predPos = pTree.getPos();
 		}
+		
+		ls_instance.add(instance);
 	}
 	
 	/**
@@ -192,24 +206,16 @@ public class PBReader
 			fout = new PrintStream(new FileOutputStream(filename));
 		}
 		catch (IOException ee) {System.err.println(ee);}
+
+		StringBuilder build = new StringBuilder();
 		
-		for (int i=0; i<getSize(); i++)
+		for (PBInstance instance : ls_instance)
 		{
-			StringBuilder build = new StringBuilder();
-			build.append(ls_prefix.get(i));
-			build.append(" ");
-			build.append(ls_annotator.get(i));
-			build.append(" ");
-			build.append(ls_frame.get(i));
-			build.append(" ");
-			build.append(ls_roleset.get(i));
-			build.append(" ");
-			build.append(ls_extra.get(i));
-			build.append(" ");
-			build.append(ls_pTree.get(i).toPropbank());
-			
-			fout.println(build.toString());
+			build.append(instance.toString());
+			build.append("\n");
 		}
+		
+		fout.println(build.toString().trim());
 	}
 
 	/**
@@ -218,16 +224,12 @@ public class PBReader
 	 */
 	public int getSize()
 	{
-		return ls_pTree.size();
+		return ls_instance.size();
 	}
 	
-	/**
-	 * Gets the current prefix.
-	 * @return the current prefix (treebank-path s# t#_of_predicate). 
-	 */
-	public String getPrefix()
+	public PBInstance getInstance()
 	{
-		return ls_prefix.get(i_currIndex);
+		return ls_instance.get(i_currIdx);
 	}
 	
 	/**
@@ -236,12 +238,12 @@ public class PBReader
 	 */
 	public String getAnnotator()
 	{
-		return ls_annotator.get(i_currIndex);
+		return ls_instance.get(i_currIdx).annotator;
 	}
 	
-	public String getFrame()
+	public String getType()
 	{
-		return ls_frame.get(i_currIndex);
+		return ls_instance.get(i_currIdx).type;
 	}
 	
 	/**
@@ -250,16 +252,16 @@ public class PBReader
 	 */
 	public String getRoleset()
 	{
-		return ls_roleset.get(i_currIndex);
+		return ls_instance.get(i_currIdx).roleset;
 	}
 	
 	/**
 	 * Gets the current extra (-----).
 	 * @return the current extra.
 	 */
-	public String getExtra()
+	public String getAspect()
 	{
-		return ls_extra.get(i_currIndex);
+		return ls_instance.get(i_currIdx).aspect;
 	}
 	
 	/**
@@ -268,17 +270,17 @@ public class PBReader
 	 */
 	public TBTree getTBTree()
 	{
-		return ls_pTree.get(i_currIndex);
+		return ls_instance.get(i_currIdx).pTree;
 	}
 	
 	public NodeTree getDepTree()
 	{
-		return ls_dTree.get(i_currIndex);
+		return ls_instance.get(i_currIdx).dTree;
 	}
 	
 	public String getPredPos()
 	{
-		return (ls_predPos == null) ? null : ls_predPos.get(i_currIndex);
+		return ls_instance.get(i_currIdx).predPos;
 	}
 	
 	/**
@@ -287,7 +289,12 @@ public class PBReader
 	 */
 	public int getIndex()
 	{
-		return i_currIndex;
+		return i_currIdx;
+	}
+	
+	public String getContexts()
+	{
+		return m_context.get(getInstance().treePath);
 	}
 	
 	/**
@@ -296,16 +303,16 @@ public class PBReader
 	 */
 	public void setIndex(int index)
 	{
-		i_currIndex = index;
+		i_currIdx = index;
 	}
 	
 	/**
-	 * Sets the current predicate lemma.
-	 * @param lemma the current lemma to be set.
+	 * Sets the current predicate roleset.
+	 * @param roleset the current roleset to be set.
 	 */
-	public void setLemma(String lemma)
+	public void setRoleset(String roleset)
 	{
-		ls_roleset.set(i_currIndex, lemma);
+		ls_instance.get(i_currIdx).roleset = roleset;
 	}
 	
 	/**
@@ -314,15 +321,11 @@ public class PBReader
 	 */
 	public void setAnnotator(String annotator)
 	{
-		ls_annotator.set(i_currIndex, annotator);
+		ls_instance.get(i_currIdx).annotator = annotator;
 	}
 	
 	public void copyCurrent(PBReader pb)
 	{
-		ls_prefix.set(pb.getIndex(), pb.getPrefix());
-		ls_frame.set(pb.getIndex(), pb.getFrame());
-		ls_roleset.set(pb.getIndex(), pb.getRoleset());
-		ls_extra.set(pb.getIndex(), pb.getExtra());
-		ls_pTree.set(pb.getIndex(), pb.getTBTree().clone());
+		ls_instance.set(pb.getIndex(), pb.getInstance());
 	}
 }

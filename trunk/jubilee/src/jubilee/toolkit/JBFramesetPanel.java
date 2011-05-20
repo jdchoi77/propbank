@@ -175,7 +175,7 @@ public class JBFramesetPanel extends JPanel implements ActionListener, ItemListe
 			bt_example.setEnabled(false);
 		}
 		
-		pb_reader.setLemma((String)cb_roleset.getSelectedItem());
+		pb_reader.setRoleset((String)cb_roleset.getSelectedItem());
 	}
 	
 	public void actionPerformed(ActionEvent e)

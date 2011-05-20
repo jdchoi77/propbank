@@ -45,12 +45,13 @@ public class JBMenuBar extends JMenuBar
 	private JMenu     mn_args;
 	
 	JMenuItem   fileOpen, fileSave, fileSaveAs, fileQuit;
-	JMenuItem   tbPrev, tbNext, tbJump, tbView, tbDepTree;
+	JMenuItem   tbPrev, tbNext, tbJump, tbView, tbViewContexts, tbDepTree;
 	JMenuItem   fsPrev, fsNext, fsViewExample, fsViewArgument, fsViewRolesetComment;
 	JMenuItem[] argArgs, argFunc;
 	JMenuItem   argErase;
 	JMenuItem   helpAbout;
 	JMenuItem   nullPRO0, nullPRO1, nullREL0, nullREL1, nullpro0, nullpro1, nullpro2, nullGAP0, nullGAP1, nullGAP2;
+	JMenu       mNull;
 	
 	/**
 	 * Creates a menubar.
@@ -71,6 +72,7 @@ public class JBMenuBar extends JMenuBar
 	
 	public void setHindiMenu(boolean visible)
 	{
+		mNull.setVisible(visible);
 		tbDepTree.setVisible(visible);
 		
 		nullPRO0.setVisible(visible);
@@ -161,6 +163,9 @@ public class JBMenuBar extends JMenuBar
 		tbView = getJMenuItem("View Tree in Text", KeyEvent.VK_T, KeyEvent.VK_T, KeyEvent.CTRL_MASK);
 		mTreebank.add(tbView);
 		
+		tbViewContexts = getJMenuItem("View Contexts", KeyEvent.VK_O, KeyEvent.VK_O, KeyEvent.CTRL_MASK+KeyEvent.SHIFT_MASK);
+		mTreebank.add(tbViewContexts);
+		
 		tbDepTree = getJMenuItem("View Dependency Tree", KeyEvent.VK_D, KeyEvent.VK_D, KeyEvent.CTRL_MASK);
 		mTreebank.add(tbDepTree);
 		
@@ -216,7 +221,7 @@ public class JBMenuBar extends JMenuBar
 	
 	private void initMenuNulls()
 	{
-		JMenu mNull = new JMenu("Nulls");
+		mNull = new JMenu("Nulls");
 		mNull.setMnemonic(KeyEvent.VK_N);
 		
 		nullPRO0 = getJMenuItem("PRO-ARG0", 0, KeyEvent.VK_0, KeyEvent.CTRL_MASK);	mNull.add(nullPRO0);

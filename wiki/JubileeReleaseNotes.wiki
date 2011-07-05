@@ -1,6 +1,9 @@
 #summary Jubilee: release notes (~ v2.1x)
 #labels Phase-Design
 
+=== Jubilee 2.20 (7/5/2011) ===
+  * Bugfix: Jubilee now saves gold adjudications with gold IDs correctly.
+
 === Jubilee 2.19 (5/20/2011) ===
   * Jubilee can now view contextual information.  On the menu, if you choose [Treebank - View Contexts] or use a shortkey of "SHIFT+CTRL+o", it prompts a pop-up window showing the context of the chosen Treebank file.  The sentence for the currently selected tree is highlighted with yellow.
 

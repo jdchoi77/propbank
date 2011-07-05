@@ -326,6 +326,6 @@ public class PBReader
 	
 	public void copyCurrent(PBReader pb)
 	{
-		ls_instance.set(pb.getIndex(), pb.getInstance());
+		getInstance().copy(pb.getInstance());
 	}
 }

@@ -31,7 +31,7 @@ public class PBInstance
 		treePath  = instance.treePath;
 		treeId    = instance.treeId;
 		predId    = instance.predId;
-		annotator = instance.annotator;
+	//	annotator = instance.annotator;
 		type      = instance.type;
 		roleset   = instance.roleset;
 		aspect    = instance.aspect;

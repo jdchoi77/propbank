@@ -1,5 +1,8 @@
 #summary Cornerstone: release notes (~ v1.3x)
 
+=== Cornerstone 1.36 (5/5/2012) ===
+  * Source field is added for English.
+
 === Cornerstone 1.35 (6/17/2010) ===
   * Arabic frameset IDs naming has been changed (f1 -> 01).
 

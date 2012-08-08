@@ -1,5 +1,8 @@
 #summary Cornerstone: release notes (~ v1.3x)
 
+=== Cornerstone 1.37 (8/8/2012) ===
+  * VerbNet annotation fields are added for Arabic.
+
 === Cornerstone 1.36 (5/5/2012) ===
   * Source field is added for English.
 

@@ -40,6 +40,8 @@ public class EnRoleset extends EnElement
 	private EnPredicate    parent;
 	private JTextField     tf_name;
 	private JComboBox      cb_vtype;
+	
+	private JTextField     tf_source;
 	private JTextField     tf_vncls;
 	private JTextField     tf_framnet;
 	private EnNote         en_note;
@@ -92,15 +94,21 @@ public class EnRoleset extends EnElement
 		
 		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
 		{
+			pnAttr.add(new JLabel(EnLib.SOURCE+": "));
+			tf_source = new JTextField(getAttribute(EnLib.SOURCE));
+			tf_source.setPreferredSize(new Dimension(60, FD_HEIGHT));
+			pnAttr.add(tf_source);
+			pnAttr.add(Box.createHorizontalStrut(H_GAP));
+			
 			pnAttr.add(new JLabel(EnLib.VNCLS+": "));
 			tf_vncls = new JTextField(getAttribute(EnLib.VNCLS));
-			tf_vncls.setPreferredSize(new Dimension(90, FD_HEIGHT));
+			tf_vncls.setPreferredSize(new Dimension(60, FD_HEIGHT));
 			pnAttr.add(tf_vncls);
 			pnAttr.add(Box.createHorizontalStrut(H_GAP));
 			
 			pnAttr.add(new JLabel(EnLib.FRAMNET+": "));
 			tf_framnet = new JTextField(getAttribute(EnLib.FRAMNET));
-			tf_framnet.setPreferredSize(new Dimension(90, FD_HEIGHT));
+			tf_framnet.setPreferredSize(new Dimension(60, FD_HEIGHT));
 			pnAttr.add(tf_framnet);
 		}
 		
@@ -165,6 +173,7 @@ public class EnRoleset extends EnElement
 		
 		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
 		{
+			setAttribute(EnLib.SOURCE , tf_source.getText());
 			setAttribute(EnLib.VNCLS  , tf_vncls.getText());
 			setAttribute(EnLib.FRAMNET, tf_framnet.getText());
 		}

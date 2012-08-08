@@ -29,10 +29,14 @@ package cornerstone.chinese;
  */
 public class ChLib
 {
+	static public String   LANG_CH = "ch";	// chinese
+	static public String   LANG_AR = "ar";	// arabic
+	
 	static public String[] ARR_N;
 	static public String[] ARR_F;
 	static public String[] ARR_SRC;
 	static public String[] ARR_TRG;
+	static public String[] ARR_VNTHETA;
 	
 	// element tags
 	static public final String VERB     = "verb";
@@ -53,6 +57,8 @@ public class ChLib
 	static public final String EDEF    = "edef";	// frameset.edef
 	static public final String ARGNUM  = "argnum";	// role.argnum
 	static public final String ARGROLE = "argrole";	// role.argrole
+	static public final String VNCLS   = "vncls";	// role.vncls
+	static public final String VNTHETA = "vntheta";	// role.vntheta
 	static public final String SRC     = "src";		// mapitem.src
 	static public final String TRG     = "trg";		// mapitem.trg
 	static public final String N       = "n";		// arg.n

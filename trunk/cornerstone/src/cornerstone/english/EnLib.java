@@ -64,6 +64,7 @@ public class EnLib
 	static public final String TYPE    = "type";	// example.type
 	static public final String SRC     = "src";		// example.src
 	static public final String VTYPE   = "vtype";	// roleset.vtype
+	static public final String SOURCE  = "source";	// roleset.source
 	static public final String VNCLS   = "vncls";	// roleset.vncls, vnrole.vncls
 	static public final String VNTHETA = "vntheta";	// vnrole.vntheta
 	static public final String FRAMNET = "framnet";	// roleset.framnet

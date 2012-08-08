@@ -41,6 +41,7 @@ public class ChFrameset extends ChElement
 	private ChVerb             parent;
 	private JTextField         tf_cdef;
 	private JTextField         tf_edef;
+	private JTextField         tf_vncls;
 	private ChComment          ch_comment;
 	private ArrayList<ChRole>  ar_role;
 	private JPanel             pn_role;
@@ -76,14 +77,23 @@ public class ChFrameset extends ChElement
 		
 		pnAttr.add(new JLabel(ChLib.EDEF+": "));
 		tf_edef = new JTextField(getAttribute(ChLib.EDEF));
-		tf_edef.setPreferredSize(new Dimension(200, FD_HEIGHT));
+		tf_edef.setPreferredSize(new Dimension(150, FD_HEIGHT));
 		pnAttr.add(tf_edef);
 		pnAttr.add(Box.createHorizontalStrut(H_GAP));	
 		
 		pnAttr.add(new JLabel(ChLib.CDEF+": "));
 		tf_cdef = new JTextField(getAttribute(ChLib.CDEF));
-		tf_cdef.setPreferredSize(new Dimension(200, FD_HEIGHT));
+	//	tf_cdef.setPreferredSize(new Dimension(100, FD_HEIGHT));
 		pnAttr.add(tf_cdef);
+		
+		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+		{
+			pnAttr.add(Box.createHorizontalStrut(H_GAP));
+			pnAttr.add(new JLabel(ChLib.VNCLS+": "));
+			tf_vncls = new JTextField(getAttribute(ChLib.VNCLS));
+		//	tf_vncls.setPreferredSize(new Dimension(100, FD_HEIGHT));
+			pnAttr.add(tf_vncls);	
+		}
 		
 		// north pane
 		JPanel pnNorth = new JPanel();
@@ -176,9 +186,12 @@ public class ChFrameset extends ChElement
 	/** Saves attributes and elements. */
 	public void save()
 	{
-		setAttribute(ChLib.ID  , id);
-		setAttribute(ChLib.CDEF, tf_cdef.getText());
-		setAttribute(ChLib.EDEF, tf_edef.getText());
+		setAttribute(ChLib.ID   , id);
+		setAttribute(ChLib.CDEF , tf_cdef .getText());
+		setAttribute(ChLib.EDEF , tf_edef .getText());
+		
+		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+			setAttribute(ChLib.VNCLS, tf_vncls.getText());
 		
 		ch_comment.save();
 		for (ChRole  chRole  : ar_role)		chRole.save();

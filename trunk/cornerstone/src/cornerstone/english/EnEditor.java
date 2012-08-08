@@ -269,11 +269,11 @@ public class EnEditor extends EditorTemplate implements ActionListener
 			else
 			{
 				en_frameset.editPredicate(lemma);
-				if (en_frameset.getCurrPredicateIndex() == 0)
+			/*	if (en_frameset.getCurrPredicateIndex() == 0)
 				{
 					en_frameset.editRolesetIds(lemma);
 					updateTitle(CURR_FILE.substring(0, CURR_FILE.lastIndexOf(File.separator)+1) + lemma + ".xml");
-				}
+				}*/
 			}
 		}
 	}

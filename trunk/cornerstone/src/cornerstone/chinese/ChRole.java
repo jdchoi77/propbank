@@ -40,6 +40,8 @@ public class ChRole extends ChElement implements ActionListener
 	private ChFrameset parent;
 	private JComboBox  cb_argnum;
 	private JTextField tf_argrole;
+	private JTextField tf_vncls;
+	private JComboBox  cb_vntheta;
 	private JButton    bt_remove;
 	
 	public ChRole(ChFrameset parent, Element element)
@@ -66,12 +68,29 @@ public class ChRole extends ChElement implements ActionListener
 		if (!contains(cb_argnum, argnum))	cb_argnum.addItem(argnum);
 		cb_argnum.setSelectedItem(argnum);
 		pn.add(cb_argnum);
-		pn.add(Box.createHorizontalStrut(H_GAP));
+		pn.add(Box.createHorizontalStrut(5));
 		
 		pn.add(new JLabel(ChLib.ARGROLE+": "));
 		tf_argrole = new JTextField(getAttribute(ChLib.ARGROLE));
+		tf_argrole.setPreferredSize(new Dimension(100, FD_HEIGHT));
 		pn.add(tf_argrole);
 		pn.add(Box.createHorizontalStrut(5));
+		
+		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+		{
+			pn.add(new JLabel(ChLib.VNCLS+": "));
+			tf_vncls = new JTextField(getAttribute(ChLib.VNCLS));
+			pn.add(tf_vncls);
+			pn.add(Box.createHorizontalStrut(5));
+			
+			pn.add(new JLabel(ChLib.VNTHETA+": "));
+			cb_vntheta = new JComboBox(ChLib.ARR_VNTHETA);
+			String vntheta = getAttribute(ChLib.VNTHETA).toLowerCase();
+			if (!contains(cb_vntheta, vntheta))	cb_vntheta.addItem(vntheta);
+			cb_vntheta.setSelectedItem(vntheta);
+			pn.add(cb_vntheta);
+			pn.add(Box.createHorizontalStrut(5));			
+		}
 
 		bt_remove = new JButton("Remove");
 		bt_remove.addActionListener(this);
@@ -85,6 +104,12 @@ public class ChRole extends ChElement implements ActionListener
 	{
 		setAttribute(ChLib.ARGNUM , (String)cb_argnum.getSelectedItem());
 		setAttribute(ChLib.ARGROLE, tf_argrole.getText());
+		
+		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+		{
+			setAttribute(ChLib.VNCLS  , tf_vncls.getText());
+			setAttribute(ChLib.VNTHETA, (String)cb_vntheta.getSelectedItem());			
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)

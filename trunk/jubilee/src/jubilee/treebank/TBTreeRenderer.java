@@ -59,7 +59,7 @@ public class TBTreeRenderer extends TBNodePanel implements TreeCellRenderer
 		copyTBNode(tbnode);
 		int width, height;
 		
-		if (JBToolkit.s_language.equals("arabic"))
+		if (JBToolkit.s_language.equals("arabic") || JBToolkit.s_language.equals("hindi"))
 		{
 			width = 500;
 			height = 25;

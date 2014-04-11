@@ -23,9 +23,14 @@
 */
 package cornerstone.english;
 
-import javax.swing.*;
+import java.awt.Dimension;
 
-import org.w3c.dom.*;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * <b>Last update:</b> 06/17/2009
@@ -109,6 +114,23 @@ abstract public class EnElement extends JPanel
 		element.setTextContent(textContent.trim());
 	}
 	
+	protected Element getFirstChildByTagName(String name)
+	{
+		NodeList list = getChildNodes();
+		int i, size = list.getLength();
+		Node node;
+		
+		for (i=0; i<size; i++)
+		{
+			node = list.item(i);
+			
+			if (node.getNodeName().equals(name))
+				return (Element)node;
+		}
+		
+		return null; 
+	}
+	
 	protected NodeList getElementsByTagName(String name)
 	{
 		return element.getElementsByTagName(name);
@@ -133,5 +155,20 @@ abstract public class EnElement extends JPanel
 			if (cb.getItemAt(i).equals(item))	return true;
 		
 		return false;
+	}
+	
+	protected Aliases initAliases(String label)
+	{
+		Element eAliases = getFirstChildByTagName(EnLib.ALIASES);
+		
+		if (eAliases == null)
+		{
+			eAliases = EnEditor.createElement(EnLib.ALIASES);
+			appendChild(eAliases);
+		}
+		
+		Aliases aliases = new Aliases(this, eAliases, label);
+		aliases.setPreferredSize(new Dimension(EnEditor.WIDTH, 77));
+		return aliases;
 	}
 }

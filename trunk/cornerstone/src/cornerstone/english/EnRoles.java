@@ -34,6 +34,7 @@ import org.w3c.dom.*;
  */
 public class EnRoles extends EnElement
 {
+	private static final long serialVersionUID = 3648946561855835122L;
 	private final int         HEIGHT = 1500;
 	
 	private EnRoleset         parent;

@@ -37,11 +37,14 @@ public class EnLib
 	static public String[] ARR_DREL;
 	static public String[] ARR_VTYPE;
 	static public String[] ARR_VNTHETA;
+	static public String[] ARR_FNTHETA;
 	static public String[] ARR_PERSON;
 	static public String[] ARR_TENSE;
 	static public String[] ARR_ASPECT;
 	static public String[] ARR_VOICE;
 	static public String[] ARR_FORM;
+	
+	static public final String[] POS_TAGS = {"Adj.","Noun","Verb"};
 	
 	// element tags
 	static public final String FRAMESET   = "frameset";
@@ -50,12 +53,15 @@ public class EnLib
 	static public final String ROLES      = "roles";
 	static public final String ROLE       = "role";
 	static public final String VNROLE     = "vnrole";
+	static public final String FNROLE     = "fnrole";
 	static public final String EXAMPLE    = "example";
 	static public final String TEXT       = "text";
 	static public final String INFLECTION = "inflection";
 	static public final String ARG        = "arg";
 	static public final String REL        = "rel";
 	static public final String NOTE       = "note";
+	static public final String ALIASES    = "aliases";
+	static public final String ALIAS      = "alias";
 	
 	// attribute tags
 	static public final String LEMMA   = "lemma";	// predicate.lemma
@@ -67,6 +73,7 @@ public class EnLib
 	static public final String SOURCE  = "source";	// roleset.source
 	static public final String VNCLS   = "vncls";	// roleset.vncls, vnrole.vncls
 	static public final String VNTHETA = "vntheta";	// vnrole.vntheta
+	static public final String FNTHETA = "fntheta";	// fnrole.theta
 	static public final String FRAMNET = "framnet";	// roleset.framnet
 	static public final String N       = "n";		// role.n, arg.n
 	static public final String F       = "f";		// role.f, arg.f, rel.f
@@ -77,4 +84,10 @@ public class EnLib
 	static public final String ASPECT  = "aspect";	// inflection.aspect
 	static public final String VOICE   = "voice";	// inflection.voice
 	static public final String FORM    = "form";	// inflection.form
+	
+	static public final String VN    = "vn";		// VerbNet
+	static public final String FN    = "fn";		// FrameNet
+	static public final String A_POS = "pos";
+	static public final String VERBNET  = "verbnet";
+	static public final String FRAMENET = "framenet";
 }

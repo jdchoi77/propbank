@@ -23,11 +23,18 @@
 */
 package cornerstone.english;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * <b>Last update:</b> 06/17/2009
@@ -47,6 +54,7 @@ public class EnRoleset extends EnElement
 	private EnNote         en_note;
 	private EnRoles        en_roles;
 	private EnExampleFrame en_example;
+	private Aliases        en_aliases;
 	
 	/**
 	 * Initializes roleset panel.
@@ -77,7 +85,7 @@ public class EnRoleset extends EnElement
 		
 		pnAttr.add(new JLabel(EnLib.NAME+": "));
 		tf_name = new JTextField(getAttribute(EnLib.NAME));
-		tf_name.setPreferredSize(new Dimension(300, FD_HEIGHT));
+		tf_name.setPreferredSize(new Dimension(250, FD_HEIGHT));
 		pnAttr.add(tf_name);
 		pnAttr.add(Box.createHorizontalStrut(H_GAP));
 		
@@ -96,20 +104,23 @@ public class EnRoleset extends EnElement
 		{
 			pnAttr.add(new JLabel(EnLib.SOURCE+": "));
 			tf_source = new JTextField(getAttribute(EnLib.SOURCE));
-			tf_source.setPreferredSize(new Dimension(60, FD_HEIGHT));
+			tf_source.setPreferredSize(new Dimension(40, FD_HEIGHT));
 			pnAttr.add(tf_source);
 			pnAttr.add(Box.createHorizontalStrut(H_GAP));
 			
 			pnAttr.add(new JLabel(EnLib.VNCLS+": "));
 			tf_vncls = new JTextField(getAttribute(EnLib.VNCLS));
-			tf_vncls.setPreferredSize(new Dimension(60, FD_HEIGHT));
+			tf_vncls.setPreferredSize(new Dimension(80, FD_HEIGHT));
 			pnAttr.add(tf_vncls);
 			pnAttr.add(Box.createHorizontalStrut(H_GAP));
 			
 			pnAttr.add(new JLabel(EnLib.FRAMNET+": "));
 			tf_framnet = new JTextField(getAttribute(EnLib.FRAMNET));
-			tf_framnet.setPreferredSize(new Dimension(60, FD_HEIGHT));
+			tf_framnet.setPreferredSize(new Dimension(110, FD_HEIGHT));
 			pnAttr.add(tf_framnet);
+			pnAttr.add(Box.createHorizontalStrut(H_GAP));
+			
+			en_aliases = initAliases("Add semantic alias");
 		}
 		
 		// north pane
@@ -120,6 +131,12 @@ public class EnRoleset extends EnElement
 		pnNorth.add(Box.createVerticalStrut(V_GAP));
 		pnNorth.add(pnAttr);
 		pnNorth.add(Box.createVerticalStrut(V_GAP));
+		
+		if (en_aliases != null)
+		{
+			pnNorth.add(en_aliases);
+			pnNorth.add(Box.createVerticalStrut(V_GAP));
+		}
 		
 		add(pnNorth, BorderLayout.NORTH);
 	}
@@ -176,6 +193,7 @@ public class EnRoleset extends EnElement
 			setAttribute(EnLib.SOURCE , tf_source.getText());
 			setAttribute(EnLib.VNCLS  , tf_vncls.getText());
 			setAttribute(EnLib.FRAMNET, tf_framnet.getText());
+			en_aliases.save();
 		}
 		
 		en_note.save();

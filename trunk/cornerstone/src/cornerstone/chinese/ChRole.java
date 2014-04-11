@@ -23,13 +23,22 @@
 */
 package cornerstone.chinese;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import org.w3c.dom.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
-import javax.swing.border.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.w3c.dom.Element;
+
+import cornerstone.toolkit.EditorTemplate;
 
 /**
  * <b>Last update:</b> 06/18/2009
@@ -39,6 +48,7 @@ public class ChRole extends ChElement implements ActionListener
 {
 	private ChFrameset parent;
 	private JComboBox  cb_argnum;
+	private JComboBox  cb_ftag;
 	private JTextField tf_argrole;
 	private JTextField tf_vncls;
 	private JComboBox  cb_vntheta;
@@ -56,27 +66,34 @@ public class ChRole extends ChElement implements ActionListener
 
 	private void initAttributes()
 	{
+		final boolean isArabic = EditorTemplate.isLanguage(ChLib.LANG_AR);
+		
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.X_AXIS));
 		pn.setPreferredSize(new Dimension(ChEditor.WIDTH, FD_HEIGHT));
 		
 		pn.add(Box.createHorizontalStrut(H_GAP_FRONT));
 		
-		pn.add(new JLabel(ChLib.ARGNUM+": "));
-		cb_argnum = new JComboBox(ChLib.ARR_N);
-		String argnum = getAttribute(ChLib.ARGNUM).toLowerCase();
-		if (!contains(cb_argnum, argnum))	cb_argnum.addItem(argnum);
-		cb_argnum.setSelectedItem(argnum);
+		pn.add(new JLabel(ChLib.N+": "));
+		cb_argnum = getComboBox(ChLib.ARR_N, getAttribute(ChLib.ARGNUM).toLowerCase());
 		pn.add(cb_argnum);
 		pn.add(Box.createHorizontalStrut(5));
 		
-		pn.add(new JLabel(ChLib.ARGROLE+": "));
+		if (isArabic)
+		{
+			pn.add(new JLabel(ChLib.F+": "));
+			cb_ftag = getComboBox(ChLib.ARR_F, getAttribute(ChLib.FTAG).toLowerCase());
+			pn.add(cb_ftag);
+			pn.add(Box.createHorizontalStrut(5));
+		}
+		
+		pn.add(new JLabel("role: "));
 		tf_argrole = new JTextField(getAttribute(ChLib.ARGROLE));
 		tf_argrole.setPreferredSize(new Dimension(100, FD_HEIGHT));
 		pn.add(tf_argrole);
 		pn.add(Box.createHorizontalStrut(5));
 		
-		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+		if (isArabic)
 		{
 			pn.add(new JLabel(ChLib.VNCLS+": "));
 			tf_vncls = new JTextField(getAttribute(ChLib.VNCLS));
@@ -99,14 +116,26 @@ public class ChRole extends ChElement implements ActionListener
 		add(pn);
 	}
 	
+	private JComboBox getComboBox(String[] choices, String value)
+	{
+		JComboBox cb = new JComboBox(choices);
+		cb.addItem("");
+		
+		if (!contains(cb, value)) cb.addItem(value);
+		cb.setSelectedItem(value);
+		
+		return cb;
+	}
+	
 	/** Saves all attributes and vnroles */
 	public void save()
 	{
 		setAttribute(ChLib.ARGNUM , (String)cb_argnum.getSelectedItem());
 		setAttribute(ChLib.ARGROLE, tf_argrole.getText());
 		
-		if (ChEditor.LANGUAGE.equals(ChLib.LANG_AR))
+		if (EditorTemplate.isLanguage(ChLib.LANG_AR))
 		{
+			setAttribute(ChLib.FTAG   , (String)cb_ftag.getSelectedItem());
 			setAttribute(ChLib.VNCLS  , tf_vncls.getText());
 			setAttribute(ChLib.VNTHETA, (String)cb_vntheta.getSelectedItem());			
 		}

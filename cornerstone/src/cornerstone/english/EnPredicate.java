@@ -23,10 +23,16 @@
 */
 package cornerstone.english;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import org.w3c.dom.*;
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * <b>Last update:</b> 06/16/2009
@@ -35,22 +41,25 @@ import org.w3c.dom.*;
 public class EnPredicate extends EnElement
 {
 	public  String               lemma;
+	private EnFrameset			 e_parent;
 	private EnNote               en_note;
 	private ArrayList<EnRoleset> ar_roleset;
 	private JTabbedPane          tb_roleset;
+	private Aliases        		 en_aliases;
 	
 	/**
 	 * Initializes predicate panel.
 	 * This panel is called by {@link EnFrameset}.
 	 * @param ePredicate predicate XML element
 	 */
-	public EnPredicate(Element ePredicate)
+	public EnPredicate(EnFrameset parent, Element ePredicate)
 	{
 		super(ePredicate);
-		setLayout(new BorderLayout());
+		e_parent = parent;
 		
+		setLayout(new BorderLayout());
 		initAttributes();
-		initNotes();
+		initNorth();
 		initRolesets();
 	}
 	
@@ -59,10 +68,22 @@ public class EnPredicate extends EnElement
 		lemma = getAttribute(EnLib.LEMMA);
 	}
 	
-	private void initNotes()
+	private void initNorth()
 	{
+		JPanel pnNorth = new JPanel();
+		pnNorth.setLayout(new BoxLayout(pnNorth, BoxLayout.Y_AXIS));
+		
 		en_note = getNote("Predicate note");
-		add(en_note, BorderLayout.NORTH);
+		pnNorth.add(en_note);
+		pnNorth.add(Box.createVerticalStrut(V_GAP));
+		
+		if (EnEditor.LANGUAGE.equals(EnLib.LANG_EN))
+		{
+			en_aliases = initAliases("Add spelling alias");
+			pnNorth.add(en_aliases);
+		}
+		
+		add(pnNorth, BorderLayout.NORTH);
 	}
 	
 	private void initRolesets()
@@ -186,12 +207,21 @@ public class EnPredicate extends EnElement
 		tb_roleset.setSelectedIndex(-1);
 		tb_roleset.setSelectedIndex(currIndex);
 	}
+	
+	public void validatePredicate()
+	{
+		e_parent.validatePredicate();
+	}
 
 	/** Saves all elements. */
 	public void save()
 	{
 		setAttribute(EnLib.LEMMA, lemma);
 		en_note.save();
+		
+		if (en_aliases != null)
+			en_aliases.save();
+		
 		for (EnRoleset enRoleset : ar_roleset)
 			enRoleset.save();
 	}

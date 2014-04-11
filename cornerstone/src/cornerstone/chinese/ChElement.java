@@ -23,9 +23,12 @@
 */
 package cornerstone.chinese;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * <b>Last update:</b> 06/17/2009
@@ -132,8 +135,11 @@ abstract public class ChElement extends JPanel
 	 */
 	public boolean contains(JComboBox cb, String item)
 	{
-		for (int i=0; i<cb.getComponentCount(); i++)
-			if (cb.getItemAt(i).equals(item))	return true;
+		for (int i=0; i<cb.getItemCount(); i++)
+		{
+			if (cb.getItemAt(i).equals(item))
+				return true;
+		}
 		
 		return false;
 	}

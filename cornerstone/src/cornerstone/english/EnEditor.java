@@ -23,16 +23,26 @@
 */
 package cornerstone.english;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.w3c.dom.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
-import cornerstone.toolkit.*;
+import javax.swing.JFrame;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import cornerstone.toolkit.EditorTemplate;
+import cornerstone.toolkit.JDCFileDialog;
 
 /**
  * <b>Last update:</b> 06/19/2009
@@ -52,7 +62,7 @@ public class EnEditor extends EditorTemplate implements ActionListener
 	 */
 	public EnEditor(String title, String userId, String language)
 	{
-		super(800, 750, title, userId, language);
+		super(960, 960, title, userId, language);
 		init();
 		
 		setLayout(new BorderLayout());
@@ -70,6 +80,7 @@ public class EnEditor extends EditorTemplate implements ActionListener
 		EnLib.ARR_N       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.N);
 		EnLib.ARR_F       = getArray(SYS_PATH+LANGUAGE+"."+EnLib.F);
 		EnLib.ARR_VNTHETA = getArray(SYS_PATH+LANGUAGE+"."+EnLib.VNTHETA);
+		EnLib.ARR_FNTHETA = getArray(SYS_PATH+LANGUAGE+"."+EnLib.FNTHETA);
 		EnLib.ARR_PERSON  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.PERSON);
 		EnLib.ARR_TENSE   = getArray(SYS_PATH+LANGUAGE+"."+EnLib.TENSE);
 		EnLib.ARR_ASPECT  = getArray(SYS_PATH+LANGUAGE+"."+EnLib.ASPECT);
@@ -435,15 +446,6 @@ public class EnEditor extends EditorTemplate implements ActionListener
 	static public Element createEmptyRole()
 	{
 		return createElement(EnLib.ROLE);
-	}
-	
-	/**
-	 * Creates an empty vnrole XML element.
-	 * @return empty vnrole XML element
-	 */
-	static public Element createEmptyVnrole()
-	{
-		return createElement(EnLib.VNROLE);
 	}
 	
 	/**

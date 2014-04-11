@@ -1,12 +1,23 @@
 package cornerstone.toolkit;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * <b>Last update:</b> 06/19/2009
@@ -14,6 +25,8 @@ import org.w3c.dom.*;
  */
 public class EditorTemplate extends JFrame
 {
+	private final Pattern P_TYPE = Pattern.compile("-[nvj]$");
+	
 	protected String SYS_PATH    = "sys"+File.separator;
 	protected String CONFIG_PATH = "config"+File.separator;
 	
@@ -26,7 +39,7 @@ public class EditorTemplate extends JFrame
 	protected     String CURR_FILE = null;
 	
 	protected DocumentBuilder d_builder;
-	public static    Document doc;
+	public static Document doc;
 	
 	public EditorTemplate(int width, int height, String title, String language, String userId)
 	{
@@ -117,7 +130,7 @@ public class EditorTemplate extends JFrame
 	{
 		String lemma = CURR_FILE.substring(CURR_FILE.lastIndexOf(File.separator)+1, CURR_FILE.lastIndexOf('.'));
 		
-		if (lemma.endsWith("-n") || lemma.endsWith("-v"))
+		if (P_TYPE.matcher(lemma).find())
 			return lemma.substring(0, lemma.length()-2);
 		else
 			return lemma;
@@ -139,5 +152,10 @@ public class EditorTemplate extends JFrame
 		{
 			setSize(new Dimension(WIDTH, getHeight()));
 		}
+	}
+	
+	static public boolean isLanguage(String language)
+	{
+		return LANGUAGE.equals(language);
 	}
 }

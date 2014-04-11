@@ -56,6 +56,7 @@ public class ChLib
 	static public final String CDEF    = "cdef";	// frameset.cdef
 	static public final String EDEF    = "edef";	// frameset.edef
 	static public final String ARGNUM  = "argnum";	// role.argnum
+	static public final String FTAG    = "ftag";	// role.ftag
 	static public final String ARGROLE = "argrole";	// role.argrole
 	static public final String VNCLS   = "vncls";	// role.vncls
 	static public final String VNTHETA = "vntheta";	// role.vntheta

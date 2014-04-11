@@ -81,11 +81,18 @@ public class EnFrameset extends EnElement
 	 */
 	public void addPredicate(Element ePredicate)
 	{
-		EnPredicate enPredicate = new EnPredicate(ePredicate);
+		EnPredicate enPredicate = new EnPredicate(this, ePredicate);
 		
 		ar_predicate.add(enPredicate);
 		tb_predicate.addTab(enPredicate.lemma, enPredicate);
 		tb_predicate.setSelectedComponent(enPredicate);
+	}
+	
+	public void validatePredicate()
+	{
+		int currIndex = tb_predicate.getSelectedIndex();
+		tb_predicate.setSelectedIndex(-1);
+		tb_predicate.setSelectedIndex(currIndex);
 	}
 	
 	/**

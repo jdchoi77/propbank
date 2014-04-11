@@ -23,34 +23,42 @@
 */
 package cornerstone.english;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.w3c.dom.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.w3c.dom.Element;
 
 /**
- * <b>Last update:</b> 06/17/2009
+ * <b>Last update:</b> 04/10/2014
  * @author Jinho D. Choi
  */
-public class EnVnrole extends EnElement implements ActionListener
+public class Alias extends EnElement implements ActionListener
 {
-	private EnRole     parent;
-	private JTextField tf_vncls;
-	private JComboBox  cb_vntheta;
-	private JButton    bt_remove;
+	private static final long serialVersionUID = -2567870510024554551L;
 	
-	/**
-	 * Initializes vnrole panel.
-	 * This panel is called from {@link EnRole}.
-	 * @param parent role panel
-	 * @param eVnrole vnrole XML element
-	 */
-	public EnVnrole(EnRole parent, Element eVnrole)
+	private Aliases				e_parent;
+	private JTextField			tf_alias;
+	private JTextField			tf_verbnet;
+	private JTextField			tf_framenet;
+	private JComboBox<String>	cb_pos;
+	private JButton				bt_remove;
+	
+	public Alias(Aliases parent, Element eAlias)
 	{
-		super(eVnrole);
-		this.parent = parent;
+		super(eAlias);
+		e_parent = parent;
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setPreferredSize(new Dimension(parent.WIDTH, FD_HEIGHT+V_GAP));
+		setPreferredSize(new Dimension(Aliases.WIDTH, FD_HEIGHT+V_GAP));
 		
 		add(Box.createVerticalStrut(V_GAP));
 		add(getComponentPanel());
@@ -60,47 +68,58 @@ public class EnVnrole extends EnElement implements ActionListener
 	{
 		JPanel pn = new JPanel();
 		pn.setLayout(new BoxLayout(pn, BoxLayout.X_AXIS));
-		
 		pn.add(Box.createHorizontalStrut(H_GAP_FRONT));
 		
-		pn.add(new JLabel("- "+EnLib.VNCLS+": "));
-		tf_vncls = new JTextField(getAttribute(EnLib.VNCLS));
-		tf_vncls.setPreferredSize(new Dimension(108, FD_HEIGHT));
-		pn.add(tf_vncls);
+		pn.add(new JLabel("pos: "));
+		cb_pos = new JComboBox<String>(EnLib.POS_TAGS);
+		String pos = getAttribute(EnLib.A_POS).toLowerCase();
+		if (!contains(cb_pos, pos))	cb_pos.addItem(pos);
+		cb_pos.setSelectedItem(pos);
+		cb_pos.setPreferredSize(new Dimension(60, FD_HEIGHT));
+		pn.add(cb_pos);
 		pn.add(Box.createHorizontalStrut(H_GAP));
 		
-		pn.add(new JLabel(EnLib.VNTHETA+": "));
-		cb_vntheta = new JComboBox(EnLib.ARR_VNTHETA);
-		String vntheta = getAttribute(EnLib.VNTHETA).toLowerCase();
-		if (!contains(cb_vntheta, vntheta))	cb_vntheta.addItem(vntheta);
-		cb_vntheta.setSelectedItem(vntheta);
-		cb_vntheta.setPreferredSize(new Dimension(225, FD_HEIGHT));
-		pn.add(cb_vntheta);
-		pn.add(Box.createHorizontalStrut(280));
+		tf_alias    = initTextField(pn, "alias: ", getTextContent(), 100);
+		tf_verbnet  = initTextField(pn, "vn: ", getAttribute(EnLib.VERBNET) , 100);
+		tf_framenet = initTextField(pn, "fn: ", getAttribute(EnLib.FRAMENET), 200);
 		
 		bt_remove = new JButton("Remove");
 		bt_remove.setPreferredSize(new Dimension(84, FD_HEIGHT));
 		bt_remove.addActionListener(this);
 		pn.add(bt_remove);
-						
+
 		return pn;
+	}
+	
+	private JTextField initTextField(JPanel pn, String label, String value,int width)
+	{
+		JTextField tf = new JTextField(value);
+		tf.setPreferredSize(new Dimension(width, FD_HEIGHT));
+		
+		pn.add(new JLabel(label));
+		pn.add(tf);
+		pn.add(Box.createHorizontalStrut(H_GAP));
+		
+		return tf;
 	}
 	
 	/** Saves all attributes */
 	public void save()
 	{
-		setAttribute(EnLib.VNCLS  , tf_vncls.getText());
-		setAttribute(EnLib.VNTHETA, (String)cb_vntheta.getSelectedItem());
+		setTextContent(tf_alias.getText());
+		setAttribute(EnLib.A_POS, (String)cb_pos.getSelectedItem());
+		setAttribute(EnLib.VERBNET , tf_verbnet .getText());
+		setAttribute(EnLib.FRAMENET, tf_framenet.getText());
 	}
 	
 	/**
 	 * Removes this vnrole.
-	 * @see {@link EnRole#removeVnrole(EnVnrole)}
+	 * @see {@link EnRole#removeExternalRole(EnFnrole)}
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bt_remove)
-			parent.removeVnrole(this);
+			e_parent.removeAlias(this);
 	}
 }

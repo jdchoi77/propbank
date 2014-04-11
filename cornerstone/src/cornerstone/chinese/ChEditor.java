@@ -23,16 +23,26 @@
 */
 package cornerstone.chinese;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.w3c.dom.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
-import cornerstone.toolkit.*;
+import javax.swing.JFrame;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import cornerstone.toolkit.EditorTemplate;
+import cornerstone.toolkit.JDCFileDialog;
 
 /**
  * <b>Last update:</b> 06/19/2009
@@ -71,7 +81,9 @@ public class ChEditor extends EditorTemplate implements ActionListener
 		ChLib.ARR_F       = getArray(SYS_PATH+LANGUAGE+"."+ChLib.F);
 		ChLib.ARR_SRC     = getArray(SYS_PATH+LANGUAGE+"."+ChLib.SRC);
 		ChLib.ARR_TRG     = getArray(SYS_PATH+LANGUAGE+"."+ChLib.TRG);
-		ChLib.ARR_VNTHETA = getArray(SYS_PATH+LANGUAGE+"."+ChLib.VNTHETA);
+	
+		if (isLanguage(ChLib.LANG_AR))
+			ChLib.ARR_VNTHETA = getArray(SYS_PATH+LANGUAGE+"."+ChLib.VNTHETA);
 	}
 	
 	// ---------------------------------- menu*() ----------------------------------
